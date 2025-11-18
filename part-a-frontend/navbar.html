@@ -1,0 +1,25 @@
+<nav id="nav">
+  <div class="bar">
+    <button id="toggle-btn">&#9650;</button>
+    <div class="logo">Template Logo</div>
+  </div>
+
+  <ul class="links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="register.html">Register</a></li>
+    <li><a href="login.html">Login</a></li>
+  </ul>
+</nav>
+
+<script>
+  const btn = document.getElementById("toggle-btn");
+  const links = document.querySelector(".links");
+
+  btn.addEventListener("click", () => {
+    const collapsed = links.classList.toggle("collapsed");
+    btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
+  });
+</script>
