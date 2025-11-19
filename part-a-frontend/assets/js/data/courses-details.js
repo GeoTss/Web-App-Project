@@ -286,6 +286,9 @@ function createTopic(section, topic) {
     let topicElem = document.createElement("div");
     topicElem.classList.add("topic");
 
+    let topicText = document.createElement("div");
+    topicText.classList.add("topic-content");
+
     topicElem.addEventListener("click", () => {
         currentSelectedElem.classList.toggle("selected");
         topicElem.classList.toggle("selected");
@@ -293,7 +296,9 @@ function createTopic(section, topic) {
         writeLessonContent(section, topic)
     });
 
-    topicElem.textContent = `${section.id}.${topic.id} ${topic.name}`;
+    topicElem.appendChild(topicText);
+
+    topicText.textContent = `${section.id}.${topic.id} ${topic.name}`;
 
     return topicElem;
 }
