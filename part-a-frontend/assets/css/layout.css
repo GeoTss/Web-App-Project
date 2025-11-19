@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Navbar */
 
 nav {
@@ -65,11 +66,18 @@ body {
 }
 
 /* Container */
+=======
+:root {
+    --card-columns: 1;
+}
+
+>>>>>>> 49c026a (Fixed course selection and details)
 #card_container {
     background-color: #272343;
     display: grid;
     padding: 3rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(var(--card-columns), 1fr);
+    justify-content: center;
 }
 
 .lesson_card {
@@ -81,6 +89,8 @@ body {
     border-radius: 2%;
     text-align: center;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .lesson_card:hover {
@@ -90,9 +100,27 @@ body {
 .card_learn_btn {
     font-weight: normal;
     font-size: large;
+
+    height: 10vh;
+    margin-top: auto;
     padding: 1rem;
+    align-self: center;
+
     border-radius: 20% 0 20px 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.40);
     background: #bae8e8;
     color: black;
+
+}
+
+@media (min-width: 700px) {
+    :root {
+        --card-columns: 2;
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --card-columns: 3;
+    }
 }
