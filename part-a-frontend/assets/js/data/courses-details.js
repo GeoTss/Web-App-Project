@@ -335,11 +335,29 @@ function populateCourseContent() {
 function menuClick() {
     let menuBtn = document.getElementById("menu-icon");
 
-    menuBtn.addEventListener("click", () => {
-        let sectionMenu = document.getElementById("sections-menu");
-        sectionMenu.classList.toggle("visible");
-        menuBtn.classList.toggle("menu-visible");
-    });
+    if (window.innerWidth < 700) {
+        let closeMenuBtn = document.getElementById("close-menu-icon");
+
+        menuBtn.addEventListener("click", () => {
+            let sectionMenu = document.getElementById("menu-wrap");
+            sectionMenu.classList.toggle("visible");
+            menuBtn.classList.toggle("menu-visible");
+            closeMenuBtn.classList.add("menu-visible");
+        });
+
+        closeMenuBtn.addEventListener("click", () => {
+            let sectionMenu = document.getElementById("menu-wrap");
+            sectionMenu.classList.toggle("visible");
+            menuBtn.classList.toggle("menu-visible");
+            closeMenuBtn.classList.remove("menu-visible");
+        });
+    } else {
+        menuBtn.addEventListener("click", () => {
+            let sectionMenu = document.getElementById("menu-wrap");
+            sectionMenu.classList.toggle("visible");
+            menuBtn.classList.toggle("menu-visible");
+        });
+    }
 }
 
 window.onload = () => {
