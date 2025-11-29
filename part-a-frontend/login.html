@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <form action="/login" method="post">
+                <h1>Login</h1>
+                <div>
+                    <input type="text" id="username" placeholder="Username" required />
+                </div>
+                <div>
+                    <input type="password" id="password" placeholder="Password" required />
+                </div>
+                <button type="submit">Submit</button>
+            </form>     
+        </div>
+        <p>Don't have an account? <a href="./register.html">Register here</a></p>
+    </body>
+    <style> 
+
+        .wrapper {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e1b2c;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #272343;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+    </style>
+    <script>
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (e) => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            const userJson = JSON.stringify({
+                username,
+                password
+            });
+            
+            const encodedUser = btoa(userJson);
+            window.location.href = `/index.html?user=${encodedUser}`;
+        });
+    </script>
+</html>
