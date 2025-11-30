@@ -1,23 +1,76 @@
-class codeMenuCard{
-    constructor(langName, desc){
-        this.name = langName;
-        this.description = desc;
-    }
-}
+import { difficulty_t, codeMenuCard, DifficultyLookup } from "./modules/cards-utils.js";
+import { category_t, CategoryLookup, similarityGraph } from "./modules/category-similarity-graph.js";
+import { ArrayFilterStrategy, FilterLookup, FiltersInfo_t, getVisibleElements } from "./modules/filter-section.js"
 
 let cardsList = [
-    new codeMenuCard("C++", "Perfect language"),
-    new codeMenuCard("Python", "Meh"),
-    new codeMenuCard("Javascript", "JSON slander"),
-    new codeMenuCard("Rust", "Compiler show compassion plz")
+    new codeMenuCard(
+        "C++",
+        "Perfect language",
+        DifficultyLookup.HARD,
+        CategoryLookup.SYSTEMS_PROGRAMMING
+    ),
+    new codeMenuCard(
+        "Python",
+        "Meh",
+        DifficultyLookup.EASY,
+        CategoryLookup.DATA_SCIENCE
+    ),
+    new codeMenuCard(
+        "Javascript",
+        "JSON slander",
+        DifficultyLookup.EASY,
+        CategoryLookup.WEB_DEVELOPMENT
+    ),
+    new codeMenuCard(
+        "Rust",
+        "Compiler show compassion plz",
+        DifficultyLookup.HARD,
+        CategoryLookup.SYSTEMS_PROGRAMMING
+    ),
+    new codeMenuCard(
+        "Assembly",
+        "Rollercoaster simulation?",
+        DifficultyLookup.DEMON,
+        CategoryLookup.SYSTEMS_PROGRAMMING
+    ),
+    new codeMenuCard(
+        "OpenGL",
+        "Triangles everywhere",
+        DifficultyLookup.HARD,
+        CategoryLookup.GRAPHICS_PROGRAMMING
+    ),
+    new codeMenuCard(
+        "Vulkan",
+        "Couldn't be harder than OpenGL right?",
+        DifficultyLookup.DEMON,
+        CategoryLookup.GRAPHICS_PROGRAMMING
+    ),
+    new codeMenuCard(
+        "TensorFlow",
+        "Teaching rocks to think",
+        DifficultyLookup.HARD,
+        CategoryLookup.ARTIFICIAL_INTELLIGENCE
+    ),
+    new codeMenuCard(
+        "Arduino",
+        "Beep boop lights go flash",
+        DifficultyLookup.MEDIUM,
+        CategoryLookup.EMBEDDED_SYSTEMS
+    ),
+    new codeMenuCard(
+        "AWS",
+        "Someone else's computer",
+        DifficultyLookup.MEDIUM,
+        CategoryLookup.CLOUD_COMPUTING
+    )
 ];
 
-function createCourseButton(courseName){
+function createCourseButton(courseName) {
     let learn_button = document.createElement("button");
     learn_button.classList.add("card_learn_btn");
     learn_button.textContent = "Learn " + courseName;
 
-    buttonListener = () => {
+    const buttonListener = () => {
         courseName = courseName.toLowerCase().replaceAll("+", "p");
         const coursePageUrl = `course-details.html?course=${courseName}`;
         window.location.href = coursePageUrl;
@@ -28,19 +81,32 @@ function createCourseButton(courseName){
     return learn_button;
 }
 
-function createCardElem(cardInfo){
+function createCardElem(cardInfo) {
     let cardElem = document.createElement("div");
     cardElem.classList.add("lesson_card");
+
+    let cardHeader = document.createElement("div");
+    cardHeader.classList.add("card-header");
 
     let title = document.createElement("h2");
     title.classList.add("card_title");
     title.textContent = cardInfo.name;
 
+    cardHeader.appendChild(title);
+
+    let difficulty = document.createElement("div");
+    difficulty.textContent = difficulty_t[cardInfo.difficulty].name;
+
+    difficulty.classList.add("difficulty-icon");
+    difficulty.style.background = difficulty_t[cardInfo.difficulty].color;
+
+    cardHeader.appendChild(difficulty);
+
     let description = document.createElement("p");
     description.classList.add("card_desc");
     description.textContent = cardInfo.description;
 
-    cardElem.appendChild(title);
+    cardElem.appendChild(cardHeader);
     cardElem.appendChild(description);
 
     let learn_button = createCourseButton(cardInfo.name);
@@ -49,14 +115,126 @@ function createCardElem(cardInfo){
     return cardElem;
 }
 
-function populateCards(cardsListInfo){
-    let cardContainer = document.getElementById("card_container");
+function appendCategoryContainer(card) {
 
-    cardsListInfo.forEach(card => {
-        cardContainer.appendChild(createCardElem(card));
+    let cardContainerElem = document.getElementById(`categoryId-${card.category}`);
+    cardContainerElem.appendChild(createCardElem(card));
+}
+
+function createCategoryContainer(categoryId) {
+
+    let categoryInfo = category_t[categoryId];
+
+    let categoryElem = document.createElement("div");
+    categoryElem.classList.add("category-section");
+
+    let categoryHeader = document.createElement("div");
+    categoryHeader.classList.add("category-header");
+    categoryHeader.textContent = categoryInfo.name;
+
+    categoryElem.appendChild(categoryHeader);
+
+    let cardContainerElem = document.createElement("div");
+    cardContainerElem.id = `categoryId-${categoryId}`
+    cardContainerElem.classList.add("card-container");
+
+    categoryElem.appendChild(cardContainerElem);
+
+    return categoryElem;
+}
+
+var filters = {};
+Object.values(FilterLookup).forEach((value) => filters[value] = new ArrayFilterStrategy(FiltersInfo_t[value]));
+
+function createFilterElem(name, value, filterLookupId, additionalStyleFunction) {
+
+    let categoryDiv = document.createElement("div");
+    categoryDiv.classList.add("checkbox-wrapper");
+
+    let inputElem = document.createElement("input");
+    inputElem.id = `check-${name}-${filterLookupId}`;
+    inputElem.name = "check";
+    inputElem.value = "";
+    inputElem.type = "checkbox";
+
+    inputElem.addEventListener("change", () => {
+
+        console.log(`checked ${name}-${filterLookupId}`);
+
+        let categoryFilters = filters[filterLookupId];
+        console.log(categoryFilters);
+
+        if (inputElem.checked) {
+            if (!categoryFilters.includes(value)) {
+                categoryFilters.push(value);
+                console.log(filters);
+                populateCategoryLessonContent();
+            }
+        }
+        else {
+            categoryFilters.remove(value);
+            console.log(filters);
+            populateCategoryLessonContent();
+        }
+    });
+
+    categoryDiv.appendChild(inputElem);
+
+    let categoryElem = document.createElement("label");
+    categoryElem.htmlFor = `check-${name}-${filterLookupId}`
+    let checkmarkElem = document.createElement("span");
+    categoryElem.textContent = name;
+
+    categoryElem.appendChild(checkmarkElem);
+
+    categoryDiv.appendChild(categoryElem);
+
+    if (additionalStyleFunction) {
+        additionalStyleFunction(categoryElem, checkmarkElem);
+    }
+
+    return categoryDiv;
+}
+
+function populateDifficultyFilters() {
+    let difficultyWrapper = document.getElementById("difficulty-filter-wrapper");
+
+    Object.values(difficulty_t)
+        .forEach((difficulty) => {
+            let filterElem = createFilterElem(difficulty.name, difficulty.value, FilterLookup.DIFFICULTY, (_, checkmarkElem) => {
+                checkmarkElem.style.setProperty("--box-color", difficulty.color);
+            });
+            difficultyWrapper.appendChild(filterElem);
+        });
+}
+
+function populateCategoryFilters() {
+    let categoryWrapper = document.getElementById("category-filter-wrapper");
+
+    Object.values(category_t).forEach((category) => {
+        categoryWrapper.appendChild(createFilterElem(category.name, category.id, FilterLookup.CATEGORY));
     });
 }
 
+function populateCategoryLessonContent() {
+    let content = document.getElementById("content-wrapper");
+    content.replaceChildren();
+
+    let visibleCards = getVisibleElements(cardsList, filters);
+
+    console.log(`visibleCards: ${visibleCards}`);
+
+    let categoryIds = new Set(visibleCards.map((card) => card.category));
+
+    categoryIds.forEach((category) => {
+        content.appendChild(createCategoryContainer(category))
+    });
+    visibleCards.forEach((card) => appendCategoryContainer(card));
+
+}
+
 window.onload = () => {
-    populateCards(cardsList);
+    populateCategoryFilters();
+    populateDifficultyFilters();
+    populateCategoryLessonContent();
 };

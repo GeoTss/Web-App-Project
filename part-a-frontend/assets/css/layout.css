@@ -64,21 +64,41 @@ body {
     margin-top: 120px;
 }
 
-/* Container */
-#card_container {
-    background-color: #272343;
+:root {
+    --card-columns: 1;
+}
+
+.category-section {
+    background-color: honeydew;
+    margin: 1rem;
+    border-radius: 2%;
+    box-shadow: 0 0 2px black;
+}
+
+.card-container {
     display: grid;
-    padding: 3rem;
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
     grid-template-columns: repeat(var(--card-columns), 1fr);
     justify-content: center;
+}
+
+.category-header {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    margin: 0.3rem;
 }
 
 .lesson_card {
     font-family: Arial, sans-serif;
     color: black;
     background-color: #e3f6f5;
-    padding: 2rem;
+    padding: 1rem;
     margin: 1rem;
+
+    box-sizing: border-box;
     border-radius: 2%;
     text-align: center;
     transition: transform 0.3s ease;
@@ -104,6 +124,21 @@ body {
     background: #bae8e8;
     color: black;
 
+}
+
+.card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.3rem;
+}
+
+.difficulty-icon {
+    border-color: #222;
+    box-shadow: 0 0 5px #F0F4F8;
+    padding: 0.5rem;
+    border-radius: 25%;
 }
 
 @media (min-width: 700px) {

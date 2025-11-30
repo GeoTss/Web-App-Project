@@ -1,0 +1,18 @@
+#filters-wrapper {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#difficulty-filter-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#category-filter-wrapper {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
