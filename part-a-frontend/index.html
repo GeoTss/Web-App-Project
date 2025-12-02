@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <script type="text/javascript" src="./assets/js/data/courses.js"></script>
+    <title>Document</title>
+</head>
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,25 +16,16 @@
       <title>Document</title>
   </head>
 
-  <body>
-      <div id="navbar-container"></div>
-      <div id="card_container"></div>
-  </body>
-
-  <script>
-      fetch("navbar.html")
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById("navbar-container").innerHTML = html;
-
-        const btn   = document.getElementById("toggle-btn");
-        const links = document.querySelector(".links");
-
-        btn.addEventListener("click", () => {
-          const collapsed = links.classList.toggle("collapsed");
-          btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
+<body>
+    <div id="navbar-container"></div>
+    <div id="card_container"></div>
+</body>
+<script>
+    fetch("navbar.html")
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById("navbar-container").innerHTML = html;
         });
-      });
-  </script>
+</script>
 
 </html>
