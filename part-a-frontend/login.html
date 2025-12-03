@@ -7,7 +7,7 @@
     </head>
     <body>
         <div class="wrapper">
-            <form action="/login" method="post">
+            <form action="/login" method="get">
                 <h1>Login</h1>
                 <div>
                     <input type="text" id="username" placeholder="Username" required />
@@ -82,7 +82,7 @@
             });
             
             const encodedUser = btoa(userJson);
-            window.location.href = `/index.html?user=${encodedUser}`;
+            window.location.href = `/courses.html?user=${encodedUser}`;
         });
     </script>
 </html>

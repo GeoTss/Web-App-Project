@@ -3,6 +3,13 @@
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="./assets/css/components.css">
+    <link rel="stylesheet" href="./assets/css/checkbox.css">
+    <script type="module" src="./assets/js/data/courses.js"></script>
+    <script type="module" src="./assets/js/data/modules/filter-section.js"></script>
+    <script type="module" src="./assets/js/data/modules/category-similarity-graph.js"></script>
+    <script type="module" src="./assets/js/data/modules/cards-utils.js"></script>
     <title>Register</title>
     </head>
     <body>
@@ -25,19 +32,8 @@
             </form>   
             <p>Already have an account? <a href="login.html">Login here</a></p>
         </div>
-        <div class="list-categories">
-            <div class="container">
-                <h2>Select Your Learning Categories:</h2>
-            </div>
-            <!--  make a div that has some categories of lessons for example cybersecurity networks ai etc for selection on a checkbox list-->
-            <!-- make it appear on the right of the register form -->
-            <input type="checkbox" id="cybersecurity" /> Cybersecurity
-            <input type="checkbox" id="networks" /> Networks
-            <input type="checkbox" id="ai" /> Artificial Intelligence
-            <input type="checkbox" id="webdev" /> Web Development
-            <input type="checkbox" id="datascience" /> Data Science
-            <input type="checkbox" id="programming" /> Programming
-        </div>
+        <h3>Category filters:</h3>
+        <div id="category-filter-wrapper"></div>
     </body>
     <style>
         
