@@ -24,7 +24,15 @@
     fetch("navbar.html")
         .then(r => r.text())
         .then(html => {
-            document.getElementById("navbar-container").innerHTML = html;
+        document.getElementById("navbar-container").innerHTML = html;
+
+        const btn   = document.getElementById("toggle-btn");
+        const links = document.querySelector(".links");
+
+        btn.addEventListener("click", () => {
+            const collapsed = links.classList.toggle("collapsed");
+            btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
+        });
         });
 </script>
 
