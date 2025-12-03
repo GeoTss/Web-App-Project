@@ -1,6 +1,17 @@
-/* Container */
-#card_container {
-    background-color: #272343;
+:root {
+    --card-columns: 1;
+}
+
+.category-section {
+    background-color: honeydew;
+    margin: 1rem;
+    border-radius: 2%;
+    box-shadow: 0 0 2px black;
+}
+
+
+
+.card-container {
     display: grid;
     padding: 2rem;
     width: 100%;
@@ -8,6 +19,8 @@
     grid-template-columns: repeat(var(--card-columns), 1fr);
     justify-content: center;
 }
+
+
 
 .category-header {
     font-family: Arial, Helvetica, sans-serif;
@@ -22,7 +35,6 @@
     background-color: #e3f6f5;
     padding: 1rem;
     margin: 1rem;
-
     box-sizing: border-box;
     border-radius: 2%;
     text-align: center;
@@ -31,25 +43,28 @@
     flex-direction: column;
 }
 
+
+
 .lesson_card:hover {
     transform: rotate(2deg);
 }
 
+
+
 .card_learn_btn {
     font-weight: normal;
     font-size: large;
-
     height: 10vh;
     margin-top: auto;
     padding: 1rem;
     align-self: center;
-
     border-radius: 20% 0 20px 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.40);
     background: #bae8e8;
     color: black;
-
 }
+
+
 
 .card-header {
     display: flex;
@@ -59,12 +74,16 @@
     margin: 0.3rem;
 }
 
+
+
 .difficulty-icon {
     border-color: #222;
     box-shadow: 0 0 5px #F0F4F8;
     padding: 0.5rem;
     border-radius: 25%;
 }
+
+
 
 @media (min-width: 700px) {
     :root {
