@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./assets/css/layout.css">
+        <link rel="stylesheet" href="./assets/css/about.css">
         <title>About Us</title>
     </head>
     <body>
@@ -47,78 +49,7 @@
     <div class="footer">
         <p style="text-align: center;">&copy; 2025 Clueless Code Learning. All rights reserved.</p>
     </div>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-        }   
-        .center {
-            text-align: center;
-            padding-top: 20%;
-        }
-        .center-text p {
-            text-align: center;
-            font-size: 18px;
-        }
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #272343;
-            color: white;
-            text-align: center;
-        }
-        .row {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 100px;
-            box-sizing: border-box;
-        }
-        .row img {
-            width: 40%;
-            order: 0;
-        }
-        .row h2,
-        .row p {
-            order: 1;
-            flex: 1;
-            margin: 0;
-            text-align: left;
-        }
-        .column::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
 
-        @media (max-width: 700px) {
-            .row {
-                flex-direction: column;
-                align-items: center;
-            }
-            .row img {
-                width: 100%;
-                max-width: none;
-                margin-bottom: 10px;
-            }
-            .row h2,
-            .row p {
-                text-align: center;
-            }
-        }
-
-
-    </style>
     <script>
         fetch("navbar.html")
         .then(r => r.text())

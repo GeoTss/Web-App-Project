@@ -3,9 +3,13 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./assets/css/layout.css">
+        <link rel="stylesheet" href="./assets/css/components.css">
+        <link rel="stylesheet" href="./assets/css/checkbox.css">
         <title>Login</title>
     </head>
     <body>
+        <div id="navbar-container"></div>
         <div class="wrapper">
             <form action="/login" method="get">
                 <h1>Login</h1>
@@ -15,16 +19,18 @@
                 <div>
                     <input type="password" id="password" placeholder="Password" required />
                 </div>
-                <button type="submit">Submit</button>
+                <button id="loginButton">Submit</button>
             </form>     
+            <p>Don't have an account? <a href="./register.html">Register here</a></p>
         </div>
-        <p>Don't have an account? <a href="./register.html">Register here</a></p>
     </body>
+
     <style> 
 
         .wrapper {
             max-width: 400px;
             margin: 100px auto;
+            margin-top: 10%;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -50,7 +56,7 @@
             box-sizing: border-box;
         }
 
-        button {
+        #loginButton {
             width: 100%;
             padding: 10px;
             background-color: #1e1b2c;
@@ -60,7 +66,7 @@
             cursor: pointer;
         }
         
-        button:hover {
+        #loginButton:hover {
             background-color: #272343;
         }
 
@@ -71,17 +77,33 @@
 
     </style>
     <script>
+        fetch("navbar.html")
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById("navbar-container").innerHTML = html;
+            const btn = document.getElementById("toggle-btn");
+            const links = document.querySelector(".links");
+            if (btn && links) {
+                btn.addEventListener("click", () => {
+                    const collapsed = links.classList.toggle("collapsed");
+                    btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
+                });
+            }
+        });
+        
         const form = document.querySelector('form');
-        form.addEventListener('submit', async (e) => {
+        form.addEventListener('loginButton', async (e) => {
+            e.preventDefault();
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            
+
             const userJson = JSON.stringify({
                 username,
                 password
             });
             
-            const encodedUser = btoa(userJson);
+            const encodedUser = btoa(unescape(base64EncodeUnicode(userJson)));
             window.location.href = `/courses.html?user=${encodedUser}`;
         });
     </script>
