@@ -82,35 +82,46 @@ function createCourseButton(courseName) {
 }
 
 function createCardElem(cardInfo) {
+
     let cardElem = document.createElement("div");
-    cardElem.classList.add("lesson_card");
+    cardElem.classList.add("course-card");
 
-    let cardHeader = document.createElement("div");
-    cardHeader.classList.add("card-header");
+    let cardBanner = document.createElement("div");
+    cardBanner.classList.add("card-banner");
+    cardBanner.style.background = difficulty_t[cardInfo.difficulty].bannerColor;
 
-    let title = document.createElement("h2");
-    title.classList.add("card_title");
-    title.textContent = cardInfo.name;
+    let difficultyBadge = document.createElement("span");
+    difficultyBadge.classList.add("difficulty-badge");
+    difficultyBadge.textContent = difficulty_t[cardInfo.difficulty].name;
 
-    cardHeader.appendChild(title);
+    cardBanner.appendChild(difficultyBadge);
 
-    let difficulty = document.createElement("div");
-    difficulty.textContent = difficulty_t[cardInfo.difficulty].name;
+    cardElem.appendChild(cardBanner);
 
-    difficulty.classList.add("difficulty-icon");
-    difficulty.style.background = difficulty_t[cardInfo.difficulty].color;
+    let cardContent = document.createElement("div");
+    cardContent.classList.add("card-content");
 
-    cardHeader.appendChild(difficulty);
+    let courseTitle = document.createElement("div");
+    courseTitle.classList.add("course-title");
+    courseTitle.textContent = cardInfo.name;
+    cardContent.appendChild(courseTitle);
 
-    let description = document.createElement("p");
-    description.classList.add("card_desc");
-    description.textContent = cardInfo.description;
+    let courseDesc = document.createElement("p");
+    courseDesc.innerHTML = cardInfo.description;
+    courseDesc.classList.add("course-desc");
 
-    cardElem.appendChild(cardHeader);
-    cardElem.appendChild(description);
+    cardContent.appendChild(courseDesc);
 
-    let learn_button = createCourseButton(cardInfo.name);
-    cardElem.appendChild(learn_button);
+    let cardFooter = document.createElement("div");
+    cardFooter.classList.add("card-footer");
+
+    let cardBtn = document.createElement("button");
+    cardBtn.classList.add("card-btn");
+    cardBtn.textContent = `Learn ${cardInfo.name}`
+    cardFooter.appendChild(cardBtn);
+
+    cardElem.appendChild(cardContent);
+    cardElem.appendChild(cardFooter);
 
     return cardElem;
 }
@@ -126,7 +137,7 @@ function createCategoryContainer(categoryId) {
     let categoryInfo = category_t[categoryId];
 
     let categoryElem = document.createElement("div");
-    categoryElem.classList.add("category-section");
+    categoryElem.classList.add("category-panel");
 
     let categoryHeader = document.createElement("div");
     categoryHeader.classList.add("category-header");
@@ -196,20 +207,39 @@ function createFilterElem(name, value, filterLookupId, additionalStyleFunction) 
     return categoryDiv;
 }
 
+function createFilterContainer() {
+    let filtersContainer = document.getElementById("filters-wrapper");
+
+    if (window.innerWidth < 700) {
+
+        let showBtnWrap = document.getElementById("show-filter-btn-wrap");
+
+        let showFiltersButton = document.createElement("button");
+        showFiltersButton.classList.add("show-filters-btn")
+        // showFiltersButton.textContent = "Show Filters";
+
+        showFiltersButton.addEventListener("click", () => {
+            filtersContainer.classList.toggle("visible");
+        });
+
+        showBtnWrap.appendChild(showFiltersButton);
+    }
+}
+
 function populateDifficultyFilters() {
-    let difficultyWrapper = document.getElementById("difficulty-filter-wrapper");
+    let difficultyWrapper = document.getElementById("difficulty-filters");
 
     Object.values(difficulty_t)
         .forEach((difficulty) => {
             let filterElem = createFilterElem(difficulty.name, difficulty.value, FilterLookup.DIFFICULTY, (_, checkmarkElem) => {
-                checkmarkElem.style.setProperty("--box-color", difficulty.color);
+                checkmarkElem.style.setProperty("--box-color", difficulty.baseColor);
             });
             difficultyWrapper.appendChild(filterElem);
         });
 }
 
 function populateCategoryFilters() {
-    let categoryWrapper = document.getElementById("category-filter-wrapper");
+    let categoryWrapper = document.getElementById("category-filters");
 
     Object.values(category_t).forEach((category) => {
         categoryWrapper.appendChild(createFilterElem(category.name, category.id, FilterLookup.CATEGORY));
@@ -234,6 +264,7 @@ function populateCategoryLessonContent() {
 }
 
 window.onload = () => {
+    createFilterContainer();
     populateCategoryFilters();
     populateDifficultyFilters();
     populateCategoryLessonContent();

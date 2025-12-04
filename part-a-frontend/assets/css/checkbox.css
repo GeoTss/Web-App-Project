@@ -7,10 +7,12 @@
 }
 
 .checkbox-wrapper label {
-    display: inline-block;
+    display: flex;
     color: #333;
     cursor: pointer;
     position: relative;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .checkbox-wrapper label span {
@@ -24,7 +26,6 @@
     border: 2px solid #333;
     border-radius: 50%;
     vertical-align: middle;
-    margin-right: 10px;
     transition: background-color 150ms 200ms, transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89);
 }
 
