@@ -207,8 +207,27 @@ function createFilterElem(name, value, filterLookupId, additionalStyleFunction) 
     return categoryDiv;
 }
 
+function createFilterContainer() {
+    let filtersContainer = document.getElementById("filters-wrapper");
+
+    if (window.innerWidth < 700) {
+
+        let showBtnWrap = document.getElementById("show-filter-btn-wrap");
+
+        let showFiltersButton = document.createElement("button");
+        showFiltersButton.classList.add("show-filters-btn")
+        // showFiltersButton.textContent = "Show Filters";
+
+        showFiltersButton.addEventListener("click", () => {
+            filtersContainer.classList.toggle("visible");
+        });
+
+        showBtnWrap.appendChild(showFiltersButton);
+    }
+}
+
 function populateDifficultyFilters() {
-    let difficultyWrapper = document.getElementById("difficulty-filter-wrapper");
+    let difficultyWrapper = document.getElementById("difficulty-filters");
 
     Object.values(difficulty_t)
         .forEach((difficulty) => {
@@ -220,7 +239,7 @@ function populateDifficultyFilters() {
 }
 
 function populateCategoryFilters() {
-    let categoryWrapper = document.getElementById("category-filter-wrapper");
+    let categoryWrapper = document.getElementById("category-filters");
 
     Object.values(category_t).forEach((category) => {
         categoryWrapper.appendChild(createFilterElem(category.name, category.id, FilterLookup.CATEGORY));
@@ -245,6 +264,7 @@ function populateCategoryLessonContent() {
 }
 
 window.onload = () => {
+    createFilterContainer();
     populateCategoryFilters();
     populateDifficultyFilters();
     populateCategoryLessonContent();
