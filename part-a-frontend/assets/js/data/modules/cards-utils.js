@@ -1,7 +1,9 @@
 class Difficulty {
-    constructor(name, color, value) {
+    constructor(name, baseColor, bannerColor, lineColor, value) {
         this.name = name;
-        this.color = color;
+        this.baseColor = baseColor;
+        this.bannerColor = bannerColor;
+        this.lineColor = lineColor;
         this.value = value;
     }
 }
@@ -14,10 +16,10 @@ export const DifficultyLookup = {
 };
 
 export const difficulty_t = {
-    [DifficultyLookup.EASY]: new Difficulty("Easy", "green", 0),
-    [DifficultyLookup.MEDIUM]: new Difficulty("Medium", "orange", 1),
-    [DifficultyLookup.HARD]: new Difficulty("Hard", "red", 2),
-    [DifficultyLookup.DEMON]: new Difficulty("Demon", "crimson", 3)
+    [DifficultyLookup.EASY]: new Difficulty("Easy", "green", "linear-gradient(135deg, #48bb78 0%, #38a169 100%)", "#38a169", 0),
+    [DifficultyLookup.MEDIUM]: new Difficulty("Medium", "orange", "linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%)", "#d69e2e", 1),
+    [DifficultyLookup.HARD]: new Difficulty("Hard", "red", "linear-gradient(135deg, #f56565 0%, #c53030 100%)", "#c53030", 2),
+    [DifficultyLookup.DEMON]: new Difficulty("Demon", "crimson", "linear-gradient(135deg, #DC143C 0%, #8B0000 100%)", "#8B0000", 3)
 }
 
 export class codeMenuCard {
