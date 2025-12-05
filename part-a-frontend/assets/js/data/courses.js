@@ -1,6 +1,6 @@
 import { difficulty_t, codeMenuCard, DifficultyLookup } from "./modules/cards-utils.js";
-import { category_t, CategoryLookup, similarityGraph } from "./modules/category-similarity-graph.js";
-import { ArrayFilterStrategy, FilterLookup, FiltersInfo_t, getVisibleElements } from "./modules/filter-section.js"
+import { category_t, CategoryLookup, similarityGraph } from "./modules/category-utils.js";
+import { ArrayFilterStrategy, FilterLookup, FiltersInfo_t, getVisibleElements, createFilterSection } from "./modules/filter-section.js"
 
 let cardsList = [
     new codeMenuCard(
@@ -65,22 +65,6 @@ let cardsList = [
     )
 ];
 
-function createCourseButton(courseName) {
-    let learn_button = document.createElement("button");
-    learn_button.classList.add("card_learn_btn");
-    learn_button.textContent = "Learn " + courseName;
-
-    const buttonListener = () => {
-        courseName = courseName.toLowerCase().replaceAll("+", "p");
-        const coursePageUrl = `course-details.html?course=${courseName}`;
-        window.location.href = coursePageUrl;
-    };
-
-    learn_button.addEventListener("click", buttonListener);
-
-    return learn_button;
-}
-
 function createCardElem(cardInfo) {
 
     let cardElem = document.createElement("div");
@@ -118,6 +102,15 @@ function createCardElem(cardInfo) {
     let cardBtn = document.createElement("button");
     cardBtn.classList.add("card-btn");
     cardBtn.textContent = `Learn ${cardInfo.name}`
+
+    cardBtn.addEventListener("click", () => {
+        let courseName = cardInfo.name;
+
+        courseName = courseName.toLowerCase().replaceAll("+", "p");
+        const coursePageUrl = `course-details.html?course=${courseName}`;
+        window.location.href = coursePageUrl;
+    });
+
     cardFooter.appendChild(cardBtn);
 
     cardElem.appendChild(cardContent);
@@ -157,95 +150,6 @@ function createCategoryContainer(categoryId) {
 var filters = {};
 Object.values(FilterLookup).forEach((value) => filters[value] = new ArrayFilterStrategy(FiltersInfo_t[value]));
 
-function createFilterElem(name, value, filterLookupId, additionalStyleFunction) {
-
-    let categoryDiv = document.createElement("div");
-    categoryDiv.classList.add("checkbox-wrapper");
-
-    let inputElem = document.createElement("input");
-    inputElem.id = `check-${name}-${filterLookupId}`;
-    inputElem.name = "check";
-    inputElem.value = "";
-    inputElem.type = "checkbox";
-
-    inputElem.addEventListener("change", () => {
-
-        console.log(`checked ${name}-${filterLookupId}`);
-
-        let categoryFilters = filters[filterLookupId];
-        console.log(categoryFilters);
-
-        if (inputElem.checked) {
-            if (!categoryFilters.includes(value)) {
-                categoryFilters.push(value);
-                console.log(filters);
-                populateCategoryLessonContent();
-            }
-        }
-        else {
-            categoryFilters.remove(value);
-            console.log(filters);
-            populateCategoryLessonContent();
-        }
-    });
-
-    categoryDiv.appendChild(inputElem);
-
-    let categoryElem = document.createElement("label");
-    categoryElem.htmlFor = `check-${name}-${filterLookupId}`
-    let checkmarkElem = document.createElement("span");
-    categoryElem.textContent = name;
-
-    categoryElem.appendChild(checkmarkElem);
-
-    categoryDiv.appendChild(categoryElem);
-
-    if (additionalStyleFunction) {
-        additionalStyleFunction(categoryElem, checkmarkElem);
-    }
-
-    return categoryDiv;
-}
-
-function createFilterContainer() {
-    let filtersContainer = document.getElementById("filters-wrapper");
-
-    if (window.innerWidth < 700) {
-
-        let showBtnWrap = document.getElementById("show-filter-btn-wrap");
-
-        let showFiltersButton = document.createElement("button");
-        showFiltersButton.classList.add("show-filters-btn")
-        // showFiltersButton.textContent = "Show Filters";
-
-        showFiltersButton.addEventListener("click", () => {
-            filtersContainer.classList.toggle("visible");
-        });
-
-        showBtnWrap.appendChild(showFiltersButton);
-    }
-}
-
-function populateDifficultyFilters() {
-    let difficultyWrapper = document.getElementById("difficulty-filters");
-
-    Object.values(difficulty_t)
-        .forEach((difficulty) => {
-            let filterElem = createFilterElem(difficulty.name, difficulty.value, FilterLookup.DIFFICULTY, (_, checkmarkElem) => {
-                checkmarkElem.style.setProperty("--box-color", difficulty.baseColor);
-            });
-            difficultyWrapper.appendChild(filterElem);
-        });
-}
-
-function populateCategoryFilters() {
-    let categoryWrapper = document.getElementById("category-filters");
-
-    Object.values(category_t).forEach((category) => {
-        categoryWrapper.appendChild(createFilterElem(category.name, category.id, FilterLookup.CATEGORY));
-    });
-}
-
 function populateCategoryLessonContent() {
     let content = document.getElementById("content-wrapper");
     content.replaceChildren();
@@ -264,8 +168,6 @@ function populateCategoryLessonContent() {
 }
 
 window.onload = () => {
-    createFilterContainer();
-    populateCategoryFilters();
-    populateDifficultyFilters();
+    createFilterSection();
     populateCategoryLessonContent();
 };
