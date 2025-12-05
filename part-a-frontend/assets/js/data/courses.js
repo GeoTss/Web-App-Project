@@ -1,6 +1,6 @@
 import { difficulty_t, codeMenuCard, DifficultyLookup } from "./modules/cards-utils.js";
-import { category_t, CategoryLookup, similarityGraph } from "./modules/category-utils.js";
-import { ArrayFilterStrategy, FilterLookup, FiltersInfo_t, getVisibleElements, createFilterSection } from "./modules/filter-section.js"
+import { category_t, CategoryLookup } from "./modules/category-utils.js";
+import { CourseFilterLookup, createFilterSection, addFiltersChangeCallback, FilterSectionManager, FiltersController } from "./modules/filter-section.js"
 
 let cardsList = [
     new codeMenuCard(
@@ -65,6 +65,15 @@ let cardsList = [
     )
 ];
 
+var filterManagers = [
+    new FilterSectionManager(CourseFilterLookup.DIFFICULTY, "difficulty", (itemInfo, checkmarkElem) => {
+        checkmarkElem.style.setProperty("--box-color", itemInfo.baseColor);
+    }),
+    new FilterSectionManager(CourseFilterLookup.CATEGORY, "category")
+];
+
+var filterController = new FiltersController(filterManagers);
+
 function createCardElem(cardInfo) {
 
     let cardElem = document.createElement("div");
@@ -72,11 +81,11 @@ function createCardElem(cardInfo) {
 
     let cardBanner = document.createElement("div");
     cardBanner.classList.add("card-banner");
-    cardBanner.style.background = difficulty_t[cardInfo.difficulty].bannerColor;
+    cardBanner.style.background = difficulty_t[cardInfo.difficultyLookupId].bannerColor;
 
     let difficultyBadge = document.createElement("span");
     difficultyBadge.classList.add("difficulty-badge");
-    difficultyBadge.textContent = difficulty_t[cardInfo.difficulty].name;
+    difficultyBadge.textContent = difficulty_t[cardInfo.difficultyLookupId].name;
 
     cardBanner.appendChild(difficultyBadge);
 
@@ -87,7 +96,7 @@ function createCardElem(cardInfo) {
 
     let courseTitle = document.createElement("div");
     courseTitle.classList.add("course-title");
-    courseTitle.textContent = cardInfo.name;
+    courseTitle.textContent = cardInfo.langName;
     cardContent.appendChild(courseTitle);
 
     let courseDesc = document.createElement("p");
@@ -101,10 +110,10 @@ function createCardElem(cardInfo) {
 
     let cardBtn = document.createElement("button");
     cardBtn.classList.add("card-btn");
-    cardBtn.textContent = `Learn ${cardInfo.name}`
+    cardBtn.textContent = `Learn ${cardInfo.langName}`
 
     cardBtn.addEventListener("click", () => {
-        let courseName = cardInfo.name;
+        let courseName = cardInfo.langName;
 
         courseName = courseName.toLowerCase().replaceAll("+", "p");
         const coursePageUrl = `course-details.html?course=${courseName}`;
@@ -120,8 +129,7 @@ function createCardElem(cardInfo) {
 }
 
 function appendCategoryContainer(card) {
-
-    let cardContainerElem = document.getElementById(`categoryId-${card.category}`);
+    let cardContainerElem = document.getElementById(`categoryId-${card.categoryLookupId}`);
     cardContainerElem.appendChild(createCardElem(card));
 }
 
@@ -147,27 +155,33 @@ function createCategoryContainer(categoryId) {
     return categoryElem;
 }
 
-var filters = {};
-Object.values(FilterLookup).forEach((value) => filters[value] = new ArrayFilterStrategy(FiltersInfo_t[value]));
-
 function populateCategoryLessonContent() {
     let content = document.getElementById("content-wrapper");
     content.replaceChildren();
 
-    let visibleCards = getVisibleElements(cardsList, filters);
+    let filters = filterController.getActiveFilterChain();
+    console.log(filters);
 
+    let visibleCards = filterController.getSatisfyingElements(cardsList);
     console.log(`visibleCards: ${visibleCards}`);
 
-    let categoryIds = new Set(visibleCards.map((card) => card.category));
+    let categoryIds = new Set(visibleCards.map((card) => card.categoryLookupId));
+
+    console.log(categoryIds);
 
     categoryIds.forEach((category) => {
         content.appendChild(createCategoryContainer(category))
     });
     visibleCards.forEach((card) => appendCategoryContainer(card));
-
 }
 
 window.onload = () => {
-    createFilterSection();
+    createFilterSection(filterManagers);
+
+    filterController.populateManager(CourseFilterLookup.DIFFICULTY, Object.values(difficulty_t));
+    filterController.populateManager(CourseFilterLookup.CATEGORY, Object.values(category_t));
+
+    addFiltersChangeCallback(populateCategoryLessonContent);
+
     populateCategoryLessonContent();
 };

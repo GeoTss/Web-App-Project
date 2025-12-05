@@ -1,5 +1,6 @@
 class Difficulty {
-    constructor(name, baseColor, bannerColor, lineColor, value) {
+    constructor(id, name, baseColor, bannerColor, lineColor, value) {
+        this.id = id;
         this.name = name;
         this.baseColor = baseColor;
         this.bannerColor = bannerColor;
@@ -16,17 +17,17 @@ export const DifficultyLookup = {
 };
 
 export const difficulty_t = {
-    [DifficultyLookup.EASY]: new Difficulty("Easy", "green", "linear-gradient(135deg, #48bb78 0%, #38a169 100%)", "#38a169", 0),
-    [DifficultyLookup.MEDIUM]: new Difficulty("Medium", "orange", "linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%)", "#d69e2e", 1),
-    [DifficultyLookup.HARD]: new Difficulty("Hard", "red", "linear-gradient(135deg, #f56565 0%, #c53030 100%)", "#c53030", 2),
-    [DifficultyLookup.DEMON]: new Difficulty("Demon", "crimson", "linear-gradient(135deg, #DC143C 0%, #8B0000 100%)", "#8B0000", 3)
+    [DifficultyLookup.EASY]: new Difficulty(DifficultyLookup.EASY, "Easy", "green", "linear-gradient(135deg, #48bb78 0%, #38a169 100%)", "#38a169", 0),
+    [DifficultyLookup.MEDIUM]: new Difficulty(DifficultyLookup.MEDIUM, "Medium", "orange", "linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%)", "#d69e2e", 1),
+    [DifficultyLookup.HARD]: new Difficulty(DifficultyLookup.HARD, "Hard", "red", "linear-gradient(135deg, #f56565 0%, #c53030 100%)", "#c53030", 2),
+    [DifficultyLookup.DEMON]: new Difficulty(DifficultyLookup.DEMON, "Demon", "crimson", "linear-gradient(135deg, #DC143C 0%, #8B0000 100%)", "#8B0000", 3)
 }
 
 export class codeMenuCard {
-    constructor(langName, desc, difficulty, category) {
-        this.name = langName;
+    constructor(langName, desc, difficultyId, categoryId) {
+        this.langName = langName;
         this.description = desc;
-        this.difficulty = difficulty;
-        this.category = category;
+        this.difficultyLookupId = difficultyId;
+        this.categoryLookupId = categoryId;
     }
 }

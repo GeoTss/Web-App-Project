@@ -38,6 +38,10 @@
     gap: 1rem;
 }
 
+.filter-section-header {
+    text-transform: capitalize;
+}
+
 .show-filters-btn {
     padding: 1rem;
     border-radius: 8px;

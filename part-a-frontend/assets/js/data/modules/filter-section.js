@@ -1,6 +1,3 @@
-import { difficulty_t } from "./cards-utils";
-import { category_t } from "./category-utils";
-
 export class FilterInfo {
     constructor(field, priority) {
         this.field = field;
@@ -8,17 +5,17 @@ export class FilterInfo {
     }
 };
 
-export const FilterLookup = {
+export const CourseFilterLookup = {
     CATEGORY: 0,
     DIFFICULTY: 1
 };
 
-export const FiltersInfo_t = {
-    [FilterLookup.CATEGORY]: new FilterInfo("category", 0),
-    [FilterLookup.DIFFICULTY]: new FilterInfo("difficulty", 1)
+export const CourseFiltersInfo_t = {
+    [CourseFilterLookup.CATEGORY]: new FilterInfo("categoryLookupId", 0),
+    [CourseFilterLookup.DIFFICULTY]: new FilterInfo("difficultyLookupId", 1)
 };
 
-export class ArrayFilterStrategy {
+class ArrayFilterStrategy {
     constructor(filterInfo) {
         this.filters = [];
         this.field = filterInfo.field;
@@ -39,6 +36,13 @@ export class ArrayFilterStrategy {
         return this.filters.includes(value);
     }
 
+    toggle(value) {
+        if (this.includes(value))
+            this.remove(value);
+        else
+            this.push(value);
+    }
+
     isEmpty() {
         return this.filters.length === 0;
     }
@@ -51,32 +55,120 @@ export class ArrayFilterStrategy {
     }
 };
 
-export class FiltersController {
-    constructor() {
-        this.filtersMap = {}
-        Object.values(FilterLookup).forEach((value) => filters[value] = new ArrayFilterStrategy(FiltersInfo_t[value]));
+export class FilterSectionManager {
+    constructor(id, name, callbackFunc) {
+        this.parentElem = null;
+        this.selfElem = null;
+
+        this.id = id;
+        this.name = name;
+
+        this.callbackFunc = callbackFunc;
+
+        this.filterStrat = new ArrayFilterStrategy(CourseFiltersInfo_t[id]);
+    }
+
+    initializeSection(parentElem) {
+        this.parentElem = parentElem;
+
+        let sectionWrap = document.createElement("div");
+        let wrapId = `${this.name}-filters-wrap`;
+        sectionWrap.id = wrapId;
+
+        let sectionHeader = document.createElement("h3");
+        sectionHeader.classList.add("filter-section-header");
+        sectionHeader.textContent = `${this.name} filters`;
+
+        sectionWrap.appendChild(sectionHeader);
+
+        let filterSection = document.createElement("div");
+        let sectionId = `${this.name}-filters`;
+        filterSection.id = sectionId;
+
+        sectionWrap.appendChild(filterSection);
+
+        this.parentElem.appendChild(sectionWrap);
+
+        this.selfElem = filterSection;
+    }
+
+    appendFilterElem(itemInfo) {
+        let filterDiv = document.createElement("div");
+        filterDiv.classList.add("checkbox-wrapper");
+
+        let inputElem = document.createElement("input");
+
+        let itemFieldName = itemInfo["name"];
+        let itemFieldId = itemInfo["id"];
+
+        inputElem.id = `check-${itemFieldName}-${itemFieldId}`;
+        inputElem.name = "check";
+        inputElem.value = "";
+        inputElem.type = "checkbox";
+
+        inputElem.addEventListener("change", () => {
+            console.log(`checked ${itemFieldName}-${itemFieldId}`);
+
+            this.filterStrat.toggle(itemFieldId);
+        });
+
+        filterDiv.appendChild(inputElem);
+
+        let filterElem = document.createElement("label");
+        filterElem.htmlFor = `check-${itemFieldName}-${itemFieldId}`
+        let checkmarkElem = document.createElement("span");
+        filterElem.textContent = itemFieldName;
+
+        filterElem.appendChild(checkmarkElem);
+
+        filterDiv.appendChild(filterElem);
+
+        if (this.callbackFunc) {
+            this.callbackFunc(itemInfo, checkmarkElem);
+        }
+
+        this.selfElem.appendChild(filterDiv);
+    }
+
+    populateSection(itemList) {
+        itemList.forEach((item) => {
+            this.appendFilterElem(item);
+        });
     }
 };
 
-export function getActiveFilters(filterList) {
-    let activeFilterChain = [];
-    Object.values(filterList).forEach((filterStrat) => {
-        if (!filterStrat.isEmpty())
-            activeFilterChain.push(filterStrat);
-    });
+export class FiltersController {
+    constructor(managersList) {
+        this.managersMap = {};
+        managersList.forEach((manager) => {
+            this.managersMap[manager.id] = manager;
+        });
+    }
 
-    activeFilterChain.sort((a, b) => a.priority - b.priority);
+    getActiveFilterChain() {
+        let activeFilterChain = [];
+        Object.values(this.managersMap).forEach((manager) => {
+            if (!manager.filterStrat.isEmpty())
+                activeFilterChain.push(manager.filterStrat);
+        });
 
-    return activeFilterChain;
-}
+        activeFilterChain.sort((a, b) => a.priority - b.priority);
 
-export function getVisibleElements(cards, filterList) {
-    let activeFilterChain = getActiveFilters(filterList);
+        return activeFilterChain;
+    }
 
-    return cards.filter((card) =>
-        activeFilterChain.every((strat) => strat.matches(card))
-    );
-}
+    getSatisfyingElements(elemList) {
+        let activeFilterChain = this.getActiveFilterChain();
+
+        return elemList.filter((elem) =>
+            activeFilterChain.every((strat) => strat.matches(elem))
+        );
+    }
+
+    populateManager(id, itemList) {
+        this.managersMap[id].populateSection(itemList);
+    }
+};
 
 function createFilterContainer() {
     let filtersContainer = document.getElementById("filters-wrapper");
@@ -94,90 +186,19 @@ function createFilterContainer() {
 
         showBtnWrap.appendChild(showFiltersButton);
     }
+
+    return filtersContainer;
 }
 
-function createFilterElem(name, value, filterLookupId, additionalStyleFunction) {
+export function createFilterSection(filterManagersList) {
+    let filtersContainer = createFilterContainer();
 
-    let categoryDiv = document.createElement("div");
-    categoryDiv.classList.add("checkbox-wrapper");
-
-    let inputElem = document.createElement("input");
-    inputElem.id = `check-${name}-${filterLookupId}`;
-    inputElem.name = "check";
-    inputElem.value = "";
-    inputElem.type = "checkbox";
-
-    inputElem.addEventListener("change", () => {
-
-        console.log(`checked ${name}-${filterLookupId}`);
-
-        let categoryFilters = filters[filterLookupId];
-        console.log(categoryFilters);
-
-        if (inputElem.checked) {
-            if (!categoryFilters.includes(value)) {
-                categoryFilters.push(value);
-                console.log(filters);
-                populateCategoryLessonContent();
-            }
-        }
-        else {
-            categoryFilters.remove(value);
-            console.log(filters);
-            populateCategoryLessonContent();
-        }
-    });
-
-    categoryDiv.appendChild(inputElem);
-
-    let categoryElem = document.createElement("label");
-    categoryElem.htmlFor = `check-${name}-${filterLookupId}`
-    let checkmarkElem = document.createElement("span");
-    categoryElem.textContent = name;
-
-    categoryElem.appendChild(checkmarkElem);
-
-    categoryDiv.appendChild(categoryElem);
-
-    if (additionalStyleFunction) {
-        additionalStyleFunction(categoryElem, checkmarkElem);
+    for (let filterManager of filterManagersList) {
+        filterManager.initializeSection(filtersContainer);
     }
-
-    return categoryDiv;
 }
 
-function populateDifficultyFilters() {
-    let difficultyWrapper = document.getElementById("difficulty-filters");
-
-    Object.values(difficulty_t)
-        .forEach((difficulty) => {
-            let filterElem = createFilterElem(difficulty.name, difficulty.value, FilterLookup.DIFFICULTY, (_, checkmarkElem) => {
-                checkmarkElem.style.setProperty("--box-color", difficulty.baseColor);
-            });
-            difficultyWrapper.appendChild(filterElem);
-        });
-}
-
-function populateCategoryFilters() {
-    let categoryWrapper = document.getElementById("category-filters");
-
-    Object.values(category_t).forEach((category) => {
-        categoryWrapper.appendChild(createFilterElem(category.name, category.id, FilterLookup.CATEGORY));
-    });
-}
-
-export function createFilterSection() {
-    createFilterContainer();
-    populateDifficultyFilters();
-    populateCategoryFilters();
-}
-
-export function getFilterList() {
-    let categoryFilters = document.getElementById("category-filters");
-
-    for (const child in categoryFilters.children()) {
-
-    }
-
-    let difficultyFilters = document.getElementById("difficulty-filters");
+export function addFiltersChangeCallback(callbackFunc) {
+    let filtersWrap = document.getElementById("filters-wrapper");
+    filtersWrap.addEventListener("change", () => callbackFunc());
 }
