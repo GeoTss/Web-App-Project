@@ -85,22 +85,6 @@
             margin: 25px 0 0 0;
         }
     </style>
-
-    <script>
-        fetch("navbar.html")
-            .then(r => r.text())
-            .then(html => {
-                document.getElementById("navbar-container").innerHTML = html;
-                const btn = document.getElementById("toggle-btn");
-                const links = document.querySelector(".links");
-                if (btn && links) {
-                    btn.addEventListener("click", () => {
-                        const collapsed = links.classList.toggle("collapsed");
-                        btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
-                    });
-                }
-            });
-    </script>
 </head>
 
 <body>

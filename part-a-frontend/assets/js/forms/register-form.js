@@ -2,6 +2,30 @@ import { CourseFilterLookup, FilterSectionManager, FiltersController, createFilt
 import { category_t } from "../data/modules/category-utils.js"
 import { difficulty_t } from "../data/modules/cards-utils.js"
 
+fetch("navbar.html")
+    .then(r => r.text())
+    .then(html => {
+        document.getElementById("navbar-container").innerHTML = html;
+        const btn = document.getElementById("toggle-btn");
+        const links = document.querySelector(".links");
+        if (btn && links) {
+            btn.addEventListener("click", () => {
+                const collapsed = links.classList.toggle("collapsed");
+                btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
+            });
+        }
+    });
+
+var filterManagers = [
+    new FilterSectionManager(CourseFilterLookup.DIFFICULTY, "difficulty", (itemInfo, checkmarkElem) => {
+        checkmarkElem.style.setProperty("--box-color", itemInfo.baseColor);
+    }),
+    new FilterSectionManager(CourseFilterLookup.CATEGORY, "category")
+];
+
+var filterController = new FiltersController(filterManagers);
+
+
 document.getElementById("password").addEventListener("input", e => {
     const password = e.target.value;
     document.getElementById("longer").textContent = password.length >= 8 ? " Is longer than 8 characters ✔" : " Is longer than 8 characters ✖";
@@ -11,7 +35,7 @@ document.getElementById("password").addEventListener("input", e => {
     document.getElementById("special").textContent = /[!@#$%^&*(),.?":{}|<>]/.test(password) ? " Has special character ✔" : " Has special character ✖";
 });
 
-document.getElementById("register-form").addEventListener("submit", e => {
+document.getElementById("submit-btn").addEventListener("click", e => {
     e.preventDefault();
 
     const debug = true;
@@ -42,18 +66,18 @@ document.getElementById("register-form").addEventListener("submit", e => {
 
     const encodedUser = btoa(JSON.stringify({ username, email, password }));
 
+    const filters = filterController;
+    if (filters.length === 0) {
+        alert("Please select at least one filter.");
+        return;
+    }
+
+    console.log(filters);
+
     const encodedFilters = btoa(JSON.stringify(filters));
     window.location.href = `courses.html?user=${encodedUser}&filters=${encodedFilters}`;
 });
 
-var filterManagers = [
-    new FilterSectionManager(CourseFilterLookup.DIFFICULTY, "difficulty", (itemInfo, checkmarkElem) => {
-        checkmarkElem.style.setProperty("--box-color", itemInfo.baseColor);
-    }),
-    new FilterSectionManager(CourseFilterLookup.CATEGORY, "category")
-];
-
-var filterController = new FiltersController(filterManagers);
 
 window.onload = () => {
     createFilterSection(filterManagers);
