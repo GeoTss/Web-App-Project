@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script type="module" src="./assets/js/ui/menu.js"></script>
         <link rel="stylesheet" href="./assets/css/layout.css">
         <link rel="stylesheet" href="./assets/css/components.css">
         <link rel="stylesheet" href="./assets/css/checkbox.css">
@@ -77,19 +78,6 @@
 
     </style>
     <script>
-        fetch("navbar.html")
-        .then(r => r.text())
-        .then(html => {
-            document.getElementById("navbar-container").innerHTML = html;
-            const btn = document.getElementById("toggle-btn");
-            const links = document.querySelector(".links");
-            if (btn && links) {
-                btn.addEventListener("click", () => {
-                    const collapsed = links.classList.toggle("collapsed");
-                    btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
-                });
-            }
-        });
         
         const form = document.querySelector('form');
         form.addEventListener('loginButton', async (e) => {

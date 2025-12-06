@@ -38,6 +38,19 @@ navbar.appendChild(linksList);
 document.getElementById("navbar-container").appendChild(navbar);
 
 toggleBtn.addEventListener("click", () => {
-    const collapsed = linksList.classList.toggle("collapsed");
-    toggleBtn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
+    linksList.classList.toggle("collapsed");
+    const isCollapsed = linksList.classList.contains("collapsed");
+    toggleBtn.innerHTML = isCollapsed ? "&#9660;" : "&#9650;";
 });
+
+const path = window.location.pathname;
+const page = path.split("/").pop();
+
+const linkItems = linksList.getElementsByTagName("a");
+for (const linkElem of linkItems) {
+    if (linkElem.getAttribute("href") === page) {
+        linkElem.classList.add("active");
+    } else {
+        linkElem.classList.remove("active");
+    }
+}

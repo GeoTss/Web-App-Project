@@ -5,64 +5,62 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./assets/css/layout.css">
         <link rel="stylesheet" href="./assets/css/about.css">
+        <script type="module" src="./assets/js/ui/menu.js"></script>
         <title>About Us</title>
     </head>
     <body>
         <div id="navbar-container"></div>
-        <div class="center">
-            <h1>About Us</h1>
-            <p>Welcome to Clueless Code Learning! We are dedicated to providing top-notch resources and tutorials for those looking to master the art of doing nothing effectively. Our platform is designed for individuals who want to embrace their inner slacker while still achieving greatness in the realm of procrastination.</p>
-        </div> 
-        <div class="center">
-            <div class="column">
-                <div class="row">
-                    <img src="./assets/img/about/about_image1.png" alt="Clueless Image" width="400" height="400">
-                    <div class="center-text">   
-                        <h2>Our Mission</h2>    
-                        <p>At Clueless Code Learning, our mission is to empower individuals with the skills and knowledge needed to excel in the world of slacking off.  We believe that everyone, regardless of their background, should have access to quality relaxation. Our goal is to create a supportive community where learners can share their experiences, tips, and tricks for maximizing downtime while minimizing effort.</p>
+        <main class="about-container">
+            <section class="hero-section">
+                <h1 class="page-title">About Us</h1>
+                <p class="hero-text">Welcome to Clueless Code Learning! We are dedicated to providing top-notch resources and tutorials for those looking to master the art of doing nothing effectively. Our platform is designed for individuals who want to embrace their inner slacker while still achieving greatness in the realm of procrastination.</p>
+            </section>
+            
+            <section class="content-grid">
+                <article class="content-card">
+                    <figure class="card-image">
+                        <img src="./assets/img/about/about_image1.png" alt="Our Mission">
+                    </figure>
+                    <div class="card-content">   
+                        <h2 class="card-title">Our Mission</h2>    
+                        <p class="card-text">At Clueless Code Learning, our mission is to empower individuals with the skills and knowledge needed to excel in the world of slacking off.  We believe that everyone, regardless of their background, should have access to quality relaxation. Our goal is to create a supportive community where learners can share their experiences, tips, and tricks for maximizing downtime while minimizing effort.</p>
                     </div>
-                </div>
-                <div class="row">
-                    <img src="./assets/img/about/about_image2.png" alt="Clueless Image" width="400" height="400">
-                    <div class="center-text">
-                        <h2>Our Team</h2>
-                        <p>We are a diverse group of Clueless vibe coders, 0.1x engineers, and tech haters dedicated to ignorance. Our team is passionate about spreading misinformation and helping others succeed to doing their worst possible.</p>
+                </article>
+                
+                <article class="content-card">
+                    <figure class="card-image">
+                        <img src="./assets/img/about/about_image2.png" alt="Our Team">
+                    </figure>
+                    <div class="card-content">
+                        <h2 class="card-title">Our Team</h2>
+                        <p class="card-text">We are a diverse group of Clueless vibe coders, 0.1x engineers, and tech haters dedicated to ignorance. Our team is passionate about spreading misinformation and helping others succeed to doing their worst possible.</p>
                     </div>
-                </div>
-                <div class="row">
-                    <img src="./assets/img/about/about_image3.png" alt="Clueless Image" width="400" height="400">
-                    <div class="center-text">
-                        <h2>Contact Us</h2>
-                        <p>If you have any questions, feedback, or would like to get in touch with us, please don't. Seriously, why keep reading when you can crack open a beer or gamble everything on red. Don't get a job, evade taxes and keep on being useless in a free world.</p>
+                </article>
+                
+                <article class="content-card">
+                    <figure class="card-image">
+                        <img src="./assets/img/about/about_image3.png" alt="Contact Us">
+                    </figure>
+                    <div class="card-content">
+                        <h2 class="card-title">Contact Us</h2>
+                        <p class="card-text">If you have any questions, feedback, or would like to get in touch with us, please don't. Seriously, why keep reading when you can crack open a beer or gamble everything on red. Don't get a job, evade taxes and keep on being useless in a free world.</p>
                     </div>
-                </div>    
-                <div class="row">
-                    <img src="./assets/img/about/about_image4.png" alt="Clueless Image" width="400" height="400">
-                    <div class="center-text">
-                        <h2>Join Us</h2>
-                        <p>Ready to embrace your inner slacker? Join Clueless Code Learning today and start your journey towards mastering the art of doing nothing effectively. Together, we can create a world where laziness is celebrated and productivity is optional.</p>
+                </article>
+                
+                <article class="content-card">
+                    <figure class="card-image">
+                        <img src="./assets/img/about/about_image4.png" alt="Join Us">
+                    </figure>
+                    <div class="card-content">
+                        <h2 class="card-title">Join Us</h2>
+                        <p class="card-text">Ready to embrace your inner slacker? Join Clueless Code Learning today and start your journey towards mastering the art of doing nothing effectively. Together, we can create a world where laziness is celebrated and productivity is optional.</p>
                     </div>
-                </div>
-            </div>
-        </div>
+                </article>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Clueless Code Learning. All rights reserved.</p>
+        </footer>
     </body>
-    <div class="footer">
-        <p style="text-align: center;">&copy; 2025 Clueless Code Learning. All rights reserved.</p>
-    </div>
-
-    <script>
-        fetch("navbar.html")
-        .then(r => r.text())
-        .then(html => {
-        document.getElementById("navbar-container").innerHTML = html;
-
-        const btn   = document.getElementById("toggle-btn");
-        const links = document.querySelector(".links");
-
-        btn.addEventListener("click", () => {
-            const collapsed = links.classList.toggle("collapsed");
-            btn.innerHTML = collapsed ? "&#9660;" : "&#9650;";
-        });
-        });
-    </script>
 </html>
