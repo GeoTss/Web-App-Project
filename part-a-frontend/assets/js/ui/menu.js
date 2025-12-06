@@ -27,7 +27,7 @@ bar.classList.add("bar");
 toggleBtn.id = "toggle-btn";
 toggleBtn.innerHTML = "&#9650;";
 logo.classList.add("logo");
-logo.textContent = "Clueless code learning";
+logo.textContent = "Clueless Code Learning";
 linksList.classList.add("links");
 
 bar.appendChild(toggleBtn);

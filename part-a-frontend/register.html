@@ -7,79 +7,146 @@
     <link rel="stylesheet" href="./assets/css/layout.css">
     <link rel="stylesheet" href="./assets/css/components.css">
     <link rel="stylesheet" href="./assets/css/checkbox.css">
+    <link rel="stylesheet" href="./assets/css/menu.css">
     <script type="module" src="./assets/js/ui/menu.js"></script>
     <script type="module" src="./assets/js/forms/register-form.js"></script>
     <script type="module" src="./assets/js/data/modules/filter-section.js"></script>
     <script type="module" src="./assets/js/data/modules/category-utils.js"></script>
     <script type="module" src="./assets/js/data/modules/cards-utils.js"></script>
     <title>Register</title>
-
     <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
         .help {
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 20px;
-            flex-wrap: wrap;
-            padding-top: 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            padding-top: 40px;
             margin: 0;
             box-sizing: border-box;
         }
 
+        .second-wrap {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            align-items: flex-start;
+            margin-top: 3rem;
+            width: 100%;
+            max-width: 900px;
+        }
+
         .wrapper {
-            width: 380px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
+            width: 400px;
+            padding: 32px 28px 24px 28px;
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.12), 0 1.5px 4px rgba(60, 72, 88, 0.08);
+            border: none;
             box-sizing: border-box;
+            transition: box-shadow 0.2s;
+        }
+
+        .wrapper:hover {
+            box-shadow: 0 12px 36px rgba(60, 72, 88, 0.16), 0 2px 8px rgba(60, 72, 88, 0.10);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
+            font-size: 2.2rem;
+            color: #272343;
+            letter-spacing: 1px;
         }
 
         form div {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            padding: 12px 14px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 1rem;
+            background: #f4f6fb;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #6366f1;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 0 0 2px #a5b4fc55;
         }
 
         .submit-btn {
             width: 50%;
-            padding: 10px;
-            background: #1e1b2c;
+            padding: 12px 0;
+            background: linear-gradient(90deg, #6366f1 0%, #272343 100%);
             color: #fff;
             border: none;
-            border-radius: 3px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 24px auto 0 auto;
+            display: block;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+            transition: background 0.2s, box-shadow 0.2s;
         }
 
         .submit-btn:hover {
-            background: #272343;
+            background: linear-gradient(90deg, #272343 0%, #6366f1 100%);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.16);
         }
 
         p {
             text-align: center;
-            margin: 25px 0 0 0;
+            margin: 28px 0 0 0;
+            color: #555;
+            font-size: 1rem;
         }
 
-        .second-wrap {
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
-            align-items: stretch;
-            margin-top: 5rem;
+        p a {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        p a:hover {
+            color: #272343;
+            text-decoration: underline;
+        }
+
+        .password-strength {
+            margin-top: 10px;
+            margin-bottom: 8px;
+            font-size: 0.97rem;
+        }
+
+        .password-strength div {
+            margin-bottom: 3px;
+            padding-left: 2px;
+            color: #b91c1c;
+            transition: color 0.2s;
+        }
+
+        .password-strength div:before {
+            content: "• ";
+            color: #6366f1;
         }
 
         .second-wrap>#filters-wrapper {
@@ -88,7 +155,23 @@
             max-height: none;
             transform: none;
             height: auto;
-            /* min-height: 100%; */
+            min-width: 220px;
+        }
+
+        @media (max-width: 900px) {
+            .second-wrap {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+            .wrapper {
+                width: 100%;
+                max-width: 420px;
+            }
+            .second-wrap>#filters-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
