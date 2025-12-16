@@ -49,6 +49,10 @@ body {
 
 .book-info {}
 
+.book-author {
+    font-weight: lighter;
+}
+
 .book-separator {
     display: flex;
     align-items: center;

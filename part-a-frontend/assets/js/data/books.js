@@ -52,7 +52,7 @@ function createBookCard(bookInfo) {
     let bookInfoElem = document.createElement("div");
     bookInfoElem.classList.add("book-info");
 
-    let bookTitle = document.createElement("div");
+    let bookTitle = document.createElement("h3");
     bookTitle.classList.add("book-title");
     bookTitle.textContent = bookInfo.title;
 
@@ -60,7 +60,7 @@ function createBookCard(bookInfo) {
 
     let bookAuthor = document.createElement("div");
     bookAuthor.classList.add("book-author");
-    bookAuthor.textContent = bookInfo.author;
+    bookAuthor.textContent = "by " + bookInfo.author;
 
     bookInfoElem.appendChild(bookAuthor);
 
