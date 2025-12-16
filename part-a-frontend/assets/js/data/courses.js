@@ -1,6 +1,6 @@
 import { difficulty_t, codeMenuCard, DifficultyLookup } from "./modules/cards-utils.js";
 import { category_t, CategoryLookup } from "./modules/category-utils.js";
-import { CourseFilterLookup, createFilterSection, addFiltersChangeCallback, FilterSectionManager, FiltersController } from "./modules/filter-section.js"
+import { FilterLookup, FilterInputType, createFilterSection, addFiltersChangeCallback, FilterSectionManager, FiltersController } from "./modules/filter-section.js"
 
 let cardsList = [
     new codeMenuCard(
@@ -66,10 +66,10 @@ let cardsList = [
 ];
 
 var filterManagers = [
-    new FilterSectionManager(CourseFilterLookup.DIFFICULTY, "difficulty", (itemInfo, checkmarkElem) => {
+    new FilterSectionManager(FilterLookup.DIFFICULTY, "difficulty", FilterInputType.CHECKBOX, (itemInfo, checkmarkElem) => {
         checkmarkElem.style.setProperty("--box-color", itemInfo.baseColor);
     }),
-    new FilterSectionManager(CourseFilterLookup.CATEGORY, "category")
+    new FilterSectionManager(FilterLookup.CATEGORY, "category", FilterInputType.CHECKBOX)
 ];
 
 var filterController = new FiltersController(filterManagers);
@@ -178,8 +178,8 @@ function populateCategoryLessonContent() {
 window.onload = () => {
     createFilterSection(filterManagers);
 
-    filterController.populateManager(CourseFilterLookup.DIFFICULTY, Object.values(difficulty_t));
-    filterController.populateManager(CourseFilterLookup.CATEGORY, Object.values(category_t));
+    filterController.populateManager(FilterLookup.DIFFICULTY, Object.values(difficulty_t));
+    filterController.populateManager(FilterLookup.CATEGORY, Object.values(category_t));
 
     addFiltersChangeCallback(populateCategoryLessonContent);
 

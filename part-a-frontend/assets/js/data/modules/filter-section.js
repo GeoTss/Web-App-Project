@@ -5,14 +5,21 @@ export class FilterInfo {
     }
 };
 
-export const CourseFilterLookup = {
+export const FilterLookup = {
     CATEGORY: 0,
-    DIFFICULTY: 1
+    DIFFICULTY: 1,
+    RATING: 2
 };
 
 export const CourseFiltersInfo_t = {
-    [CourseFilterLookup.CATEGORY]: new FilterInfo("categoryLookupId", 0),
-    [CourseFilterLookup.DIFFICULTY]: new FilterInfo("difficultyLookupId", 1)
+    [FilterLookup.CATEGORY]: new FilterInfo("categoryLookupId", 0),
+    [FilterLookup.DIFFICULTY]: new FilterInfo("difficultyLookupId", 1),
+    [FilterLookup.RATING]: new FilterInfo("ratingLookupId", 1)
+};
+
+export const FilterInputType = {
+    CHECKBOX: 0,
+    RANGE: 1,
 };
 
 class ArrayFilterStrategy {
@@ -55,13 +62,61 @@ class ArrayFilterStrategy {
     }
 };
 
+function createCheckboxInput(itemInfo) {
+    let filterDiv = document.createElement("div");
+    filterDiv.classList.add("checkbox-wrapper");
+
+    let inputElem = document.createElement("input");
+
+    let itemFieldName = itemInfo["name"];
+    let itemFieldId = itemInfo["id"];
+
+    inputElem.id = `check-${itemFieldName}-${itemFieldId}`;
+    inputElem.name = "check";
+    inputElem.value = "";
+    inputElem.type = "checkbox";
+
+    inputElem.addEventListener("change", () => {
+        console.log(`checked ${itemFieldName}-${itemFieldId}`);
+
+        this.filterStrat.toggle(itemFieldId);
+    });
+
+    filterDiv.appendChild(inputElem);
+
+    let filterElem = document.createElement("label");
+    filterElem.htmlFor = `check-${itemFieldName}-${itemFieldId}`
+    let checkmarkElem = document.createElement("span");
+    filterElem.textContent = itemFieldName;
+
+    filterElem.appendChild(checkmarkElem);
+
+    filterDiv.appendChild(filterElem);
+
+    if (this.callbackFunc) {
+        this.callbackFunc(itemInfo, checkmarkElem);
+    }
+
+    return filterDiv;
+}
+
+function createRangeInput(itemInfo) {
+
+}
+
+const createInputElem = {
+    [FilterInputType.CHECKBOX]: createCheckboxInput,
+    [FilterInputType.RANGE]: createRangeInput
+}
+
 export class FilterSectionManager {
-    constructor(id, name, callbackFunc) {
+    constructor(id, name, inputType, callbackFunc) {
         this.parentElem = null;
         this.selfElem = null;
 
         this.id = id;
         this.name = name;
+        this.inputType = inputType;
 
         this.callbackFunc = callbackFunc;
 
@@ -93,39 +148,7 @@ export class FilterSectionManager {
     }
 
     appendFilterElem(itemInfo) {
-        let filterDiv = document.createElement("div");
-        filterDiv.classList.add("checkbox-wrapper");
-
-        let inputElem = document.createElement("input");
-
-        let itemFieldName = itemInfo["name"];
-        let itemFieldId = itemInfo["id"];
-
-        inputElem.id = `check-${itemFieldName}-${itemFieldId}`;
-        inputElem.name = "check";
-        inputElem.value = "";
-        inputElem.type = "checkbox";
-
-        inputElem.addEventListener("change", () => {
-            console.log(`checked ${itemFieldName}-${itemFieldId}`);
-
-            this.filterStrat.toggle(itemFieldId);
-        });
-
-        filterDiv.appendChild(inputElem);
-
-        let filterElem = document.createElement("label");
-        filterElem.htmlFor = `check-${itemFieldName}-${itemFieldId}`
-        let checkmarkElem = document.createElement("span");
-        filterElem.textContent = itemFieldName;
-
-        filterElem.appendChild(checkmarkElem);
-
-        filterDiv.appendChild(filterElem);
-
-        if (this.callbackFunc) {
-            this.callbackFunc(itemInfo, checkmarkElem);
-        }
+        let filterDiv = createInputElem[this.inputType](itemInfo);
 
         this.selfElem.appendChild(filterDiv);
     }
