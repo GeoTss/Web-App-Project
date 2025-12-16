@@ -62,7 +62,7 @@ class ArrayFilterStrategy {
     }
 };
 
-function createCheckboxInput(itemInfo) {
+function createCheckboxInput(filterManager, itemInfo) {
     let filterDiv = document.createElement("div");
     filterDiv.classList.add("checkbox-wrapper");
 
@@ -79,7 +79,7 @@ function createCheckboxInput(itemInfo) {
     inputElem.addEventListener("change", () => {
         console.log(`checked ${itemFieldName}-${itemFieldId}`);
 
-        this.filterStrat.toggle(itemFieldId);
+        filterManager.filterStrat.toggle(itemFieldId);
     });
 
     filterDiv.appendChild(inputElem);
@@ -93,14 +93,14 @@ function createCheckboxInput(itemInfo) {
 
     filterDiv.appendChild(filterElem);
 
-    if (this.callbackFunc) {
-        this.callbackFunc(itemInfo, checkmarkElem);
+    if (filterManager.callbackFunc) {
+        filterManager.callbackFunc(itemInfo, checkmarkElem);
     }
 
     return filterDiv;
 }
 
-function createRangeInput(itemInfo) {
+function createRangeInput(filterManager, itemInfo) {
 
 }
 
@@ -148,7 +148,7 @@ export class FilterSectionManager {
     }
 
     appendFilterElem(itemInfo) {
-        let filterDiv = createInputElem[this.inputType](itemInfo);
+        let filterDiv = createInputElem[this.inputType](this, itemInfo);
 
         this.selfElem.appendChild(filterDiv);
     }

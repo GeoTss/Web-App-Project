@@ -177,6 +177,7 @@ function populateCategoryLessonContent() {
 
 window.onload = () => {
     createFilterSection(filterManagers);
+    console.log(filterManagers);
 
     filterController.populateManager(FilterLookup.DIFFICULTY, Object.values(difficulty_t));
     filterController.populateManager(FilterLookup.CATEGORY, Object.values(category_t));
