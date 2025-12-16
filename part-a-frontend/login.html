@@ -9,11 +9,117 @@
         <link rel="stylesheet" href="./assets/css/components.css">
         <link rel="stylesheet" href="./assets/css/checkbox.css">
         <title>Login</title>
+        <style>
+            body {
+                background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+                min-height: 100vh;
+                margin: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .help {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+                padding-top: 1rem;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            .wrapper {
+                width: 400px;
+                padding: 32px 28px 24px 28px;
+                border-radius: 16px;
+                background: #fff;
+                box-shadow: 0 8px 32px rgba(60, 72, 88, 0.12), 0 1.5px 4px rgba(60, 72, 88, 0.08);
+                border: none;
+                box-sizing: border-box;
+                transition: box-shadow 0.2s;
+            }
+
+            .wrapper:hover {
+                box-shadow: 0 12px 36px rgba(60, 72, 88, 0.16), 0 2px 8px rgba(60, 72, 88, 0.10);
+            }
+
+            h1 {
+                text-align: center;
+                margin-bottom: 28px;
+                font-size: 2.2rem;
+                color: #272343;
+                letter-spacing: 1px;
+            }
+
+            form div {
+                margin-bottom: 18px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                width: 100%;
+                padding: 12px 14px;
+                border: 1.5px solid #d1d5db;
+                border-radius: 6px;
+                box-sizing: border-box;
+                font-size: 1rem;
+                background: #f4f6fb;
+                transition: border 0.2s, box-shadow 0.2s;
+            }
+
+            input[type="text"]:focus,
+            input[type="password"]:focus {
+                border-color: #6366f1;
+                outline: none;
+                background: #fff;
+                box-shadow: 0 0 0 2px #a5b4fc55;
+            }
+
+            #loginButton {
+                width: 50%;
+                padding: 12px 0;
+                background: linear-gradient(90deg, #6366f1 0%, #272343 100%);
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin: 24px auto 0 auto;
+                display: block;
+                box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+                transition: background 0.2s, box-shadow 0.2s;
+            }
+
+            #loginButton:hover {
+                background: linear-gradient(90deg, #272343 0%, #6366f1 100%);
+                box-shadow: 0 4px 16px rgba(99, 102, 241, 0.16);
+            }
+
+            .wrapper p {
+                text-align: center;
+                margin: 28px 0 0 0;
+                color: #555;
+                font-size: 1rem;
+            }
+
+            .wrapper p a {
+                color: #6366f1;
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s;
+            }
+
+            .wrapper p a:hover {
+                color: #272343;
+                text-decoration: underline;
+            }
+        </style>
     </head>
     <body>
         <div id="navbar-container"></div>
-        <div class="wrapper">
-            <form action="/login" method="get">
+        <div class="help">
+            <div class="wrapper" id="login-wrapper">
+                <form id="login-form" action="/login" method="get">
                 <h1>Login</h1>
                 <div>
                     <input type="text" id="username" placeholder="Username" required />
@@ -21,74 +127,20 @@
                 <div>
                     <input type="password" id="password" placeholder="Password" required />
                 </div>
-                <button id="loginButton">Submit</button>
-            </form>     
-            <p>Don't have an account? <a href="./register.html">Register here</a></p>
+                <button id="loginButton" type="submit">Submit</button>
+                </form>     
+                <p>Don't have an account? <a href="./register.html">Register here</a></p>
+            </div>
         </div>
-        <footer class="footer">
+        <!-- <footer class="footer">
           <p>Made for slackers by slackers. &copy; 2025 Clueless Code Learning</p>
-        </footer>
+        </footer> -->
     </body>
 
-    <style> 
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .wrapper {
-            max-width: 400px;
-            margin: 100px auto;
-            margin-top: 10%;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        form div {
-            margin-bottom: 15px;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-
-        #loginButton {
-            width: 100%;
-            padding: 10px;
-            background-color: #1e1b2c;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        
-        #loginButton:hover {
-            background-color: #272343;
-        }
-
-        .wrapper p {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-    </style>
+    
     <script>
-        
-        const form = document.querySelector('form');
-        form.addEventListener('loginButton', async (e) => {
+        const form = document.getElementById('login-form');
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const username = document.getElementById('username').value;
@@ -98,8 +150,7 @@
                 username,
                 password
             });
-            
-            const encodedUser = btoa(unescape(base64EncodeUnicode(userJson)));
+            const encodedUser = btoa(userJson);
             window.location.href = `/courses.html?user=${encodedUser}`;
         });
     </script>
