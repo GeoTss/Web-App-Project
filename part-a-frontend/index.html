@@ -103,13 +103,24 @@
       line-height: 1.6;
       font-size: 0.95rem;
     }
-    footer {
-      padding: 1.5rem 12vw 2rem;
-      font-size: 0.95rem;
-      color: #475569;
-      background: #fff;
-      border-top: 1px solid #e2e8f0;
+    .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: #272343;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 100;  
     }
+    .footer p {
+      margin: 0;
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
   </style>
 </head>
 
@@ -147,8 +158,8 @@
       </div>
     </section>
 
-    <footer>
-      Made for slackers by slackers. © 2025 Clueless Code Learning
+    <footer class="footer">
+      <p>Made for slackers by slackers. &copy; 2025 Clueless Code Learning</p>
     </footer>
   </main>
 </body>
