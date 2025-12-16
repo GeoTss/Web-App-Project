@@ -206,6 +206,7 @@ nav {
   border-radius: 24px 24px 0 0;
 }
 .footer p {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   color: #f8fafc;
   font-size: 0.96rem;
