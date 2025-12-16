@@ -49,6 +49,28 @@ function createBookCard(bookInfo) {
 
     bookCardElem.appendChild(bookCardCoverElem);
 
+    let bookInfoElem = document.createElement("div");
+    bookInfoElem.classList.add("book-info");
+
+    let bookTitle = document.createElement("div");
+    bookTitle.classList.add("book-title");
+    bookTitle.textContent = bookInfo.title;
+
+    bookInfoElem.appendChild(bookTitle);
+
+    let bookAuthor = document.createElement("div");
+    bookAuthor.classList.add("book-author");
+    bookAuthor.textContent = bookInfo.author;
+
+    bookInfoElem.appendChild(bookAuthor);
+
+    bookCardElem.appendChild(bookInfoElem);
+
+    let separator = document.createElement("span");
+    separator.classList.add("book-separator");
+
+    bookCardElem.appendChild(separator);
+
     return bookCardElem;
 }
 
