@@ -49,15 +49,16 @@ document.getElementById("submit-btn").addEventListener("click", e => {
             return;
         }
     }
-
-    const encodedUser = btoa(JSON.stringify({ username, email, password }));
-
+    
     const filters = filterController;
     if (filters.length === 0) {
         alert("Please select at least one filter.");
         return;
     }
-
+    
+    // Test sending the data to the courses page
+    // Change for part 2
+    const encodedUser = btoa(JSON.stringify({ username, email, password }));
     const encodedFilters = btoa(JSON.stringify(filters));
     window.location.href = `courses.html?user=${encodedUser}&filters=${encodedFilters}`;
 });
