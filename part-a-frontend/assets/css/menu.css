@@ -3,14 +3,12 @@ body {
   padding: 0;
 }
 
-/* Navbar container */
+/* Navbar */
 nav {
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  /* background-color: #2e2950; */
-  /* background-color: #43281C; */
   background-color: #2541B2;
   color: #fff;
   z-index: 1001;
@@ -21,7 +19,6 @@ nav {
   overflow: hidden;
 }
 
-/* Top bar: logo and toggle button */
 .bar {
   display: flex;
   align-items: center;
@@ -30,7 +27,6 @@ nav {
   position: relative;
 }
 
-/* Toggle button styling */
 #toggle-btn {
   background: none;
   border: none;
@@ -48,7 +44,6 @@ nav {
   opacity: 0.8;
 }
 
-/* Logo styling */
 .logo {
   font-weight: bold;
   font-size: 1.3rem;
@@ -56,15 +51,12 @@ nav {
   text-align: center;
 }
 
-/* Links list */
 .links {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   list-style: none;
   margin: 0;
   padding: 0.6rem 0;
   width: 100%;
-  /* background-color: #2e2950; */
-  /* background-color: #43281C; */
   background-color: #2541B2;
   display: flex;
   justify-content: center;
@@ -75,7 +67,6 @@ nav {
   opacity: 1;
 }
 
-/* Individual link items */
 .links li {
   padding: 0;
 }
@@ -91,20 +82,15 @@ nav {
 }
 
 .links li a:hover {
-  /* background-color: #353058; */
   background-color: #97EAD2;
   color: black;
 }
 
-/* Active link (current page) */
 .links li a.active {
-  /* background-color: #4b49ac; */
-  /* background-color: #C06E52; */
   background-color: #06BEE1;
   font-weight: 600;
 }
 
-/* Collapsed state: hide links */
 .links.collapsed {
   max-height: 0;
   padding: 0;
@@ -112,7 +98,6 @@ nav {
   opacity: 0;
 }
 
-/* Mobile: show toggle button, stack links vertically */
 @media (max-width: 768px) {
 
   #toggle-btn {
@@ -137,8 +122,6 @@ nav {
     top: 100%;
     left: 0;
     right: 0;
-    /* background-color: #2e2950; */
-    /* border-top: 1px solid #353058; */
     opacity: 1;
   }
 
@@ -155,7 +138,6 @@ nav {
   }
 }
 
-/* Desktop: horizontal layout */
 @media (min-width: 769px) {
   .bar {
     justify-content: flex-start;
@@ -175,7 +157,6 @@ nav {
     margin: 0;
     max-height: none;
     opacity: 1;
-    /* background-color: #2e2950; */
   }
 
   .links li a {
