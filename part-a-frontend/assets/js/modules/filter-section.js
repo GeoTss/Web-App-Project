@@ -49,6 +49,10 @@ class ArrayFilterStrategy {
             this.push(value);
     }
 
+    length() {
+        return this.filters.length;
+    }
+
     isEmpty() {
         return this.filters.length === 0;
     }
@@ -153,6 +157,14 @@ export class FilterSectionManager {
             this.appendFilterElem(item);
         });
     }
+
+    getFiltersList() {
+        return this.filterStrat.filters;
+    }
+
+    length() {
+        return this.filterStrat.length();
+    }
 };
 
 export class FiltersController {
@@ -183,8 +195,20 @@ export class FiltersController {
         );
     }
 
+    getManagerById(id) {
+        return this.managersMap[id];
+    }
+
     populateManager(id, itemList) {
         this.managersMap[id].populateSection(itemList);
+    }
+
+    length() {
+        let sum = 0;
+        for (let manager of Object.values(this.managersMap))
+            sum += manager.length();
+
+        return sum;
     }
 };
 
