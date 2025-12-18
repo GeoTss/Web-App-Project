@@ -121,5 +121,21 @@ window.onload = () => {
 
     addFiltersChangeCallback(populateCategoryLessonContent);
 
+    const params = new URLSearchParams(window.location.search);
+
+    const encodedFilters = params.get('filters');
+
+    const filtersData = JSON.parse(encodedFilters);
+
+
+    Object.keys(filtersData.managersMap).forEach(key => {
+
+        if (filterController.managersMap[key]) {
+            filterController.managersMap[key].filterStrat.filters = filtersData.managersMap[key].filterStrat.filters;
+        }
+    });
+
+    console.log(filterController);
+
     populateCategoryLessonContent();
 };

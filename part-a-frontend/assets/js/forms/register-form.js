@@ -1,6 +1,5 @@
 import { FilterInputType, FilterLookup, FilterSectionManager, FiltersController, createFilterSection } from "../modules/filter-section.js"
-import { category_t } from "../modules/category-utils.js"
-import { difficulty_t } from "../modules/cards-utils.js"
+import { category_t, difficulty_t } from "../modules/category-utils.js"
 
 var filterManagers = [
     new FilterSectionManager(FilterLookup.DIFFICULTY, "difficulty", FilterInputType.CHECKBOX, (itemInfo, checkmarkElem) => {
@@ -21,46 +20,95 @@ document.getElementById("password").addEventListener("input", e => {
     document.getElementById("special").textContent = /[!@#$%^&*(),.?":{}|<>]/.test(password) ? " Has special character ✔" : " Has special character ✖";
 });
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 document.getElementById("submit-btn").addEventListener("click", e => {
     e.preventDefault();
 
-    const debug = true;
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const repeatPassword = document.getElementById("repeat-password").value;
 
-    if (!debug) {
-
-        if (password !== repeatPassword) {
-            alert("Passwords do not match.");
-            return;
-        }
-
-        let s = 0;
-        if (password.length >= 8) s++;
-        if (/[A-Z]/.test(password)) s++;
-        if (/[a-z]/.test(password)) s++;
-        if (/[0-9]/.test(password)) s++;
-        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) s++;
-
-        if (s < 5) {
-            alert("Password too weak.");
-            return;
-        }
+    if (!username || username.length === 0) {
+        alert("Username is not provided.");
+        return;
     }
-    
-    const filters = filterController;
-    if (filters.length === 0) {
+
+    if (!email || email.length === 0) {
+        alert("Email is not provided.");
+        return;
+    }
+
+    if (!emailRegex.test(email)) {
+        alert("Email is not in a correct format.");
+        return;
+    }
+
+    if (password !== repeatPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    let s = 0;
+    if (password.length >= 8) s++;
+    if (/[A-Z]/.test(password)) s++;
+    if (/[a-z]/.test(password)) s++;
+    if (/[0-9]/.test(password)) s++;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) s++;
+
+    if (s < 5) {
+        alert("Password too weak.");
+        return;
+    }
+
+    if (filterController.length() === 0) {
         alert("Please select at least one filter.");
         return;
     }
-    
+
     // Test sending the data to the courses page
     // Change for part 2
-    const encodedUser = btoa(JSON.stringify({ username, email, password }));
-    const encodedFilters = btoa(JSON.stringify(filters));
-    window.location.href = `courses.html?user=${encodedUser}&filters=${encodedFilters}`;
+
+    let confUsernameElem = document.getElementById("confirmation-username");
+    // console.log(confUsernameElem);
+    confUsernameElem.textContent = "Your username will be: " + username;
+
+    let confEmail = document.getElementById("confirmation-email");
+    confEmail.textContent = "The email you gave is: " + email;
+
+    let confPasswordElem = document.getElementById("confirmation-password");
+    confPasswordElem.textContent = "Your password will be: " + password;
+
+    let confDifficultyFilters = document.getElementById("confirmation-difficulty-filters");
+
+    let difMan = filterController.getManagerById(FilterLookup.DIFFICULTY);
+    let difStr = difMan.getFiltersList().map((value) => difficulty_t[value].name).join(", ");
+
+    confDifficultyFilters.textContent = "You want courses with these difficulties: " + difStr;
+
+    let confCategoryFilters = document.getElementById("confirmation-categories-filters");
+
+    let catMan = filterController.getManagerById(FilterLookup.CATEGORY);
+    let catStr = catMan.getFiltersList().map((value) => category_t[value].name).join(", ");
+
+    confCategoryFilters.textContent = "You are interested in these categories: " + catStr;
+
+    let confirmationElem = document.getElementById("confirmation-popup");
+    confirmationElem.classList.add("visible");
+
+
+    let goBackBtn = document.getElementById("btn-go-back");
+    goBackBtn.addEventListener("click", () => {
+        confirmationElem.classList.remove("visible");
+    });
+
+    let confirmBtn = document.getElementById("btn-confirm");
+    confirmBtn.addEventListener("click", () => {
+        const encodedUser = JSON.stringify({ username, email, password });
+        const encodedFilters = JSON.stringify(filterController);
+        window.location.href = `courses.html?user=${encodedUser}&filters=${encodedFilters}`;
+    })
 });
 
 
