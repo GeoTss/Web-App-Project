@@ -42,38 +42,37 @@ export const category_t = {
     [CategoryLookup.BLOCKCHAIN]: new Category("Blockchain & Web3", "#DAA520", CategoryLookup.BLOCKCHAIN)
 };
 
-function initializeGraph() {
-    const graph = {};
-
-    Object.keys(category_t).forEach((key) => {
-        graph[key] = [];
-    });
-
-    function connectEdge(src, dest) {
-        graph[src].push(dest);
-        graph[dest].push(src);
+class Difficulty {
+    constructor(id, name, baseColor, bannerColor, lineColor, value) {
+        this.id = id;
+        this.name = name;
+        this.baseColor = baseColor;
+        this.bannerColor = bannerColor;
+        this.lineColor = lineColor;
+        this.value = value;
     }
-
-    connectEdge(CategoryLookup.SYSTEMS_PROGRAMMING, CategoryLookup.EMBEDDED_SYSTEMS);
-    connectEdge(CategoryLookup.SYSTEMS_PROGRAMMING, CategoryLookup.NETWORKS);
-    connectEdge(CategoryLookup.SYSTEMS_PROGRAMMING, CategoryLookup.CYBERSECURITY);
-
-    connectEdge(CategoryLookup.WEB_DEVELOPMENT, CategoryLookup.APP_DEVELOPMENT);
-    connectEdge(CategoryLookup.WEB_DEVELOPMENT, CategoryLookup.DEVOPS);
-    connectEdge(CategoryLookup.DEVOPS, CategoryLookup.CLOUD_COMPUTING);
-    connectEdge(CategoryLookup.CLOUD_COMPUTING, CategoryLookup.NETWORKS);
-
-    connectEdge(CategoryLookup.DATA_SCIENCE, CategoryLookup.ARTIFICIAL_INTELLIGENCE);
-    connectEdge(CategoryLookup.DATA_SCIENCE, CategoryLookup.DATABASE_MANAGEMENT);
-
-    connectEdge(CategoryLookup.GRAPHICS_PROGRAMMING, CategoryLookup.GAME_DEVELOPMENT);
-    connectEdge(CategoryLookup.GAME_DEVELOPMENT, CategoryLookup.EMBEDDED_SYSTEMS);
-
-    connectEdge(CategoryLookup.ARTIFICIAL_INTELLIGENCE, CategoryLookup.QUANTUM_COMPUTING);
-    connectEdge(CategoryLookup.SYSTEMS_PROGRAMMING, CategoryLookup.QUANTUM_COMPUTING);
-    connectEdge(CategoryLookup.CYBERSECURITY, CategoryLookup.BLOCKCHAIN);
-
-    return graph;
 }
 
-export const similarityGraph = initializeGraph();
+export const DifficultyLookup = {
+    EASY: 0,
+    MEDIUM: 1,
+    HARD: 2,
+    DEMON: 3
+};
+
+export const difficulty_t = {
+    [DifficultyLookup.EASY]: new Difficulty(DifficultyLookup.EASY, "Easy", "green", "linear-gradient(135deg, #48bb78 0%, #38a169 100%)", "#38a169", 0),
+    [DifficultyLookup.MEDIUM]: new Difficulty(DifficultyLookup.MEDIUM, "Medium", "orange", "linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%)", "#d69e2e", 1),
+    [DifficultyLookup.HARD]: new Difficulty(DifficultyLookup.HARD, "Hard", "red", "linear-gradient(135deg, #f56565 0%, #c53030 100%)", "#c53030", 2),
+    [DifficultyLookup.DEMON]: new Difficulty(DifficultyLookup.DEMON, "Demon", "crimson", "linear-gradient(135deg, #DC143C 0%, #8B0000 100%)", "#8B0000", 3)
+}
+
+export const resourceTypeLookup = {
+    BOOK: 0,
+    VIDEO: 1
+};
+
+export const resourceType_t = {
+    [resourceTypeLookup.BOOK]: new Category("Book", "", resourceTypeLookup.BOOK),
+    [resourceTypeLookup.VIDEO]: new Category("Video", "", resourceTypeLookup.VIDEO)
+};

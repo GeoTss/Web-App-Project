@@ -7,7 +7,7 @@ const linksList = document.createElement("ul");
 const navLinks = [
     { text: "Home", href: "index.html" },
     { text: "About", href: "about.html" },
-    { text: "Books", href: "books.html" },
+    { text: "Books & Videos", href: "books.html" },
     { text: "Courses", href: "courses.html" },
     { text: "Register", href: "register.html" },
     { text: "Login", href: "login.html" }
@@ -28,6 +28,7 @@ toggleBtn.id = "toggle-btn";
 toggleBtn.innerHTML = "&#9650;";
 logo.classList.add("logo");
 logo.textContent = "Clueless Code Learning";
+linksList.id = "nav-links-list";
 linksList.classList.add("links");
 
 bar.appendChild(toggleBtn);

@@ -1,6 +1,6 @@
-import { FilterInputType, FilterLookup, FilterSectionManager, FiltersController, createFilterSection } from "../data/modules/filter-section.js"
-import { category_t } from "../data/modules/category-utils.js"
-import { difficulty_t } from "../data/modules/cards-utils.js"
+import { FilterInputType, FilterLookup, FilterSectionManager, FiltersController, createFilterSection } from "../modules/filter-section.js"
+import { category_t } from "../modules/category-utils.js"
+import { difficulty_t } from "../modules/cards-utils.js"
 
 var filterManagers = [
     new FilterSectionManager(FilterLookup.DIFFICULTY, "difficulty", FilterInputType.CHECKBOX, (itemInfo, checkmarkElem) => {

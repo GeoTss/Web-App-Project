@@ -23,14 +23,7 @@
     transform: translateY(0%);
 }
 
-#difficulty-filters {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-#category-filters {
+.filters-list {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
@@ -61,14 +54,7 @@
         transform: translateY(0);
     }
 
-    #difficulty-filters {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    #category-filters {
+    .filters-list {
         margin-top: 1rem;
         display: flex;
         flex-direction: row;

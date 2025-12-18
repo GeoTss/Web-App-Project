@@ -8,18 +8,17 @@ export class FilterInfo {
 export const FilterLookup = {
     CATEGORY: 0,
     DIFFICULTY: 1,
-    RATING: 2
+    RESOURCE_TYPE: 2
 };
 
 export const CourseFiltersInfo_t = {
     [FilterLookup.CATEGORY]: new FilterInfo("categoryLookupId", 0),
     [FilterLookup.DIFFICULTY]: new FilterInfo("difficultyLookupId", 1),
-    [FilterLookup.RATING]: new FilterInfo("ratingLookupId", 1)
+    [FilterLookup.RESOURCE_TYPE]: new FilterInfo("resourceTypeLookupId", 2)
 };
 
 export const FilterInputType = {
-    CHECKBOX: 0,
-    RANGE: 1,
+    CHECKBOX: 0
 };
 
 class ArrayFilterStrategy {
@@ -100,13 +99,8 @@ function createCheckboxInput(filterManager, itemInfo) {
     return filterDiv;
 }
 
-function createRangeInput(filterManager, itemInfo) {
-
-}
-
 const createInputElem = {
     [FilterInputType.CHECKBOX]: createCheckboxInput,
-    [FilterInputType.RANGE]: createRangeInput
 }
 
 export class FilterSectionManager {
@@ -127,7 +121,7 @@ export class FilterSectionManager {
         this.parentElem = parentElem;
 
         let sectionWrap = document.createElement("div");
-        let wrapId = `${this.name}-filters-wrap`;
+        let wrapId = `${this.name.replaceAll(' ', '-')}-filters-wrap`;
         sectionWrap.id = wrapId;
 
         let sectionHeader = document.createElement("h3");
@@ -137,8 +131,9 @@ export class FilterSectionManager {
         sectionWrap.appendChild(sectionHeader);
 
         let filterSection = document.createElement("div");
-        let sectionId = `${this.name}-filters`;
-        filterSection.id = sectionId;
+        filterSection.classList.add("filters-list");
+        // let sectionId = `filters-list`;
+        // filterSection.id = sectionId;
 
         sectionWrap.appendChild(filterSection);
 
@@ -195,20 +190,6 @@ export class FiltersController {
 
 function createFilterContainer() {
     let filtersContainer = document.getElementById("filters-wrapper");
-
-    if (window.innerWidth < 700) {
-
-        let showBtnWrap = document.getElementById("show-filter-btn-wrap");
-
-        let showFiltersButton = document.createElement("button");
-        showFiltersButton.classList.add("show-filters-btn")
-
-        showFiltersButton.addEventListener("click", () => {
-            filtersContainer.classList.toggle("visible");
-        });
-
-        showBtnWrap.appendChild(showFiltersButton);
-    }
 
     return filtersContainer;
 }
