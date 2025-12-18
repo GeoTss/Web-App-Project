@@ -127,15 +127,18 @@ window.onload = () => {
 
     const filtersData = JSON.parse(encodedFilters);
 
+    if (filtersData) {
+        Object.keys(filtersData.managersMap).forEach(key => {
 
-    Object.keys(filtersData.managersMap).forEach(key => {
+            if (filterController.managersMap[key]) {
+                filterController.managersMap[key].filterStrat.filters = filtersData.managersMap[key].filterStrat.filters;
+            }
+        });
+        filterController.updateFiltersInputElems();
+    }
 
-        if (filterController.managersMap[key]) {
-            filterController.managersMap[key].filterStrat.filters = filtersData.managersMap[key].filterStrat.filters;
-        }
-    });
-
-    console.log(filterController);
+    console.log("Update filterController: ");
+    console.log(filterController)
 
     populateCategoryLessonContent();
 };

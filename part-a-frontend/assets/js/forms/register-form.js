@@ -30,6 +30,9 @@ document.getElementById("submit-btn").addEventListener("click", e => {
     const password = document.getElementById("password").value;
     const repeatPassword = document.getElementById("repeat-password").value;
 
+    // let debug = true;
+
+    // if (!debug) {
     if (!username || username.length === 0) {
         alert("Username is not provided.");
         return;
@@ -66,6 +69,7 @@ document.getElementById("submit-btn").addEventListener("click", e => {
         alert("Please select at least one filter.");
         return;
     }
+    // }
 
     // Test sending the data to the courses page
     // Change for part 2

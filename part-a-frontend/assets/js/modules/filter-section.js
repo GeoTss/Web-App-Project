@@ -210,6 +210,22 @@ export class FiltersController {
 
         return sum;
     }
+
+    updateFiltersInputElems() {
+        Object.values(this.managersMap).forEach((manager) => {
+            let checkboxesElems = manager.selfElem.getElementsByClassName("checkbox-wrapper");
+            console.log(checkboxesElems);
+
+            for (let elem of checkboxesElems) {
+                let inputElem = elem.getElementsByTagName("input")[0];
+                let inputId = parseInt(inputElem.id.split('-')[2], 10);
+
+                console.log("Checking input elem " + inputId);
+
+                inputElem.checked = manager.filterStrat.includes(inputId);
+            }
+        });
+    }
 };
 
 function createFilterContainer() {
