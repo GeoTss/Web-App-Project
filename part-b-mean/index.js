@@ -1,14 +1,30 @@
+// IMPORTZ
+require('dotenv').config();
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const mongoose = require('mongoose');
 const User = require('./models/user.model.js');
 const path = require('path');
-//  I LOVE HARDCODING CREDENTIALS IN MY CODE LOL
-const uname = "AuebHustler2025";
-const pwd = "AUebHust13r%3F";
-const uri = `mongodb+srv://${uname}:${pwd}@webappprojectaueb.ms7f1ey.mongodb.net/?appName=WebAppProjectAueb`;
 
+// CONFIGZ
+const port = process.env.PORT || 3000;
+const uname = process.env.MONGO_USERNAME;
+const pwd = process.env.MONGO_PASSWORD;
+const uri = `mongodb+srv://${uname}:${encodeURIComponent(pwd)}@webappprojectaueb.ms7f1ey.mongodb.net/?appName=WebAppProjectAueb`;  
+
+// MONGOLOS CONNECT
+mongoose.connect(uri, {
+  serverSelectionTimeoutMS: 5000,
+})
+.then(() => {
+  console.log('Mongo is running on roids!');
+})
+.catch(err => {
+  console.error('Mongo connect failed:', err);
+  process.exit(1);
+});
+
+// Our app :D 
 const app = express();
-const PORT = 3000;
 
 // Middleware
 app.use(express.json());
@@ -17,49 +33,18 @@ app.use(express.urlencoded({ extended: false }));
 // Absolute path to part-a-frontend
 const frontendPath = path.join(__dirname, '..', 'part-a-frontend');
 
+// Api routing
+app.use('/api/users', require('./routes/user.routes'));
+
 // Serve frontend
 app.use(express.static(frontendPath));
-
-// Handle frontend routes
 app.use((req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
 
 
-app.post('/register', async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    res.status(201).send('User registered successfully');
-  } catch (error) {
-    res.status(500).send('Error registering user');
-  }
-});
-
-
-// DB Connection Setup
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);

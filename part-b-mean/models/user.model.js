@@ -18,14 +18,7 @@ const UserSchema = Schema(
         password: {
             type: String,
             required: true,
-            unique: true,
         },
-
-        preferences: {
-            type: Map,
-            of: String,
-            unique: false,
-        }
     },  
     {
         timestamps: true,
