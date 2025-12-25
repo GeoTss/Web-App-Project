@@ -13,8 +13,8 @@ async function seed() {
     await User.deleteMany({});
 
     const users = [
-      { username: 'alice', email: 'alice@test.com', password: await bcrypt.hash('alice123', 10) },
-      { username: 'bob', email: 'bob@test.com', password: await bcrypt.hash('bob123', 10) },
+      { username: 'BigTso', email: 'roids@auebhustler.com', password: await bcrypt.hash('nosecurity', 10) },
+      { username: 'Toto', email: 'toto@auebhustler.com', password: await bcrypt.hash('roidrageforthewin', 10) },
     ];
 
     await User.insertMany(users);
