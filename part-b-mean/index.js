@@ -11,7 +11,7 @@ const uname = process.env.MONGO_USERNAME;
 const pwd = process.env.MONGO_PASSWORD;
 const uri = `mongodb+srv://${uname}:${encodeURIComponent(pwd)}@webappprojectaueb.ms7f1ey.mongodb.net/?appName=WebAppProjectAueb`;  
 
-// MONGOLOS CONNECT
+// MONGOL-OS CONNECT
 mongoose.connect(uri, {
   serverSelectionTimeoutMS: 5000,
 })
@@ -36,7 +36,34 @@ const frontendPath = path.join(__dirname, '..', 'part-a-frontend');
 // Api routing
 app.use('/api/users', require('./routes/user.routes'));
 
-// Serve frontend
+
+// Pages
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'register.html'));
+});
+
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'about.html'));
+});
+
+app.get('/books-videos', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'books.html'));
+});
+
+app.get('/courses', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'courses.html'));
+});
+
+// Static Files
 app.use(express.static(frontendPath));
 app.use((req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));

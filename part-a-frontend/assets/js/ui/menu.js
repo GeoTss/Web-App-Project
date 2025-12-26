@@ -5,12 +5,12 @@ const logo = document.createElement("div");
 const linksList = document.createElement("ul");
 
 const navLinks = [
-    { text: "Home", href: "index.html" },
-    { text: "About", href: "about.html" },
-    { text: "Books & Videos", href: "books.html" },
-    { text: "Courses", href: "courses.html" },
-    { text: "Register", href: "register.html" },
-    { text: "Login", href: "login.html" }
+    { text: "Home", href: "/" },
+    { text: "About", href: "about" },
+    { text: "Books & Videos", href: "books-videos" },
+    { text: "Courses", href: "courses" },
+    { text: "Register", href: "register" },
+    { text: "Login", href: "login" }
 ];
 
 for (const linkInfo of navLinks) {
@@ -44,10 +44,17 @@ toggleBtn.addEventListener("click", () => {
     toggleBtn.innerHTML = isCollapsed ? "&#9660;" : "&#9650;";
 });
 
-const path = window.location.pathname;
-const page = path.split("/").pop();
+const currentPath = window.location.pathname;
 
-const linkItems = linksList.getElementsByTagName("a");
+for (const linkElem of linkItems) {
+  if (linkElem.getAttribute("href") === currentPath) {
+    linkElem.classList.add("active");
+  } else {
+    linkElem.classList.remove("active");
+  }
+}
+
+
 for (const linkElem of linkItems) {
     if (linkElem.getAttribute("href") === page) {
         linkElem.classList.add("active");

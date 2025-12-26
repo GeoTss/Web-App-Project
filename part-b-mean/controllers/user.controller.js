@@ -2,12 +2,26 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
 
+// Register Controller
+exports.register = async (req, res) => {
+  const { username, email, password } = req.body;
+  
+  const existingUser = await User.findOne({ $or: [ { username }, { email } ] });
+  
+  if (existingUser) {
+    return res.status(400).json({ message: 'Username or email already exists' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = new User({ username, email, password: hashedPassword });
+  await newUser.save();
+
+  res.status(201).json({ message: 'User registered successfully' });
+}
+
+// Login Controller
 exports.login = async (req, res) => {
   const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Missing credentials' });
-  }
 
   const user = await User.findOne({ username : username });
   if (!user) {

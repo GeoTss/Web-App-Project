@@ -10,7 +10,6 @@ var filterManagers = [
 
 var filterController = new FiltersController(filterManagers);
 
-
 document.getElementById("password").addEventListener("input", e => {
     const password = e.target.value;
     document.getElementById("longer").textContent = password.length >= 8 ? " Is longer than 8 characters ✔" : " Is longer than 8 characters ✖";
@@ -108,10 +107,28 @@ document.getElementById("submit-btn").addEventListener("click", e => {
     });
 
     let confirmBtn = document.getElementById("btn-confirm");
-    confirmBtn.addEventListener("click", () => {
-        const encodedUser = JSON.stringify({ username, email, password });
-        const encodedFilters = JSON.stringify(filterController);
-        window.location.href = `courses.html?user=${encodedUser}&filters=${encodedFilters}`;
+    confirmBtn.addEventListener("click", async() => {
+        try {
+            const res = await fetch('/api/users/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, email, password })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                message.textContent = data.message;
+            return;
+            }
+
+            message.textContent = 'Register successful';
+
+        } catch (err) {
+            message.textContent = 'Server error';
+        }
     })
 });
 
