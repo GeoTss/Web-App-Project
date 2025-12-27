@@ -1,7 +1,6 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
-
 // Register Controller
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -15,6 +14,11 @@ exports.register = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new User({ username, email, password: hashedPassword });
   await newUser.save();
+
+  req.session.user = {
+    id: newUser._id,
+    username: newUser.username
+  };
 
   res.status(201).json({ message: 'User registered successfully' });
 }
@@ -33,11 +37,24 @@ exports.login = async (req, res) => {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
+  req.session.user = {
+    id: user._id,
+    username: user.username
+  };
+
   res.status(200).json({
     message: 'Login successful',
     user: {
       username: user.username,
       email: user.email,
     },
+  });
+};
+
+// Logout Controller
+exports.logout = (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('webapp.sid');
+    res.status(200).json({ message: 'Logged out' });
   });
 };

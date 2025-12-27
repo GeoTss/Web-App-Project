@@ -3,6 +3,7 @@ const bar = document.createElement("div");
 const toggleBtn = document.createElement("button");
 const logo = document.createElement("div");
 const linksList = document.createElement("ul");
+const accountBtn = document.createElement("button");
 
 const navLinks = [
     { text: "Home", href: "/" },
@@ -30,9 +31,12 @@ logo.classList.add("logo");
 logo.textContent = "Clueless Code Learning";
 linksList.id = "nav-links-list";
 linksList.classList.add("links");
+accountBtn.id = "account-btn";
+accountBtn.textContent = "Account";
 
 bar.appendChild(toggleBtn);
 bar.appendChild(logo);
+bar.appendChild(accountBtn);
 navbar.appendChild(bar);
 navbar.appendChild(linksList);
 
@@ -42,6 +46,10 @@ toggleBtn.addEventListener("click", () => {
     linksList.classList.toggle("collapsed");
     const isCollapsed = linksList.classList.contains("collapsed");
     toggleBtn.innerHTML = isCollapsed ? "&#9660;" : "&#9650;";
+});
+
+accountBtn.addEventListener("click", () => {
+    window.location.href = "/login";
 });
 
 const currentPath = window.location.pathname;

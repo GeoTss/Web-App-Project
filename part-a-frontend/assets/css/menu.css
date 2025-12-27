@@ -168,6 +168,28 @@ nav {
   }
 }
 
+#account-btn {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+}
+
+#account-btn:hover {
+  background-color: #97EAD2;
+  color: black;
+}
+
+
+
 /* Footer */
 
 .footer {

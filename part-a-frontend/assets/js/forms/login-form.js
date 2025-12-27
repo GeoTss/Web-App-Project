@@ -12,6 +12,12 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify({ username, password }),
         });
         const data = await res.json();
+        // redirect the user to /api/users/profile
+        // if (res.ok) {
+        //     window.location.href = '/profile';
+        // } else {
+        //     alert(data.message || 'Login failed');
+        // }
     } catch (err) {
         console.error('Error during login:', err);
     }
