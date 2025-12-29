@@ -1,0 +1,27 @@
+{
+  "name": "part-b-mean",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "author": "TSOTO",
+  "description": "the server duhh",
+  "scripts": {
+    "dev": "vite",
+    "devN": "nodemon index.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "seed": "node seedUsers.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "mongoose": "^9.0.2",
+    "vite": "^7.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

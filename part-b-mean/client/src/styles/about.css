@@ -1,0 +1,154 @@
+.page-about body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    padding-top: 70px;
+}
+
+.page-about .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px 100px;
+}
+
+.page-about .hero-section {
+    text-align: center;
+    padding: 60px 20px;
+    margin: 160px;
+    margin-bottom: 200px;
+    animation: fadeIn 1s ease-in;
+}
+
+.page-about .page-title {
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.page-about .hero-text {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: #ffffff;
+    max-width: 900px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.page-about .content-grid {
+    display: grid;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-about .content-card {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.8s ease-in;
+}
+
+.page-about .content-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.page-about .content-card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.page-about .card-image {
+    flex: 0 0 45%;
+    margin: 0;
+}
+
+.page-about .card-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.page-about .content-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.page-about .card-content {
+    flex: 1;
+}
+
+.page-about .card-title {
+    color: #272343;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.page-about .card-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-about body {
+        padding-top: 60px;
+    }
+
+    .page-about .hero-section {
+        margin: 80px 20px;
+        padding: 40px 20px;
+    }
+
+    .page-about .page-title {
+        font-size: 2.5rem;
+    }
+
+    .page-about .hero-text {
+        font-size: 1.1rem;
+    }
+
+    .page-about .content-card,
+    .page-about .content-card:nth-child(even) {
+        flex-direction: column;
+        padding: 30px 20px;
+    }
+
+    .page-about .card-image {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    .page-about .card-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .page-about .card-text {
+        font-size: 1rem;
+        text-align: center;
+    }
+}
