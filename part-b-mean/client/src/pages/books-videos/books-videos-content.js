@@ -1,6 +1,6 @@
 import { CategoryLookup, category_t, resourceTypeLookup } from "../../modules/category-utils.js";
 
-function getCategoryTag(id) {
+export function getCategoryTag(id) {
     const cat = category_t[id];
     return {
         categoryLookupId: id,

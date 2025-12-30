@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const { CategoryLookup } = require('./constants');
+const { resourceTypeLookup } = require('../../client/src/modules/category-utils');
 
 const ResourceSchema = Schema(
     {
         type: {
             type: String,
             required: true,
-            enum: ['BOOK', 'VIDEO'],
+            enum: [resourceTypeLookup.BOOK, resourceTypeLookup.VIDEO],
         },
         title: {
             type: String,

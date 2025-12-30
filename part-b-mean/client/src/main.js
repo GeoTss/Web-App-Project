@@ -5,7 +5,7 @@ import { renderCourseDetails } from './pages/course-details/course-details.js';
 import { renderBooksVideos } from './pages/books-videos/books-videos.js';
 import { renderRegister } from './pages/register/register.js';
 import { renderLogin } from './pages/login/login.js';
-// import renderProfile from './pages/profile/profile.js';
+import { renderProfile } from './pages/profile/profile.js';
 
 import './styles/about.css';
 import './styles/books-videos.css';
@@ -17,7 +17,7 @@ import './styles/layout.css';
 import './styles/login.css';
 import './styles/menu.css';
 import './styles/register.css';
-// import './styles/profile.css';
+import './styles/profile.css';
 
 import { renderMenu } from './components/menu.js';
 
@@ -29,7 +29,7 @@ const routes = {
     '/courses': renderCourses,
     '/course-details': renderCourseDetails,
     '/books-videos': renderBooksVideos,
-    // '/profile': renderProfile
+    '/profile': renderProfile
 };
 
 function router() {

@@ -62,8 +62,15 @@ export function renderMenu() {
   });
 
   accountBtn.addEventListener('click', () => {
-    window.history.pushState({}, '', '/login');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    // if user authenticated send to profile page
+    if (accountBtn.textContent !== 'Account') {
+      window.history.pushState({}, '', '/profile');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      return;
+    } else {  
+      window.history.pushState({}, '', '/login');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }
   });
 
   const currentPath = window.location.pathname;

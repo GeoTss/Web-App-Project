@@ -1,3 +1,4 @@
+import { renderFooter } from '../../components/footer.js';
 const path = 'imagesA';
 
 export function renderAbout() {
