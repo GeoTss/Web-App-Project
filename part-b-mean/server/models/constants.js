@@ -1,0 +1,24 @@
+export const DifficultyLookup = {
+    EASY: 0,
+    MEDIUM: 1,
+    HARD: 2,
+    DEMON: 3
+};
+
+export const CategoryLookup = {
+    SYSTEMS_PROGRAMMING: 0,
+    GRAPHICS_PROGRAMMING: 1,
+    APP_DEVELOPMENT: 2,
+    WEB_DEVELOPMENT: 3,
+    DATA_SCIENCE: 4,
+    NETWORKS: 5,
+    CYBERSECURITY: 6,
+    ARTIFICIAL_INTELLIGENCE: 7,
+    CLOUD_COMPUTING: 8,
+    GAME_DEVELOPMENT: 9,
+    EMBEDDED_SYSTEMS: 10,
+    DATABASE_MANAGEMENT: 11,
+    DEVOPS: 12,
+    QUANTUM_COMPUTING: 13,
+    BLOCKCHAIN: 14
+};
