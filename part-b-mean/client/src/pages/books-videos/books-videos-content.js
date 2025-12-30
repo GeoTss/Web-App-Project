@@ -1,4 +1,4 @@
-import { CategoryLookup, category_t, resourceTypeLookup } from "../modules/category-utils.js";
+import { CategoryLookup, category_t, resourceTypeLookup } from "../../modules/category-utils.js";
 
 function getCategoryTag(id) {
     const cat = category_t[id];
@@ -10,7 +10,7 @@ function getCategoryTag(id) {
     };
 }
 
-const path = "../pages/books-videos/images/";
+const path = "./images/";
 const SAMPLE_VIDEO_URL = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
 export const resources = [

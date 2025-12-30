@@ -1,13 +1,10 @@
 import { initLoginForm } from '../../components/forms/login-form.js';
-import { renderMenu } from '../../components/menu.js';
-import { renderFooter } from '../../components/footer.js';
 
 export function renderLogin() {
   const app = document.getElementById('app');
 
   app.innerHTML = `
     <div class="page-login">
-        <div id="navbar-container"></div>
         <div class="help">
             <div class="wrapper" id="login-wrapper">
                 <form id="login-form">
@@ -26,7 +23,6 @@ export function renderLogin() {
     </div>
   `;
 
-  renderMenu();
   initLoginForm();
 //   renderFooter();
 }

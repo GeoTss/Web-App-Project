@@ -62,4 +62,4 @@ export const cardsList = [
         DifficultyLookup.MEDIUM,
         CategoryLookup.CLOUD_COMPUTING
     )
-];
+];  

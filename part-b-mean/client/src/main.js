@@ -18,6 +18,8 @@ import './styles/login.css';
 import './styles/menu.css';
 import './styles/layout.css';
 
+import { renderMenu } from './components/menu.js';
+
 const routes = {
     '/': renderHome,
     '/about': renderAbout,
@@ -54,3 +56,4 @@ document.addEventListener('click', (e) => {
 
 document.addEventListener('DOMContentLoaded', router);
 window.addEventListener('popstate', router);
+renderMenu();

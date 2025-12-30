@@ -1,4 +1,7 @@
 export function renderFooter() {
+  if (document.querySelector('footer')) {
+    return;
+  }
   const footer = document.createElement('footer');
   footer.className = 'footer';
   footer.innerHTML = `

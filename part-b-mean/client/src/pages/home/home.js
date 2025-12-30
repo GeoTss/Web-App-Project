@@ -1,13 +1,11 @@
-import { renderMenu } from '../../components/menu.js';
 import { renderFooter } from '../../components/footer.js';
+import { renderContactForm } from '../../components/forms/contact-form.js';
 
 export function renderHome() {
   const app = document.getElementById('app');
 
   app.innerHTML = `
     <div class="page-home">
-      <div id="navbar-container"></div>
-
       <section class="hero">
         <h1>Welcome to Clueless Code Learning</h1>
         <p>
@@ -31,11 +29,33 @@ export function renderHome() {
         <p>Our team of professional procrastinators has spent countless hours (mostly on social media) creating content that will leave you more confused than when you started. From outdated tutorials to broken code examples, we've got it all. Join thousands of confused students who have chosen mediocrity over excellence.</p>
       </article>
 
-      ${contactHTML()}
+      <section class="contact-section" style="flex:1 1 420px; padding:0; margin:0; max-width:none;">
+        <h2>Contact Us</h2>
+        <p>Have questions? Complaints? Want to tell us how terrible we are? Fill out the form below!</p>
+        <form class="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </section>
     </div>
   `;
 
-  renderMenu();
+  renderContactForm();
   renderFooter();
 }
 
@@ -61,18 +81,4 @@ function cardsHTML() {
       </div>
     `
   ).join('');
-}
-
-function contactHTML() {
-  return `
-    <section class="contact-section">
-      <h2>Contact Us</h2>
-      <form class="contact-form">
-        <input id="name" placeholder="Name" />
-        <input id="email" placeholder="Email" />
-        <textarea id="message"></textarea>
-        <button class="btn btn-primary">Send Message</button>
-      </form>
-    </section>
-  `;
 }

@@ -5,7 +5,6 @@ export function renderAbout() {
 
   app.innerHTML = `
     <div class="page-about">
-    <div id="navbar-container"></div>
       <section class="hero-section">
         <h1 class="page-title">About Us</h1>
         <p class="hero-text">
@@ -30,7 +29,7 @@ export function renderAbout() {
     </div>
   `;
 
-  renderMenu();
+  renderFooter();
 }
 
 const articlesData = [

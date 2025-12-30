@@ -1,14 +1,10 @@
-import { renderMenu } from '../../components/menu.js';
-// import { initRegisterForm } from '../../components/forms/register-form.js';
-// import { initFilters } from '../../modules/filter-section.js';
+import { initRegisterForm } from '../../components/forms/register-form.js';
 
 export function renderRegister() {
   const app = document.getElementById('app');
 
   app.innerHTML = `
     <div class="page-register">
-      <div id="navbar-container"></div>
-
       <div class="help">
         <div class="second-wrap">
           <div class="wrapper" id="register-wrapper">
@@ -58,7 +54,6 @@ export function renderRegister() {
     </div>
   `;
 
-  renderMenu();
-//   initRegisterForm();
+  initRegisterForm();
 //   initFilters();
 }
