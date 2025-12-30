@@ -1,4 +1,4 @@
-const path = '../public/imagesA';
+const path = 'imagesA';
 
 export function renderAbout() {
   const app = document.getElementById('app');
