@@ -5,6 +5,7 @@ function requireAuth(req, res, next) {
   next();
 }
 
+// HYPER VULN FUNCTION MOMENT
 function requireAdmin(req, res, next) {
   if (!req.session.user || !req.session.user.isAdmin) {
     return res.status(403).json({ message: 'Forbidden' });
