@@ -38,7 +38,7 @@ app.use(session({
 
 // Api routing
 app.use('/api/users', require('./routes/user.routes'));
-// app.use('/api/courses', require('./routes/course.routes'));
+app.use('/api/courses', require('./routes/course.routes'));
 app.use('/api/enrollments', require('./routes/enrollment.routes'));
 // app.use('/api/resources', require('./routes/resource.routes'));
 
@@ -47,5 +47,3 @@ app.use('/api/enrollments', require('./routes/enrollment.routes'));
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-

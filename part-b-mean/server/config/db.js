@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const uname = process.env.MONGO_USERNAME;
-const pwd = process.env.MONGO_PASSWORD;
-const uri = process.env.MONGO_URI || `mongodb+srv://${uname}:${encodeURIComponent(pwd)}@webappprojectaueb.ms7f1ey.mongodb.net/?appName=WebAppProjectAueb`;  
+const uri = process.env.MONGO_URI;
 
 async function connectDB() {
 

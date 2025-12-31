@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
 };
 
 // Logout
-exports.logout = (req, res) => {
+exports.logout = async (req, res) => {
   req.session.destroy(() => {
     res.clearCookie('webapp.sid');
     res.json({ message: 'Logged out' });
@@ -66,6 +66,45 @@ exports.logout = (req, res) => {
 };
 
 // Current user
-exports.getCurrentUser = (req, res) => {
+exports.getCurrentUser = async (req, res) => {
   res.json(req.session.user);
+};
+
+// Update user profile
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    const { email, password } = req.body;
+
+    const updateData = {};
+    if (email) updateData.email = email;
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateData.password = hashedPassword;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
+
+    req.session.user.email = updatedUser.email;
+
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Delete user
+exports.deleteUser = async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+
+    await User.findByIdAndDelete(userId);
+
+    req.session.destroy(() => {
+      res.clearCookie('webapp.sid');
+      res.status(200).json({ message: 'User deleted successfully' });
+    });
+  } catch {
+    res.status(500).json({ message: 'Server error' });
+  }
 };

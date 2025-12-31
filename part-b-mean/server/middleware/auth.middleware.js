@@ -5,4 +5,11 @@ function requireAuth(req, res, next) {
   next();
 }
 
-module.exports = requireAuth;
+function requireAdmin(req, res, next) {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+  next();
+}
+
+module.exports = { requireAuth, requireAdmin };
