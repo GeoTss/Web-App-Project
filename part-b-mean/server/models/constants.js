@@ -22,3 +22,14 @@ export const CategoryLookup = {
     QUANTUM_COMPUTING: 13,
     BLOCKCHAIN: 14
 };
+
+export const ResourceTypeLookup = {
+    BOOK: 0,
+    VIDEO: 1
+};
+
+export const ENROLLMENT_STATES = {
+    ENROLLED: 0,
+    COMPLETED: 1,
+    DROPPED: 2
+};

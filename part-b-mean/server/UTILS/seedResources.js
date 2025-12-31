@@ -90,5 +90,3 @@ async function seedResources() {
     process.exit(1);
   }
 }
-
-seedResources();

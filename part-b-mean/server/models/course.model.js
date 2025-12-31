@@ -28,10 +28,10 @@ const CourseSchema = Schema(
             required: true,
             enum: Object.values(CategoryLookup),
         },
-        color: {
-            type: String,
-            required: false,
-        },
+        // color: {
+        //     type: String,
+        //     required: false,
+        // },
     }, 
     {
         timestamps: true,

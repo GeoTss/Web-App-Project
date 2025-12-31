@@ -2,27 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Course = require('../models/course.model');
 const { DifficultyLookup, CategoryLookup } = require('../../client/src/modules/category-utils.js');
-const uname = process.env.MONGO_USERNAME;
-const pwd = process.env.MONGO_PASSWORD;
-const uri = process.env.MONGO_URI || `mongodb+srv://${uname}:${encodeURIComponent(pwd)}@webappprojectaueb.ms7f1ey.mongodb.net/?appName=WebAppProjectAueb`;  
-
-// const colors = [
-//     "#708090",
-//     "#DA70D6",
-//     "#FF8C00",
-//     "#2E8B57",
-//     "#20B2AA",
-//     "#4169E1",
-//     "#8B0000",
-//     "#9932CC",
-//     "#00BFFF",
-//     "#FF1493",
-//     "#556B2F",
-//     "#4682B4",
-//     "#FF4500",
-//     "#4B0082",
-//     "#DAA520",
-// ];
+const connectDB = require('../config/db.js')
 
 const courses = [
     {
@@ -97,22 +77,16 @@ const courses = [
     }
 ];
 
-async function seedCourses() {
-  try {
-    await mongoose.connect(uri);
-    console.log('Connected to MongoDB');
-
-    await Course.deleteMany({});
-    console.log('Old courses removed');
-
-    await Course.insertMany(courses);
-    console.log('Courses seeded successfully');
-
-    process.exit(0);
-  } catch (err) {
-    console.error('Seeding failed:', err);
-    process.exit(1);
-  }
-}
-
-seedCourses();
+(async () => {
+    try {
+        await connectDB();
+        await Course.deleteMany({});
+        console.log('Old courses removed');
+        await Course.insertMany(courses);
+        console.log('Courses seeded successfully');
+        process.exit(0);
+    } catch (err) {
+        console.error('Seeding failed:', err);
+        process.exit(1);
+    }
+})();
