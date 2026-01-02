@@ -2,7 +2,7 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
 // Register
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
 
@@ -37,7 +37,7 @@ exports.register = async (req, res) => {
 };
 
 // Login
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
@@ -68,8 +68,11 @@ exports.login = async (req, res) => {
 };
 
 // Logout
-exports.logout = async (req, res) => {
-  req.session.destroy(() => {
+exports.logout = async (req, res, next) => {
+  req.session.destroy((error) => {
+    if (error) {
+      return next(error);
+    }
     res.clearCookie('webapp.sid');
     res.json({ message: 'Logged out' });
   });
@@ -82,17 +85,17 @@ exports.getCurrentUser = (req, res, next) => {
     err.statusCode = 401;
     return next(err);
   }
-
   res.status(200).json(req.session.user);
 };
 
 // Update user profile
-exports.updateUserProfile = async (req, res) => {
+exports.updateUserProfile = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     const updateData = {};
+    if (username) updateData.username = username;
     if (email) updateData.email = email;
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -110,13 +113,16 @@ exports.updateUserProfile = async (req, res) => {
 };
 
 // Delete user
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
 
     await User.findByIdAndDelete(userId);
 
-    req.session.destroy(() => {
+    req.session.destroy((error) => {
+      if (error) {
+        return next(error);
+      }
       res.clearCookie('webapp.sid');
       res.status(200).json({ message: 'User deleted successfully' });
     });
