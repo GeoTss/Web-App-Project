@@ -1,16 +1,19 @@
-function requireAuth(req, res, next) {
+exports.requireAuth = (req, res, next) => {
   if (!req.session.user) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    const err = new Error('Unauthorized');
+    err.statusCode = 401;
+    return next(err);
   }
   next();
-}
+};
 
 // HYPER VULN FUNCTION MOMENT
-function requireAdmin(req, res, next) {
+exports.requireAdmin = (req, res, next) => {
   if (!req.session.user || !req.session.user.isAdmin) {
-    return res.status(403).json({ message: 'Forbidden' });
+    const err = new Error('Forbidden');
+    err.statusCode = 403;
+    return next(err);
   }
   next();
 }
 
-module.exports = { requireAuth, requireAdmin };

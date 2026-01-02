@@ -1,12 +1,10 @@
 // IMPORTZ
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const User = require('./models/user.model.js');
-const path = require('path');
 const session = require('express-session');
 const { MongoStore } = require('connect-mongo');
 const connectDB = require('./config/db.js');
+const errorHandler = require('./middleware/error.handler.middleware.js');
 
 const port = process.env.PORT || 3000;
 
@@ -34,6 +32,7 @@ app.use(session({
     maxAge: 1000 * 60 * 60
   }
 }));
+app.use(errorHandler)
 
 
 // Api routing

@@ -1,6 +1,6 @@
 const express = require('express');
 const courseController = require('../controllers/course.controller');
-const requireAdmin  = require('../middleware/auth.middleware');
+const { requireAdmin }  = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
