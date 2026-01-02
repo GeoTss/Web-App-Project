@@ -15,6 +15,23 @@ exports.getEnrollmentsByUser = async (req, res, next) => {
   }
 };
 
+exports.getEnrollmentByCourseId = async (req, res, next) => {
+  try {
+    const userId = req.session.user._id;
+    const courseId = req.params.courseId;
+
+    const enrollment = await Enrollment.findOne({ user: userId, course: courseId }).populate('course');
+    if (!enrollment) {
+      const error = new Error('Enrollment not found for this course');
+      error.statusCode = 404;
+      throw error;
+    }
+    res.status(200).json(enrollment);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.enrollInCourse = async (req, res, next) => {
   try {
     const userId = req.session.user._id;

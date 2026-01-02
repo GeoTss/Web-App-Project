@@ -17,7 +17,7 @@ router.post('/search', courseController.getCoursesByDifficultyAndCategory);
 router.post('/', requireAdmin, courseController.createCourse);
 
 // Update Course
-router.post('/:id', requireAdmin, courseController.updateCourse);
+router.put('/:id', requireAdmin, courseController.updateCourse);
 
 // Delete Course
 router.delete('/:id', requireAdmin, courseController.deleteCourse);

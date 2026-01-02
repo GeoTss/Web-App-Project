@@ -7,6 +7,9 @@ const router = express.Router();
 // Get Enrollments for Current User
 router.get('/', requireAuth, enrollmentController.getEnrollmentsByUser);
 
+// Get Enrollment by Course ID for Current User
+router.get('/:courseId', requireAuth, enrollmentController.getEnrollmentByCourseId);
+
 // Enroll in a Course
 router.post('/enroll', requireAuth, enrollmentController.enrollInCourse);
 

@@ -17,7 +17,7 @@ router.post('/logout', userController.logout);
 router.get('/me', requireAuth, userController.getCurrentUser);
 
 // Update User Profile Route
-router.post('/me', requireAuth, userController.updateUserProfile);
+router.put('/me', requireAuth, userController.updateUserProfile);
 
 // Delete User Route
 router.delete('/me', requireAuth, userController.deleteUser);

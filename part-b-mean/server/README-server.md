@@ -109,7 +109,7 @@ Get currently authenticated user.
 
 ---
 
-### **POST /api/users/me**
+### **PUT /api/users/me**
 
 Update user's characteristics.
 
@@ -236,7 +236,7 @@ Create a new course
 
 ---
 
-### **POST /api/courses/:id**
+### **PUT /api/courses/:id**
 
 Update a course by id
 
@@ -260,9 +260,9 @@ Update a course by id
 
 ---
 
-### **POST /api/courses**
+### **DELETE /api/courses**
 
-Create a new course
+Delete a course
 
 **Admin required:** Yes
 
@@ -280,25 +280,9 @@ Create a new course
 
 ---
 
-## Enrollments
+## **Enrollments**
 
-### **POST /api/enrollments/:courseId**
-
-Enroll current user to a course.
-
-**Auth required**: Yes
-
-```json
-// RESPONSE
-200 (OK)
-```
-
-Notes:
-- User cannot enroll twice in the same course
-
----
-
-### **GET /api/enrollments/me**
+### **GET /api/enrollments**
 
 Get all enrollments of current user.
 
@@ -319,6 +303,32 @@ Get all enrollments of current user.
 ```
 
 ---
+
+### **POST /api/enrollments/enroll**
+
+Enroll current user to a course.
+
+**Auth required**: Yes
+
+```json
+// RESPONSE
+200 (OK)
+```
+
+Notes:
+- User cannot enroll twice in the same course
+
+---
+
+### **PUT /api/enrollments/progress**
+
+Update an enrollment's progress
+
+**Auth required**: Yes
+
+```json
+```
+
 
 ### **Error Codes:**
 - (400 - Bad Request)
