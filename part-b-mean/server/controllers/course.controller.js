@@ -26,10 +26,16 @@ exports.getCourseById = async (req, res) => {
 // Get Course by Difficulty and Category
 exports.getCoursesByDifficultyAndCategory = async (req, res) => {
   try {
-    const { difficulty, category } = req.query;
+    const { categories, difficulties } = req.body;
     const query = {};
-    if (difficulty) query.difficulty = difficulty;
-    if (category) query.category = category;
+
+    if (Array.isArray(categories) && categories.length > 0) {
+      query.category = { $in: categories };
+    }
+
+    if (Array.isArray(difficulties) && difficulties.length > 0) {
+      query.difficulty = { $in: difficulties };
+    }
 
     const courses = await Course.find(query);
     res.status(200).json(courses);

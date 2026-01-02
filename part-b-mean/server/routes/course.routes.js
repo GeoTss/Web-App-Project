@@ -11,7 +11,7 @@ router.get('/', courseController.getAllCourses);
 router.get('/:id', courseController.getCourseById);
 
 // Get Courses by Difficulty and Category
-router.get('/filter', courseController.getCoursesByDifficultyAndCategory);
+router.post('/search', courseController.getCoursesByDifficultyAndCategory);
 
 // Create Course
 router.post('/', requireAdmin, courseController.createCourse);
