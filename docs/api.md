@@ -99,6 +99,42 @@ Get currently authenticated user.
 
 ## **Courses**
 
+### **GET /api/courses**
+
+Get all courses
+
+```json
+// RESPONSE
+[
+  {
+    "_id": "string",
+    "title": "string",
+    "description": "string",
+    "category": number,
+    "difficulty": number
+  }
+]
+```
+
+
+---
+
+### **GET /api/courses/:id**
+Get a course by id param
+
+```json
+// RESPONSE
+{
+    "_id": "string",
+    "title": "string",
+    "description": "string",
+    "category": number,
+    "difficulty": number
+}
+```
+
+---
+
 ### **POST /api/courses/search**
 
 Fetch all courses with filters.
