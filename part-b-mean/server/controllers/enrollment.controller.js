@@ -68,6 +68,11 @@ exports.updateEnrollmentProgress = async (req, res, next) => {
     }
 
     enrollment.progress = progress;
+    
+    if (enrollment.progress >= 100) {
+      enrollment.status = 1; // COMPLETED ENUM_STATE
+    }
+    
     await enrollment.save();
 
     res.status(200).json(enrollment);
