@@ -7,7 +7,6 @@ const CourseDetailsSchema = Schema(
             type: Schema.Types.ObjectId,
             ref: 'Course',
             required: true,
-            index: true,
         },
         sections: [
             {
@@ -26,6 +25,8 @@ const CourseDetailsSchema = Schema(
         timestamps: true,
     }
 );
+
+CourseDetailsSchema.index({ course: 1}, { unique: true });
 
 const CourseDetails = mongoose.model('CourseDetails', CourseDetailsSchema);
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const courseController = require('../controllers/course.controller');
-const { requireAdmin }  = require('../middleware/auth.middleware');
+const requireEnrollment = require('../middleware/require.enrollment.middleware');
+const { requireAdmin, requireAuth }  = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
@@ -9,6 +10,9 @@ router.get('/', courseController.getAllCourses);
 
 // Get Course by ID
 router.get('/:id', courseController.getCourseById);
+
+// Get Course Details by Course ID
+router.get('/:id/details', requireAuth, requireEnrollment, courseController.getCourseDetailsByCourseId);
 
 // Get Courses by Difficulty and Category
 router.post('/search', courseController.getCoursesByDifficultyAndCategory);

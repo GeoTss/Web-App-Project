@@ -8,14 +8,12 @@ const EnrollmentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-      index: true,
     },
 
     course: {
       type: Schema.Types.ObjectId,
       ref: 'Course',
       required: true,
-      index: true,
     },
 
     status: {

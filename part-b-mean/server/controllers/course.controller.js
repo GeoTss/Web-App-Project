@@ -1,4 +1,5 @@
 const Course = require('../models/course.model');
+const CourseDetails = require('../models/course.details.model');
 
 // Get All Courses
 exports.getAllCourses = async (req, res, next) => {
@@ -24,6 +25,26 @@ exports.getCourseById = async (req, res, next) => {
     next(error);
   }
 }
+
+exports.getCourseDetailsByCourseId = async (req, res, next) => {
+  try {
+    const { courseId } = req.params;
+
+    const details = await CourseDetails
+      .findOne({ course: courseId })
+      .populate('course');
+
+    if (!details) {
+      const error = new Error('Course details not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.status(200).json(details);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Get Course by Difficulty and Category
 exports.getCoursesByDifficultyAndCategory = async (req, res, next) => {
