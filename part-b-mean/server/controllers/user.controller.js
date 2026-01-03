@@ -11,9 +11,7 @@ exports.register = async (req, res, next) => {
     });
 
     if (existingUser) {
-      const error = new Error('Username or email already exists');
-      error.statusCode = 400;
-      throw error;
+      return res.status(400).json({ message: 'Username or email already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -43,16 +41,12 @@ exports.login = async (req, res, next) => {
 
     const user = await User.findOne({ username });
     if (!user) {
-      const error = new Error('Invalid credentials');
-      error.statusCode = 401;
-      throw error;
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      const error = new Error('Invalid credentials');
-      error.statusCode = 401;
-      throw error;
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     req.session.user = {
@@ -81,9 +75,7 @@ exports.logout = async (req, res, next) => {
 // Current user
 exports.getCurrentUser = (req, res, next) => {
   if (!req.session.user) {
-    const err = new Error('Unauthorized');
-    err.statusCode = 401;
-    return next(err);
+    return res.status(401).json({ message: 'Not authenticated' });
   }
   res.status(200).json(req.session.user);
 };

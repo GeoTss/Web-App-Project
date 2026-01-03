@@ -14,9 +14,7 @@ exports.getResourceById = async (req, res, next) => {
     const resourceId = req.params.id;
     const resource = await Resource.findById(resourceId);
     if (!resource) {
-      const error = new Error('Resource not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Resource not found' });
     }
     res.status(200).json(resource);
   } catch (error) {
@@ -60,9 +58,7 @@ exports.updateResource = async (req, res, next) => {
     );
 
     if (!updatedResource) {
-      const error = new Error('Resource not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Resource not found' });
     }
 
     res.status(200).json(updatedResource);
@@ -77,9 +73,7 @@ exports.deleteResource = async (req, res, next) => {
     const deletedResource = await Resource.findByIdAndDelete(resourceId);
 
     if (!deletedResource) {
-      const error = new Error('Resource not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Resource not found' }); 
     }
 
     res.status(200).json({ message: 'Resource deleted successfully' });

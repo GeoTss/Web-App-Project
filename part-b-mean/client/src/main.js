@@ -20,7 +20,6 @@ import './styles/register.css';
 import './styles/profile.css';
 
 import { renderMenu } from './components/menu.js';
-import { renderError } from './services/error.js';
 
 const routes = {
     '/': renderHome,

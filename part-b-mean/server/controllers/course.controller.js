@@ -16,9 +16,7 @@ exports.getCourseById = async (req, res, next) => {
   try {
     const course = await Course.findById(req.params.id);
     if (!course) {
-        const error = new Error('Course not found');
-        error.statusCode = 404;
-        throw error;
+      return res.status(404).json({ message: 'Course not found' });
     }
     res.status(200).json(course);
   } catch (error) {
@@ -35,9 +33,7 @@ exports.getCourseDetailsByCourseId = async (req, res, next) => {
       .populate('course');
 
     if (!details) {
-      const error = new Error('Course details not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Course details not found' });
     }
 
     res.status(200).json(details);
@@ -62,8 +58,8 @@ exports.getCoursesByDifficultyAndCategory = async (req, res, next) => {
 
     const courses = await Course.find(query);
     res.status(200).json(courses);
-  } catch {
-    res.status(500).json({ message: 'Server error' });
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -88,9 +84,7 @@ exports.updateCourse = async (req, res, next) => {
       { new: true }
     );
     if (!course) {
-      const error = new Error('Course not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Course not found' });
     }
     res.status(200).json(course);
   } catch (error) {
@@ -103,9 +97,7 @@ exports.deleteCourse = async (req, res, next) => {
   try {
     const course = await Course.findByIdAndDelete(req.params.id);
     if (!course) {
-      const error = new Error('Course not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Course not found' });
     } 
     res.status(200).json(course);
   } catch (error) {

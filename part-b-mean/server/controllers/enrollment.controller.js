@@ -4,10 +4,8 @@ exports.getEnrollmentsByUser = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
     const enrollments = await Enrollment.find({ user: userId }).populate('course');
-    if (!enrollments) {
-      const error = new Error('No enrollments found');
-      error.statusCode = 404;
-      throw error;
+    if (!enrollments || enrollments.length === 0) {
+      return res.status(404).json({ message: 'No enrollments found for this user' });
     }
     res.status(200).json(enrollments);
   } catch (error) {
@@ -22,9 +20,7 @@ exports.getEnrollmentByCourseId = async (req, res, next) => {
 
     const enrollment = await Enrollment.findOne({ user: userId, course: courseId }).populate('course');
     if (!enrollment) {
-      const error = new Error('Enrollment not found for this course');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Enrollment not found for this course' });
     }
     res.status(200).json(enrollment);
   } catch (error) {
@@ -39,9 +35,7 @@ exports.enrollInCourse = async (req, res, next) => {
 
     const existingEnrollment = await Enrollment.findOne({ user: userId, course: courseId });
     if (existingEnrollment) {
-      const error = new Error('Already enrolled in this course');
-      error.statusCode = 400;
-      throw error;
+      return res.status(400).json({ message: 'User is already enrolled in this course' });
     }
 
     const newEnrollment = await Enrollment.create({
@@ -62,9 +56,7 @@ exports.updateEnrollmentProgress = async (req, res, next) => {
 
     const enrollment = await Enrollment.findOne({ user: userId, course: courseId });
     if (!enrollment) {
-      const error = new Error('Enrollment not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Enrollment not found' });
     }
 
     enrollment.progress = progress;
@@ -88,9 +80,7 @@ exports.unenrollFromCourse = async (req, res, next) => {
 
     const enrollment = await Enrollment.findOneAndDelete({ user: userId, course: courseId });
     if (!enrollment) {
-      const error = new Error('Enrollment not found');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Enrollment not found' });
     }
     
     res.status(200).json({ message: 'Unenrolled successfully' });
