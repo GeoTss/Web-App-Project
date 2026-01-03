@@ -38,5 +38,5 @@ const ResourceSchema = Schema(
 );
 
 const resource = mongoose.model('Resource', ResourceSchema);
-modules.exports = resource;
+module.exports = resource;
 

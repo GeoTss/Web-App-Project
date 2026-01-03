@@ -1,6 +1,5 @@
 const Resource = require('../models/resource.model');
 
-
 exports.getAllResources = async (req, res, next) => {
   try {
     const resources = await Resource.find();
