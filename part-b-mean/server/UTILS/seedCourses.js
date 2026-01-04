@@ -80,7 +80,6 @@ const courses = [
 ];
 
 const cppCourseContent = {
-    course: courses[0]._id,
     title: "C++ Fundamentals: The Core Language",
     description: "An introduction to the power and efficiency of C++, covering basic syntax, memory management, and fundamental data structures.",
     sections: [
@@ -177,7 +176,6 @@ Failure to use 'delete' leads to memory leaks.`
 };
 
 const pythonCourseContent = {
-    course: courses[3]._id,
     title: "Python Fundamentals: Dynamic Scripting",
     description: "An introduction to Python's concise syntax, dynamic typing, and key data structures, essential for data science and web development.",
     sections: [
@@ -243,7 +241,6 @@ def greet(name):
 };
 
 const javascriptCourseContent = {
-    course: courses[1]._id,
     title: "JavaScript Fundamentals: The Language of the Web",
     description: "Learn the core concepts of client-side programming, including asynchronous operations and prototypal inheritance.",
     sections: [
@@ -299,7 +296,6 @@ async function getData() {
 };
 
 const rustCourseContent = {
-    course: courses[2]._id,
     title: "Rust Fundamentals: Safety and Performance",
     description: "A deep dive into Rust's core philosophy, focusing on ownership, borrowing, and the memory safety guarantees that distinguish it.",
     sections: [
@@ -347,29 +343,38 @@ fn calculate_len(s: &String) { ... }`
     ]
 };
 
+const contentMap = {
+    'c-plus-plus': cppCourseContent,
+    'python': pythonCourseContent,
+    'javascript': javascriptCourseContent,
+    'rust': rustCourseContent
+};
+
 (async () => {
     try {
         await connectDB();
         await Course.deleteMany({});
         console.log('Old courses removed');
-        await Course.insertMany(courses);
+
+        const createdCourses = await Course.insertMany(courses);
         console.log('Courses seeded successfully');
-        process.exit(0);
-    } catch (err) {
-        console.error('Seeding failed:', err);
-        process.exit(1);
-    }
-})();
 
-const courseArray = [cppCourseContent, pythonCourseContent, javascriptCourseContent, rustCourseContent];
+        const detailsToInsert = [];
 
-(async () => {
-    try {
-        await connectDB();
+        for (let course of createdCourses) {
+            if (contentMap[course.slug]) {
+                let details = contentMap[course.slug];
+
+                details.course = course._id;
+                detailsToInsert.push(details);
+            }
+        }
+
         await CourseDetails.deleteMany({});
         console.log('Old course details removed');
-        await CourseDetails.insertMany(courseArray);
+        await CourseDetails.insertMany(detailsToInsert);
         console.log('Course details seeded successfully');
+
         process.exit(0);
     } catch (err) {
         console.error('Seeding failed:', err);
