@@ -65,6 +65,30 @@ exports.enrollInCourse = async (req, res, next) => {
   }
 };
 
+exports.getEnrollmentProgress = async (req, res, next) => {
+  try {
+    const userId = req.session.user._id;
+    const courseId = req.params.courseId;
+
+    const enrollment = await Enrollment.findOne({ user: userId, course: courseId });
+    if (!enrollment) {
+      return res.status(404).json({ message: 'Enrollment not found' });
+    }
+
+    let countChecked = 0;
+    for (const topic of enrollment.topics) {
+      if (topic.checked) {
+        countChecked++;
+      }
+    }
+    const percentageCompleted = (countChecked / enrollment.topics.length) * 100;
+
+    res.status(200).json(percentageCompleted);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.updateEnrollmentProgress = async (req, res, next) => {
   try {
     const userId = req.session.user._id;

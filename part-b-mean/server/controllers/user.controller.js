@@ -28,6 +28,7 @@ exports.register = async (req, res, next) => {
       username: newUser.username,
       email: newUser.email,
       preferences: newUser.preferences,
+      isAdmin: newUser.isAdmin
     };
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -56,6 +57,7 @@ exports.login = async (req, res, next) => {
       username: user.username,
       email: user.email,
       preferences: user.preferences,
+      isAdmin: user.isAdmin
     };
 
     res.status(200).json({ message: 'Login successful' });
@@ -71,16 +73,20 @@ exports.logout = async (req, res, next) => {
       return next(error);
     }
     res.clearCookie('webapp.sid');
-    res.json({ message: 'Logged out' });
+    res.status(200).json({ message: 'Logged out' });
   });
 };
 
 // Current user
 exports.getCurrentUser = (req, res, next) => {
-  if (!req.session.user) {
-    return res.status(401).json({ message: 'Not authenticated' });
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ message: 'Not authenticated' });
+    }
+    res.status(200).json(req.session.user);
+  } catch (error) {
+    next(error);
   }
-  res.status(200).json(req.session.user);
 };
 
 // Update user profile

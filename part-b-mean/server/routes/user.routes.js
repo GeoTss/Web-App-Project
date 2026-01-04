@@ -14,7 +14,7 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
 // Get Current User Route
-router.get('/me', requireAuth, userController.getCurrentUser);
+router.get('/me', userController.getCurrentUser);
 
 // Update User Profile Route
 router.put('/me', requireAuth, userController.updateUserProfile);

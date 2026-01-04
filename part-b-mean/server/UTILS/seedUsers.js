@@ -27,6 +27,15 @@ const connectDB = require('../config/db.js');
           difficulties: [0, 1, 3, 4]
         }
       },
+      {
+        username: 'admin',
+        email: 'admin@auebhustler.com',
+        password: await bcrypt.hash('admin', 10),
+        preferences: {
+          categories: [0, 1, 2, 3],
+          difficulties: [0, 1]
+        }
+      }
     ];
     await User.insertMany(users);
     console.log('Stub users inserted successfully.');

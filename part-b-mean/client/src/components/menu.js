@@ -16,21 +16,16 @@ export function renderMenu() {
     { text: 'About', href: '/about' },
     { text: 'Books & Videos', href: '/books-videos' },
     { text: 'Courses', href: '/courses' },
+  ];
+
+  const optionalLinks = [
     { text: 'Register', href: '/register' },
     { text: 'Login', href: '/login' }
   ];
 
-  navLinks.forEach(({ text, href }) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-
-    a.href = href;
-    a.textContent = text;
-    a.setAttribute('data-link', '');
-
-    li.appendChild(a);
-    linksList.appendChild(li);
-  });
+  const superLinks = [
+    { text: 'Admin Dashboard', href: '/admin' }
+  ];
 
   navbar.id = 'nav';
   bar.classList.add('bar');
@@ -55,6 +50,24 @@ export function renderMenu() {
   navbar.appendChild(linksList);
   container.appendChild(navbar);
 
+  window.addEventListener('popstate', async () => { 
+    const response = await fetch('/api/users/me', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.ok) {
+      const userData = await response.json();
+      accountBtn.textContent = userData.username;
+      renderNavLinks(navLinks);
+    } else {
+      accountBtn.textContent = 'Account';
+      renderNavLinks(navLinks.concat(optionalLinks));
+    }
+  });
+
   toggleBtn.addEventListener('click', () => {
     linksList.classList.toggle('collapsed');
     const isCollapsed = linksList.classList.contains('collapsed');
@@ -67,20 +80,30 @@ export function renderMenu() {
       window.history.pushState({}, '', '/profile');
       window.dispatchEvent(new PopStateEvent('popstate'));
       return;
-    } else {  
+    } else {
       window.history.pushState({}, '', '/login');
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
   });
 
-  const currentPath = window.location.pathname;
-  const linkItems = linksList.querySelectorAll('a');
 
-  linkItems.forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-      link.classList.add('active');
-    } else {
-      link.classList.remove('active');
-    }
-  });
+  function renderNavLinks(links) {
+    linksList.innerHTML = '';
+    links.forEach(({ text, href }) => {
+    
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+
+      a.href = href;
+      a.textContent = text;
+      a.setAttribute('data-link', '');
+
+      li.appendChild(a);
+      linksList.appendChild(li);
+    });
+
+  }
+
+  renderNavLinks(navLinks.concat(optionalLinks));
+
 }
