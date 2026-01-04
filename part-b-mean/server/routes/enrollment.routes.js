@@ -15,7 +15,10 @@ router.get('/:courseId', requireAuth, enrollmentController.getEnrollmentByCourse
 router.post('/enroll', enrollmentController.enrollInCourse);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Get Enrollment Progress
+=======
+>>>>>>> c86500e (Fixed enrollments, progress bar)
 =======
 >>>>>>> c86500e (Fixed enrollments, progress bar)
 router.get('/progress/:courseId', requireAuth, enrollmentController.getEnrollmentProgress);
