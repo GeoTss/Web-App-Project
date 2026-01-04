@@ -9,8 +9,24 @@ const connectDB = require('../config/db.js');
     await User.deleteMany({});
     console.log('Old users removed');
     const users = [
-      { username: 'BigTso', email: 'roids@auebhustler.com', password: await bcrypt.hash('nosecurity', 10) },
-      { username: 'Toto', email: 'toto@auebhustler.com', password: await bcrypt.hash('roidrageforthewin', 10) },
+      { 
+        username: 'BigTso',
+        email: 'roids@auebhustler.com',
+        password: await bcrypt.hash('nosecurity', 10),
+        preferences: {
+          categories: [0, 1, 2, 3],
+          difficulties: [0, 1]
+        }
+      },
+      { 
+        username: 'Toto',
+        email: 'toto@auebhustler.com',
+        password: await bcrypt.hash('roidrageforthewin', 10),
+        preferences: {
+          categories: [0, 1, 2],
+          difficulties: [0, 1, 3, 4]
+        }
+      },
     ];
     await User.insertMany(users);
     console.log('Stub users inserted successfully.');

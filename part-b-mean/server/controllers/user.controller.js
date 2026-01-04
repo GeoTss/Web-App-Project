@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 // Register
 exports.register = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, preferences } = req.body;
 
     const existingUser = await User.findOne({
       $or: [{ username }, { email }],
@@ -20,12 +20,14 @@ exports.register = async (req, res, next) => {
       username,
       email,
       password: hashedPassword,
+      preferences,
     });
 
     req.session.user = {
       _id: newUser._id.toString(),
       username: newUser.username,
       email: newUser.email,
+      preferences: newUser.preferences,
     };
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -53,6 +55,7 @@ exports.login = async (req, res, next) => {
       _id: user._id.toString(),
       username: user.username,
       email: user.email,
+      preferences: user.preferences,
     };
 
     res.status(200).json({ message: 'Login successful' });
@@ -84,7 +87,7 @@ exports.getCurrentUser = (req, res, next) => {
 exports.updateUserProfile = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
-    const { username, email, password } = req.body;
+    const { username, email, password, preferences } = req.body;
 
     const updateData = {};
     if (username) updateData.username = username;
@@ -93,6 +96,7 @@ exports.updateUserProfile = async (req, res, next) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       updateData.password = hashedPassword;
     }
+    if (preferences) updateData.preferences = preferences;
 
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
 

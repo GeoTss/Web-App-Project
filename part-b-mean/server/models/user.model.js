@@ -19,6 +19,16 @@ const UserSchema = Schema(
             type: String,
             required: true,
         },
+        preferences: {
+            categories: {
+                type: Array,
+                required: false,
+            },
+            difficulties: {
+                type: Array,
+                required: false,
+            }
+        },
     },  
     {
         timestamps: true,
