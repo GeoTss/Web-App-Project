@@ -20,6 +20,8 @@
     position: relative;
     background-color: transparent;
     margin-left: 0.5rem;
+    min-width: 25px;
+    min-height: 25px;
     width: 25px;
     height: 25px;
     transform-origin: center;

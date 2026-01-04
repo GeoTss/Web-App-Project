@@ -65,7 +65,7 @@ exports.getCoursesByDifficultyAndCategory = async (req, res, next) => {
     }
 
     const courses = await Course.find(query);
-    res.status(200).json(courses);
+    res.status(200).json({ courseList: courses });
   } catch (error) {
     next(error);
   }

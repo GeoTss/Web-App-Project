@@ -14,13 +14,16 @@ router.get('/:courseId', requireAuth, enrollmentController.getEnrollmentByCourse
 // router.post('/enroll', requireAuth, enrollmentController.enrollInCourse);
 router.post('/enroll', enrollmentController.enrollInCourse);
 
+<<<<<<< HEAD
 // Get Enrollment Progress
+=======
+>>>>>>> c86500e (Fixed enrollments, progress bar)
 router.get('/progress/:courseId', requireAuth, enrollmentController.getEnrollmentProgress);
 
 // Update Enrollment Progress
 router.put('/progress', requireAuth, enrollmentController.updateEnrollmentProgress);
 
 // Unenroll from a Course
-router.delete('/unenroll', requireAuth, enrollmentController.unenrollFromCourse);
+router.delete('/enroll', requireAuth, enrollmentController.unenrollFromCourse);
 
 module.exports = router;

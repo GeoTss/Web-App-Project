@@ -56,6 +56,37 @@ function createCardElem(cardInfo) {
 
     cardContent.append(courseTitle, courseDesc);
 
+    fetch(`/api/enrollments/progress/${cardInfo._id}`, {
+        method: "GET",
+        headers: { 'Content-Type': 'application/json' },
+    }).then((response) => {
+        if (!response.ok)
+            return null;
+        return response.json();
+    }).then((data) => {
+        console.log(data);
+        if (!data)
+            return;
+
+        const progressLabel = document.createElement("div");
+        progressLabel.classList.add("progress-label");
+
+        const { percentageCompleted } = data;
+        progressLabel.textContent = `${percentageCompleted}% Complete`;
+
+        const progressContainer = document.createElement("div");
+        progressContainer.classList.add("progress-container");
+
+        const progressFill = document.createElement("div");
+        progressFill.classList.add("progress-fill");
+        progressFill.style.width = `${percentageCompleted}%`;
+        progressFill.style.background = difficulty_t[cardInfo.difficulty].bannerColor;
+
+        progressContainer.appendChild(progressFill);
+
+        cardContent.append(progressLabel, progressContainer);
+    })
+
     const cardFooter = document.createElement("div");
     cardFooter.classList.add("card-footer");
 
@@ -120,7 +151,7 @@ function createCategoryContainer(categoryId) {
     return categoryElem;
 }
 
-async function populateCategoryLessonContent() {
+function populateCategoryLessonContent() {
     const content = document.getElementById("content-wrapper");
     content.replaceChildren();
 
@@ -132,7 +163,7 @@ async function populateCategoryLessonContent() {
     console.log(categoriesList);
     console.log(difficultyList);
 
-    let response = await fetch('/api/courses/search', {
+    fetch('/api/courses/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -140,25 +171,31 @@ async function populateCategoryLessonContent() {
             category: categoriesList,
             difficulty: difficultyList
         })
-    });
+    }).then((response) => {
+        if (!response.ok)
+            return null;
+        return response.json();
+    }).then((data) => {
+        console.log(data)
+        if (!data)
+            return;
 
-    let cardsList = await response.json();
+        let { courseList: cardsList } = data;
 
-    console.log(cardsList)
+        const categoryIds = new Set(
+            cardsList.map(card => card.category)
+        );
 
-    const categoryIds = new Set(
-        cardsList.map(card => card.category)
-    );
+        categoryIds.forEach(categoryId => {
+            content.appendChild(createCategoryContainer(categoryId));
+        });
 
-    categoryIds.forEach(categoryId => {
-        content.appendChild(createCategoryContainer(categoryId));
-    });
-
-    cardsList.forEach(card => {
-        document
-            .getElementById(`categoryId-${card.category}`)
-            .appendChild(createCardElem(card));
-    });
+        cardsList.forEach(async card => {
+            document
+                .getElementById(`categoryId-${card.category}`)
+                .appendChild(createCardElem(card));
+        });
+    })
 }
 
 function applyFiltersFromUrl() {

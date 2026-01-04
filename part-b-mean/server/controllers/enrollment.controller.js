@@ -23,7 +23,7 @@ exports.getEnrollmentByCourseId = async (req, res, next) => {
     if (!enrollment) {
       return res.status(404).json({ message: 'Enrollment not found for this course' });
     }
-    res.status(200).json(enrollment);
+    res.status(200).json({ enrollment: enrollment });
   } catch (error) {
     next(error);
   }
@@ -36,7 +36,7 @@ exports.enrollInCourse = async (req, res, next) => {
 
     const existingEnrollment = await Enrollment.findOne({ user: userId, course: courseId });
     if (existingEnrollment) {
-      return res.status(400).json({ message: 'User is already enrolled in this course' });
+      return res.status(201).json({ message: 'User is already enrolled in this course' });
     }
 
     const newEnrollment = await Enrollment.create({
@@ -61,7 +61,7 @@ exports.enrollInCourse = async (req, res, next) => {
 
     res.status(201).json(newEnrollment);
   } catch (error) {
-    next(error);  
+    next(error);
   }
 };
 
@@ -81,9 +81,9 @@ exports.getEnrollmentProgress = async (req, res, next) => {
         countChecked++;
       }
     }
-    const percentageCompleted = (countChecked / enrollment.topics.length) * 100;
+    const percentageCompleted = ((countChecked / enrollment.topics.length) * 100).toFixed(1);
 
-    res.status(200).json(percentageCompleted);
+    res.status(200).json({ percentageCompleted: percentageCompleted });
   } catch (error) {
     next(error);
   }
@@ -92,7 +92,9 @@ exports.getEnrollmentProgress = async (req, res, next) => {
 exports.updateEnrollmentProgress = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
-    const { courseId, topicId } = req.body;
+    const { courseId, topicId, check } = req.body;
+    console.log(courseId);
+    console.log(topicId);
 
     const enrollment = await Enrollment.findOne({ user: userId, course: courseId });
     if (!enrollment) {
@@ -101,7 +103,7 @@ exports.updateEnrollmentProgress = async (req, res, next) => {
 
     const topic = enrollment.topics.find(t => t.topicId.toString() === topicId);
     if (topic) {
-      topic.checked = true;
+      topic.checked = check;
     } else {
       return res.status(404).json({ message: 'Topic not found in enrollment' });
     }
@@ -127,7 +129,7 @@ exports.unenrollFromCourse = async (req, res, next) => {
     if (!enrollment) {
       return res.status(404).json({ message: 'Enrollment not found' });
     }
-    
+
     res.status(200).json({ message: 'Unenrolled successfully' });
   } catch (error) {
     next(error);

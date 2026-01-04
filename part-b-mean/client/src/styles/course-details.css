@@ -42,9 +42,11 @@
 
 #sections-menu>.section {
     font-weight: bold;
+    color: #F0F4F8;
 }
 
 .section>.topic-wrapper {
+    overflow: visible;
     color: rgb(188, 189, 208);
     margin-top: 0.4rem;
     margin-bottom: 0.7rem;
@@ -53,7 +55,7 @@
 }
 
 .topic {
-    width: 90%;
+    /* width: 100%; */
     cursor: pointer;
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
@@ -63,9 +65,42 @@
         border-radius 0.2s ease;
 }
 
+.topic .checkbox-wrapper label {
+    color: #F0F4F8;
+}
+
+.topic .checkbox-wrapper label span {
+    border-color: #F0F4F8;
+}
+
+.topic .checkbox-wrapper label span:before,
+.topic .checkbox-wrapper label span:after {
+    background: #F0F4F8;
+}
+
+.topic .checkbox-wrapper input[type=checkbox]:checked+label span {
+    background-color: #F0F4F8;
+}
+
+.topic .checkbox-wrapper input[type=checkbox]:checked+label span:before,
+.topic .checkbox-wrapper input[type=checkbox]:checked+label span:after {
+    background: #333;
+}
+
+/* 6. Override the Hover + Checked State */
+.topic .checkbox-wrapper input[type=checkbox]:checked+label:hover span {
+    background-color: #F0F4F8;
+}
+
 .topic.selected {
     font-weight: bold;
     color: coral;
+}
+
+.topic-content {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 #menu-wrap {
@@ -73,10 +108,7 @@
     padding: 1rem;
     width: 100vw;
     left: -110%;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    white-space: nowrap;
+    height: auto;
     position: absolute;
     transition: left 0.3s ease, visibility 0.4s ease;
     background: rgb(40, 45, 63);
