@@ -19,7 +19,7 @@ const CourseSchema = Schema(
             required: true,
         },
         difficulty: {
-            type: String,
+            type: Number,
             required: true,
             enum: Object.values(DifficultyLookup),
         },
