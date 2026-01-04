@@ -70,7 +70,13 @@ function createCardElem(cardInfo) {
       .toLowerCase()
       .replaceAll("+", "p");
 
+    let response = fetch(`/api/courses/${cardInfo._id}/details`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    });
 
+    console.log(response);
     // window.history.pushState({}, "", `/course/${courseName}`);
     // window.dispatchEvent(new Event("popstate"));
   });
