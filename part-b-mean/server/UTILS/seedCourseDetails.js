@@ -1,86 +1,10 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Course = require('../models/course.model');
 const CourseDetails = require('../models/course.details.model.js');
-const { DifficultyLookup, CategoryLookup } = require('../../client/src/modules/category-utils.js');
 const connectDB = require('../config/db.js')
 
 
-const courses = [
-    {
-        slug: 'c-plus-plus',
-        title: 'C++',
-        description: 'You manage memory. Or it manages you.',
-        difficulty: DifficultyLookup.DEMON,
-        category: CategoryLookup.SYSTEMS_PROGRAMMING
-    },
-    {
-        slug: 'javascript',
-        title: 'JavaScript',
-        description: 'The language everyone loves to hate.',
-        difficulty: DifficultyLookup.EASY,
-        category: CategoryLookup.WEB_DEVELOPMENT
-    },
-    {
-        slug: 'rust',
-        title: 'Rust',
-        description: 'Compiler says no.',
-        difficulty: DifficultyLookup.HARD,
-        category: CategoryLookup.SYSTEMS_PROGRAMMING
-    },
-    {
-        slug: 'python',
-        title: 'Python',
-        description: 'Indentation is not optional.',
-        difficulty: DifficultyLookup.EASY,
-        category: CategoryLookup.DATA_SCIENCE
-    },
-    {
-        slug: 'opengl',
-        title: 'OpenGL',
-        description: 'Why are there so many triangles?',
-        difficulty: DifficultyLookup.HARD,
-        category: CategoryLookup.GRAPHICS_PROGRAMMING
-    },
-    {
-        slug: 'tensorflow',
-        title: 'TensorFlow',
-        description: 'Make your computer learn stuff.',
-        difficulty: DifficultyLookup.HARD,
-        category: CategoryLookup.ARTIFICIAL_INTELLIGENCE
-    },
-    {
-        slug: 'aws',
-        title: 'AWS',
-        description: "It's not your computer.",
-        difficulty: DifficultyLookup.MEDIUM,
-        category: CategoryLookup.CLOUD_COMPUTING
-    },
-    {
-        slug: 'arduino',
-        title: 'Arduino',
-        description: 'Blinking lights and beeping sounds.',
-        difficulty: DifficultyLookup.MEDIUM,
-        category: CategoryLookup.EMBEDDED_SYSTEMS
-    },
-    {
-        slug: 'assembly',
-        title: 'Assembly',
-        description: 'Good luck.',
-        difficulty: DifficultyLookup.DEMON,
-        category: CategoryLookup.SYSTEMS_PROGRAMMING
-    },
-    {
-        slug: 'vulkan',
-        title: 'Vulkan',
-        description: 'What do you mean I have to manage everything?',
-        difficulty: DifficultyLookup.DEMON,
-        category: CategoryLookup.GRAPHICS_PROGRAMMING
-    }
-];
-
 const cppCourseContent = {
-    course: courses[0]._id,
     title: "C++ Fundamentals: The Core Language",
     description: "An introduction to the power and efficiency of C++, covering basic syntax, memory management, and fundamental data structures.",
     sections: [
@@ -177,7 +101,6 @@ Failure to use 'delete' leads to memory leaks.`
 };
 
 const pythonCourseContent = {
-    course: courses[3]._id,
     title: "Python Fundamentals: Dynamic Scripting",
     description: "An introduction to Python's concise syntax, dynamic typing, and key data structures, essential for data science and web development.",
     sections: [
@@ -243,7 +166,6 @@ def greet(name):
 };
 
 const javascriptCourseContent = {
-    course: courses[1]._id,
     title: "JavaScript Fundamentals: The Language of the Web",
     description: "Learn the core concepts of client-side programming, including asynchronous operations and prototypal inheritance.",
     sections: [
@@ -299,7 +221,6 @@ async function getData() {
 };
 
 const rustCourseContent = {
-    course: courses[2]._id,
     title: "Rust Fundamentals: Safety and Performance",
     description: "A deep dive into Rust's core philosophy, focusing on ownership, borrowing, and the memory safety guarantees that distinguish it.",
     sections: [
@@ -347,19 +268,12 @@ fn calculate_len(s: &String) { ... }`
     ]
 };
 
-(async () => {
-    try {
-        await connectDB();
-        await Course.deleteMany({});
-        console.log('Old courses removed');
-        await Course.insertMany(courses);
-        console.log('Courses seeded successfully');
-        process.exit(0);
-    } catch (err) {
-        console.error('Seeding failed:', err);
-        process.exit(1);
-    }
-})();
+// const courseMap = new Map([
+//     ["cpp", cppCourseContent],
+//     ["python", pythonCourseContent],
+//     ["javascript", javascriptCourseContent],
+//     ["rust", rustCourseContent]
+// ]);
 
 const courseArray = [cppCourseContent, pythonCourseContent, javascriptCourseContent, rustCourseContent];
 

@@ -69,8 +69,10 @@ function createCardElem(cardInfo) {
     const courseName = cardInfo.title
       .toLowerCase()
       .replaceAll("+", "p");
-    window.history.pushState({}, "", `/course/${courseName}`);
-    window.dispatchEvent(new Event("popstate"));
+
+
+    // window.history.pushState({}, "", `/course/${courseName}`);
+    // window.dispatchEvent(new Event("popstate"));
   });
 
   cardFooter.appendChild(cardBtn);

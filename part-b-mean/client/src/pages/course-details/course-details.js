@@ -1,6 +1,6 @@
 // import { initCourseDetails } from '../ui/course-details.js';
 
-export function renderCourseDetails(courseId) {
+export function renderCourseDetails() {
   const app = document.getElementById('app');
 
   app.innerHTML = `
@@ -22,5 +22,5 @@ export function renderCourseDetails(courseId) {
     </div>
   `;
 
-//   initCourseDetails(courseId);
+  initCourseDetails();
 }
