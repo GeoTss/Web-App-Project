@@ -28,10 +28,10 @@ const CourseSchema = Schema(
             required: true,
             enum: Object.values(CategoryLookup),
         },
-    }, 
+    },
     {
         timestamps: true,
-    } 
+    }
 );
 
 const course = mongoose.model('Course', CourseSchema);

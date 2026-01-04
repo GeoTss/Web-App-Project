@@ -35,12 +35,12 @@ function createCardElem(cardInfo) {
   const cardBanner = document.createElement("div");
   cardBanner.classList.add("card-banner");
   cardBanner.style.background =
-    difficulty_t[cardInfo.difficultyLookupId].bannerColor;
+    difficulty_t[cardInfo.difficulty].bannerColor;
 
   const difficultyBadge = document.createElement("span");
   difficultyBadge.classList.add("difficulty-badge");
   difficultyBadge.textContent =
-    difficulty_t[cardInfo.difficultyLookupId].name;
+    difficulty_t[cardInfo.difficulty].name;
 
   cardBanner.appendChild(difficultyBadge);
   cardElem.appendChild(cardBanner);
@@ -50,7 +50,7 @@ function createCardElem(cardInfo) {
 
   const courseTitle = document.createElement("div");
   courseTitle.classList.add("course-title");
-  courseTitle.textContent = cardInfo.langName;
+  courseTitle.textContent = cardInfo.title;
 
   const courseDesc = document.createElement("p");
   courseDesc.classList.add("course-desc");
@@ -63,10 +63,10 @@ function createCardElem(cardInfo) {
 
   const cardBtn = document.createElement("button");
   cardBtn.classList.add("card-btn");
-  cardBtn.textContent = `Learn ${cardInfo.langName}`;
+  cardBtn.textContent = `Learn ${cardInfo.title}`;
 
   cardBtn.addEventListener("click", () => {
-    const courseName = cardInfo.langName
+    const courseName = cardInfo.title
       .toLowerCase()
       .replaceAll("+", "p");
     window.history.pushState({}, "", `/course/${courseName}`);
@@ -97,24 +97,43 @@ function createCategoryContainer(categoryId) {
   return categoryElem;
 }
 
-function populateCategoryLessonContent() {
+async function populateCategoryLessonContent() {
   const content = document.getElementById("content-wrapper");
   content.replaceChildren();
 
-  const visibleCards =
-    filterController.getSatisfyingElements(cardsList);
+  let categoriesList = filterController.managersMap[FilterLookup.CATEGORY].getFiltersList();
+  let difficultyList = filterController.managersMap[FilterLookup.DIFFICULTY].getFiltersList();
+
+  console.log(typeof ([0, 1, 2]) === typeof (categoriesList));
+
+  console.log(categoriesList);
+  console.log(difficultyList);
+
+  let response = await fetch('/api/courses/search', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({
+      category: categoriesList,
+      difficulty: difficultyList
+    })
+  });
+
+  let cardsList = await response.json();
+
+  console.log(cardsList)
 
   const categoryIds = new Set(
-    visibleCards.map(card => card.categoryLookupId)
+    cardsList.map(card => card.category)
   );
 
   categoryIds.forEach(categoryId => {
     content.appendChild(createCategoryContainer(categoryId));
   });
 
-  visibleCards.forEach(card => {
+  cardsList.forEach(card => {
     document
-      .getElementById(`categoryId-${card.categoryLookupId}`)
+      .getElementById(`categoryId-${card.category}`)
       .appendChild(createCardElem(card));
   });
 }
