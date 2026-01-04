@@ -1,3 +1,162 @@
-export async function initProfile() {
+import {
+  FilterInputType,
+  FilterLookup,
+  FilterSectionManager,
+  FiltersController,
+  createFilterSection
+} from "../../modules/filter-section.js";
+import { category_t, difficulty_t } from "../../modules/category-utils.js";
 
+export function getProfileInfo() {
+  fetch('/api/users/me', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error('Failed to fetch profile info');
+    }
+    return response.json();
+  }).then((data) => {
+    document.getElementById('username').textContent = data.username;
+    document.getElementById('email').textContent = data.email;
+  }).catch((error) => {
+    console.error('Error fetching profile info:', error);
+  });
+}
+
+// Create filter sections once during initialization
+let filterController;
+
+export function initializeFilters() {
+    const filterManagers = [
+        new FilterSectionManager(
+            FilterLookup.DIFFICULTY,
+            "difficulty",
+            FilterInputType.CHECKBOX,
+            (itemInfo, checkmarkElem) => {
+                checkmarkElem.style.setProperty("--box-color", itemInfo.baseColor);
+            }
+        ),
+        new FilterSectionManager(
+            FilterLookup.CATEGORY,
+            "category",
+            FilterInputType.CHECKBOX
+        )
+    ];
+
+    filterController = new FiltersController(filterManagers);
+    createFilterSection(filterManagers);
+
+    filterController.populateManager(
+        FilterLookup.DIFFICULTY,
+        Object.values(difficulty_t)
+    );
+
+    filterController.populateManager(
+        FilterLookup.CATEGORY,
+        Object.values(category_t)
+    );
+    console.log('Filters initialized');
+}
+
+
+// Just get the current filter values
+export function getPreferences() {
+    if (!filterController || !filterController.managersMap) {
+        return {
+            categories: [],
+            difficulties: []
+        };
+    }
+    
+    const categoryManager = filterController.managersMap[FilterLookup.CATEGORY];
+    const difficultyManager = filterController.managersMap[FilterLookup.DIFFICULTY];
+    
+    const categories = categoryManager ? categoryManager.getFiltersList() : [];
+    const difficulties = difficultyManager ? difficultyManager.getFiltersList() : [];
+    
+    return {
+        categories,
+        difficulties
+    };
+}
+
+
+export function setupUpdateProfileButton() {
+  const updateBtn = document.getElementById('update-profile-btn');
+  updateBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const newUsername = document.getElementById('username').textContent;
+    const newEmail = document.getElementById('email').textContent;
+    console.log('Updating profile with:', newUsername, newEmail, getPreferences());
+    fetch('/api/users/me', {  
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: newUsername,
+        email: newEmail,
+        preferences: getPreferences(),
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+      return response.json();
+    }).then((data) => {
+      alert('Profile updated successfully');
+      getProfileInfo();
+    }).catch((error) => {
+      console.error('Error updating profile:', error);
+    }); 
+  });   
+}
+
+export function setupFieldUpdateButtons() {
+  const updateUsernameBtn = document.getElementById('update-username-btn');
+  updateUsernameBtn.addEventListener('click', () => {
+    const currentUsername = document.getElementById('username').textContent;
+    const newUsername = prompt('Enter new username:', currentUsername);
+    if (newUsername) {
+      document.getElementById('username').textContent = newUsername;
+    }
+  });
+  const updateEmailBtn = document.getElementById('update-email-btn');
+  updateEmailBtn.addEventListener('click', () => {
+    const currentEmail = document.getElementById('email').textContent;
+    const newEmail = prompt('Enter new email:', currentEmail);
+    if (newEmail && newEmail.includes('@')) {
+      document.getElementById('email').textContent = newEmail;
+    } else {
+      alert('Please enter a valid email address.');
+    }
+  });
+}
+
+export function setupLogoutButton() {
+  const logoutBtn = document.getElementById('logout-btn');
+  logoutBtn.addEventListener('click', () => {
+    fetch('/api/users/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to logout');
+      }
+      return response.json();
+    }).then((data) => {
+      window.history.pushState({}, '', '/home');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }).catch((error) => {
+      console.error('Error during logout:', error);
+    });
+  });
 }
