@@ -44,13 +44,18 @@ exports.enrollInCourse = async (req, res, next) => {
       course: courseId,
     });
 
-    // now i want to get the number of topics in the course and initialize the topics array
     const courseDetails = await CourseDetails.findOne({ course: courseId });
-    if (courseDetails && courseDetails.topics) {
-      newEnrollment.topics = courseDetails.topics.map(topic => ({
-        topicId: topic._id,
-        checked: false,
-      }));
+    if (courseDetails && courseDetails.sections) {
+      const topicsArray = [];
+      courseDetails.sections.forEach(section => {
+        section.topics.forEach(topic => {
+          topicsArray.push({
+            topicId: topic._id,
+            checked: false,
+          });
+        });
+      });
+      newEnrollment.topics = topicsArray;
       await newEnrollment.save();
     }
 
@@ -63,19 +68,24 @@ exports.enrollInCourse = async (req, res, next) => {
 exports.updateEnrollmentProgress = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
-    const { courseId, progress } = req.body;
+    const { courseId, topicId } = req.body;
 
     const enrollment = await Enrollment.findOne({ user: userId, course: courseId });
     if (!enrollment) {
       return res.status(404).json({ message: 'Enrollment not found' });
     }
 
-    enrollment.progress = progress;
-    
-    if (enrollment.progress >= 100) {
-      enrollment.status = 1; // COMPLETED ENUM_STATE
+    const topic = enrollment.topics.find(t => t.topicId.toString() === topicId);
+    if (topic) {
+      topic.checked = true;
+    } else {
+      return res.status(404).json({ message: 'Topic not found in enrollment' });
     }
-    
+
+    if (enrollment.topics.every(t => t.checked)) {
+      enrollment.status = 1;
+    }
+
     await enrollment.save();
 
     res.status(200).json(enrollment);
