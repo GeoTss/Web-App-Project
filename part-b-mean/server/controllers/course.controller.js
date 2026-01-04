@@ -65,7 +65,6 @@ exports.getCoursesByDifficultyAndCategory = async (req, res, next) => {
     }
 
     const courses = await Course.find(query);
-    // console.log(JSON.stringify(courses))
     res.status(200).json(courses);
   } catch (error) {
     next(error);
@@ -87,10 +86,10 @@ exports.createCourse = async (req, res, next) => {
 // Update Course
 exports.updateCourse = async (req, res, next) => {
   try {
-    const { title, description, instructor } = req.body;
+    const { slug, title, description, difficulty, category } = req.body;
     const course = await Course.findByIdAndUpdate(
       req.params.id,
-      { title, description, instructor },
+      { slug, title, description, difficulty, category },
       { new: true }
     );
     if (!course) {
