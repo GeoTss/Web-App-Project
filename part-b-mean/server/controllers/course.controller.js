@@ -53,23 +53,25 @@ exports.getCoursesByDifficultyAndCategory = async (req, res, next) => {
     }
 
     if (categories.length > 0) {
-      query.category = { 
-        $in: categories.map(Number),
+      query.category = {
+        $in: categories,
       };
     }
 
     if (difficulties.length > 0) {
-      query.difficulty = { 
-        $in: difficulties.map(Number),
+      query.difficulty = {
+        $in: difficulties,
       };
     }
 
     const courses = await Course.find(query);
+    // console.log(JSON.stringify(courses))
     res.status(200).json(courses);
   } catch (error) {
     next(error);
   }
 }
+
 
 // Create Course
 exports.createCourse = async (req, res, next) => {
@@ -106,7 +108,7 @@ exports.deleteCourse = async (req, res, next) => {
     const course = await Course.findByIdAndDelete(req.params.id);
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
-    } 
+    }
     res.status(200).json(course);
   } catch (error) {
     next(error);
