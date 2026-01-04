@@ -9,7 +9,7 @@ const courses = [
         slug: 'c-plus-plus',
         title: 'C++',
         description: 'You manage memory. Or it manages you.',
-        difficulty: DifficultyLookup.HARD,
+        difficulty: DifficultyLookup.DEMON,
         category: CategoryLookup.SYSTEMS_PROGRAMMING
     },
     {
@@ -23,7 +23,7 @@ const courses = [
         slug: 'rust',
         title: 'Rust',
         description: 'Compiler says no.',
-        difficulty: DifficultyLookup.DEMON,
+        difficulty: DifficultyLookup.HARD,
         category: CategoryLookup.SYSTEMS_PROGRAMMING
     },
     {

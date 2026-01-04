@@ -45,15 +45,23 @@ exports.getCourseDetailsByCourseId = async (req, res, next) => {
 // Get Course by Difficulty and Category
 exports.getCoursesByDifficultyAndCategory = async (req, res, next) => {
   try {
-    const { categories, difficulties } = req.body;
+    const { category: categories, difficulty: difficulties } = req.body;
     const query = {};
 
-    if (Array.isArray(categories) && categories.length > 0) {
-      query.category = { $in: categories };
+    if (!Array.isArray(categories) && !Array.isArray(difficulties)) {
+      return res.status(400).json({ message: 'Invalid filters payload' });
     }
 
-    if (Array.isArray(difficulties) && difficulties.length > 0) {
-      query.difficulty = { $in: difficulties };
+    if (categories.length > 0) {
+      query.category = { 
+        $in: categories.map(Number),
+      };
+    }
+
+    if (difficulties.length > 0) {
+      query.difficulty = { 
+        $in: difficulties.map(Number),
+      };
     }
 
     const courses = await Course.find(query);
@@ -66,8 +74,8 @@ exports.getCoursesByDifficultyAndCategory = async (req, res, next) => {
 // Create Course
 exports.createCourse = async (req, res, next) => {
   try {
-    const { title, description, instructor } = req.body;
-    const newCourse = await Course.create({ title, description, instructor });
+    const { slug, title, description, difficulty, category } = req.body;
+    const newCourse = await Course.create({ slug, title, description, difficulty, category });
     res.status(201).json(newCourse);
   } catch (error) {
     next(error);
