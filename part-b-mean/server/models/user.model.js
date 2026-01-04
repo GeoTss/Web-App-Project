@@ -8,7 +8,7 @@ const UserSchema = Schema(
             required: true,
             unique: true,
         },
-        
+
         email: {
             type: String,
             required: true,
@@ -29,10 +29,10 @@ const UserSchema = Schema(
                 required: false,
             }
         },
-    },  
+    },
     {
         timestamps: true,
-    } 
+    }
 );
 
 const user = mongoose.model('User', UserSchema);

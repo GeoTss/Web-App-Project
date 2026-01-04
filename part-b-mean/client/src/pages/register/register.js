@@ -55,5 +55,4 @@ export function renderRegister() {
   `;
 
   initRegisterForm();
-//   initFilters();
 }

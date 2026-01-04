@@ -104,7 +104,7 @@
     display: block;
     left: 0;
     padding: 1rem;
-    background-image: url("./right-arrow-svgrepo-com.svg");
+    background-image: url("details-menu-icons/right-arrow-svgrepo-com.svg");
     transition: background-image 0.3s ease-out;
 
     background-repeat: no-repeat;
@@ -113,7 +113,7 @@
 
 
 #menu-icon.menu-visible {
-    background-image: url("./left-arrow-svgrepo-com.svg");
+    background-image: url("details-menu-icons/left-arrow-svgrepo-com.svg");
 }
 
 #close-menu-icon {
@@ -121,7 +121,7 @@
     display: block;
     height: auto;
     padding: 1rem;
-    background-image: url("./left-arrow-svgrepo-com-mouseover.svg");
+    background-image: url("details-menu-icons/left-arrow-svgrepo-com-mouseover.svg");
     background-repeat: no-repeat;
     background-size: contain;
     z-index: 1000;
@@ -183,7 +183,7 @@
         height: auto;
         display: block;
         padding: 1rem;
-        background-image: url("./right-arrow-svgrepo-com.svg");
+        background-image: url("details-menu-icons/right-arrow-svgrepo-com.svg");
         transition: background-image 0.3s ease-out;
 
         background-repeat: no-repeat;
@@ -191,15 +191,15 @@
     }
 
     #menu-icon.menu-visible {
-        background-image: url("./left-arrow-svgrepo-com.svg");
+        background-image: url("details-menu-icons/left-arrow-svgrepo-com.svg");
     }
 
     #menu-icon:hover {
-        background-image: url("./right-arrow-svgrepo-com-mouseover.svg");
+        background-image: url("details-menu-icons/right-arrow-svgrepo-com-mouseover.svg");
     }
 
     #menu-icon.menu-visible:hover {
-        background-image: url("./left-arrow-svgrepo-com-mouseover.svg");
+        background-image: url("details-menu-icons/left-arrow-svgrepo-com-mouseover.svg");
     }
 
     #close-menu-icon {

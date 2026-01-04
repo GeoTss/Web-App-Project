@@ -65,20 +65,27 @@ function createCardElem(cardInfo) {
   cardBtn.classList.add("card-btn");
   cardBtn.textContent = `Learn ${cardInfo.title}`;
 
-  cardBtn.addEventListener("click", () => {
+  cardBtn.addEventListener("click", async () => {
     const courseName = cardInfo.title
       .toLowerCase()
       .replaceAll("+", "p");
 
-    let response = fetch(`/api/courses/${cardInfo._id}/details`, {
+    let response = await fetch(`/api/courses/${cardInfo._id}/details`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include'
     });
-
+    const data = await response.json();
     console.log(response);
-    // window.history.pushState({}, "", `/course/${courseName}`);
-    // window.dispatchEvent(new Event("popstate"));
+
+    if (response.status === 404) {
+      console.log("Course details not found");
+      return;
+    } else {
+      window.history.pushState(data, "", `/course-details`);
+      window.dispatchEvent(new Event("popstate"));
+    }
+
   });
 
   cardFooter.appendChild(cardBtn);

@@ -115,10 +115,21 @@ export function initRegisterForm() {
       confirmation.classList.remove("visible");
 
     document.getElementById("btn-confirm").onclick = async () => {
+      console.log(filterController.managersMap[FilterLookup.CATEGORY].getFiltersList())
+      console.log(filterController.managersMap[FilterLookup.DIFFICULTY].getFiltersList());
+
       const res = await fetch("/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password })
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+          preferences: {
+            categories: filterController.managersMap[FilterLookup.CATEGORY].getFiltersList(),
+            difficulties: filterController.managersMap[FilterLookup.DIFFICULTY].getFiltersList()
+          }
+        })
       });
 
       if (!res.ok) {

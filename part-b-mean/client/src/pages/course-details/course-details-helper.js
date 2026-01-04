@@ -96,17 +96,14 @@ function menuClick() {
     }
 }
 
-export function initCourseDetails(courseId) {
+export function initCourseDetails() {
+    const stateData = history.state;
 
+    console.log(stateData);
+
+    courseName = stateData.title;
+    courseContent = stateData;
+
+    menuClick();
+    populateCourseContent();
 }
-
-// window.onload = () => {
-
-//     const params = new URLSearchParams(window.location.search);
-//     courseName = params.get("course");
-
-//     // courseContent = courseMap.get(courseName);
-
-//     populateCourseContent(courseName)
-//     menuClick();
-// };

@@ -1,5 +1,5 @@
-import { renderHome } from './pages/home/home.js'; 
-import { renderAbout } from './pages/about/about.js'; 
+import { renderHome } from './pages/home/home.js';
+import { renderAbout } from './pages/about/about.js';
 import { renderCourses } from './pages/courses/courses.js';
 import { renderCourseDetails } from './pages/course-details/course-details.js';
 import { renderBooksVideos } from './pages/books-videos/books-videos.js';
@@ -22,24 +22,24 @@ import './styles/profile.css';
 import { renderMenu } from './components/menu.js';
 
 const routes = {
-    '/': renderHome,
-    '/about': renderAbout,
-    '/login': renderLogin,
-    '/register': renderRegister,
-    '/courses': renderCourses,
-    '/course-details': renderCourseDetails,
-    '/books-videos': renderBooksVideos,
-    '/profile': renderProfile,
+  '/': renderHome,
+  '/about': renderAbout,
+  '/login': renderLogin,
+  '/register': renderRegister,
+  '/courses': renderCourses,
+  '/course-details': renderCourseDetails,
+  '/books-videos': renderBooksVideos,
+  '/profile': renderProfile,
 };
 
 function router() {
   const path = window.location.pathname;
   const page = routes[path];
   if (page) {
-      page();
+    page();
   } else {
-      window.history.replaceState({}, '', '/');
-      renderHome();
+    window.history.replaceState({}, '', '/');
+    renderHome();
   }
 }
 

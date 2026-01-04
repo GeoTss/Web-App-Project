@@ -26,7 +26,6 @@ exports.getCourseById = async (req, res, next) => {
 
 exports.getCourseDetailsByCourseId = async (req, res, next) => {
   try {
-    
     const courseId = req.params.id;
 
     const details = await CourseDetails

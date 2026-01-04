@@ -20,7 +20,7 @@ exports.register = async (req, res, next) => {
       username,
       email,
       password: hashedPassword,
-      preferences,
+      preferences
     });
 
     req.session.user = {
@@ -31,7 +31,7 @@ exports.register = async (req, res, next) => {
     };
 
     res.status(201).json({ message: 'User registered successfully' });
-  } catch (error){
+  } catch (error) {
     next(error);
   }
 };

@@ -1,4 +1,4 @@
-// import { initCourseDetails } from '../ui/course-details.js';
+import { initCourseDetails } from './course-details-helper.js';
 
 export function renderCourseDetails() {
   const app = document.getElementById('app');
