@@ -45,7 +45,7 @@ exports.enrollInCourse = async (req, res, next) => {
 
     res.status(201).json(newEnrollment);
   } catch (error) {
-    next(error);  
+    next(error);
   }
 };
 
@@ -60,11 +60,11 @@ exports.updateEnrollmentProgress = async (req, res, next) => {
     }
 
     enrollment.progress = progress;
-    
+
     if (enrollment.progress >= 100) {
       enrollment.status = 1; // COMPLETED ENUM_STATE
     }
-    
+
     await enrollment.save();
 
     res.status(200).json(enrollment);
@@ -82,7 +82,7 @@ exports.unenrollFromCourse = async (req, res, next) => {
     if (!enrollment) {
       return res.status(404).json({ message: 'Enrollment not found' });
     }
-    
+
     res.status(200).json({ message: 'Unenrolled successfully' });
   } catch (error) {
     next(error);

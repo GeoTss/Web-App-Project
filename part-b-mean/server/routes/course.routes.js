@@ -12,9 +12,8 @@ router.get('/', courseController.getAllCourses);
 router.get('/:id', courseController.getCourseById);
 
 // Get Course Details by Course ID
-// router.get('/:id/details', requireAuth, requireEnrollment, courseController.getCourseDetailsByCourseId);
+// router.get('/:id/details', requireAuth, courseController.getCourseDetailsByCourseId);
 router.get('/:id/details', courseController.getCourseDetailsByCourseId);
-
 
 // Get Courses by Difficulty and Category
 router.post('/search', courseController.getCoursesByDifficultyAndCategory);

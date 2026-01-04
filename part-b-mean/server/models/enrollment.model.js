@@ -3,35 +3,42 @@ const { Schema } = mongoose;
 const EnrollmentStatus = require('./constants');
 
 const EnrollmentSchema = new Schema(
-  {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+    {
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
 
-    course: {
-      type: Schema.Types.ObjectId,
-      ref: 'Course',
-      required: true,
-    },
+        course: {
+            type: Schema.Types.ObjectId,
+            ref: 'Course',
+            required: true,
+        },
 
-    status: {
-      type: String,
-      enum: Object.values(EnrollmentStatus.ENROLLMENT_STATES),
-      default: EnrollmentStatus.ENROLLMENT_STATES.ENROLLED,
-    },
+        status: {
+            type: String,
+            enum: Object.values(EnrollmentStatus.ENROLLMENT_STATES),
+            default: EnrollmentStatus.ENROLLMENT_STATES.ENROLLED,
+        },
 
-    progress: {
-      type: Number, // %
-      min: 0,
-      max: 100,
-      default: 0,
+        topics: [
+            {
+                topicId: {
+                    type: Schema.Types.ObjectId,
+                    required: true
+                },
+                checked: {
+                    type: Boolean,
+                    required: true,
+                    default: false
+                }
+            }
+        ]
     },
-  },
-  {
-    timestamps: true,
-  }
+    {
+        timestamps: true,
+    }
 );
 
 EnrollmentSchema.index({ user: 1, course: 1 }, { unique: true });
