@@ -7,13 +7,14 @@ import { renderRegister } from './pages/register/register.js';
 import { renderLogin } from './pages/login/login.js';
 import { renderProfile } from './pages/profile/profile.js';
 
+import './styles/initialSettings.css'
 import './styles/about.css';
 import './styles/books-videos.css';
 import './styles/checkbox.css';
 import './styles/components.css'
+import './styles/layout.css';
 import './styles/course-details.css';
 import './styles/home.css';
-import './styles/layout.css';
 import './styles/login.css';
 import './styles/menu.css';
 import './styles/register.css';

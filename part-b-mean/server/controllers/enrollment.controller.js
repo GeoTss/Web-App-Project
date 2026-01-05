@@ -3,6 +3,7 @@ const CourseDetails = require('../models/course.details.model');
 
 exports.getEnrollmentsByUser = async (req, res, next) => {
   try {
+
     const userId = req.session.user._id;
     const enrollments = await Enrollment.find({ user: userId }).populate('course');
     if (!enrollments || enrollments.length === 0) {
@@ -16,6 +17,7 @@ exports.getEnrollmentsByUser = async (req, res, next) => {
 
 exports.getEnrollmentByCourseId = async (req, res, next) => {
   try {
+
     const userId = req.session.user._id;
     const courseId = req.params.courseId;
 
@@ -31,6 +33,7 @@ exports.getEnrollmentByCourseId = async (req, res, next) => {
 
 exports.enrollInCourse = async (req, res, next) => {
   try {
+
     const userId = req.session.user._id;
     const { courseId } = req.body;
 
@@ -67,6 +70,7 @@ exports.enrollInCourse = async (req, res, next) => {
 
 exports.getEnrollmentProgress = async (req, res, next) => {
   try {
+
     const userId = req.session.user._id;
     const courseId = req.params.courseId;
 
