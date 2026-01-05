@@ -16,16 +16,18 @@ const connectDB = require('../config/db.js');
         preferences: {
           categories: [0, 1, 2, 3],
           difficulties: [0, 1]
-        }
+        },
+        role: 0
       },
       { 
         username: 'Toto',
         email: 'toto@auebhustler.com',
-        password: await bcrypt.hash('roidrageforthewin', 10),
+        password: await bcrypt.hash('nosecurity', 10),
         preferences: {
           categories: [0, 1, 2],
           difficulties: [0, 1, 3, 4]
-        }
+        },
+        role: 0
       },
       {
         username: 'admin',
@@ -34,7 +36,8 @@ const connectDB = require('../config/db.js');
         preferences: {
           categories: [0, 1, 2, 3],
           difficulties: [0, 1]
-        }
+        },
+        role: 1
       }
     ];
     await User.insertMany(users);

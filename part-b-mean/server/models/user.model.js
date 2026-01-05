@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const { ROLES } = require('./constants');
 
 const UserSchema = Schema(
     {
@@ -29,6 +30,12 @@ const UserSchema = Schema(
                 required: false,
             }
         },
+        role: {
+            type: Number,
+            required: true,
+            enum: [ROLES.USER, ROLES.ADMIN],
+            default: ROLES.USER
+        }
     },
     {
         timestamps: true,

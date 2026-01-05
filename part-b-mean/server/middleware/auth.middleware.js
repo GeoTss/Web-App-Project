@@ -9,7 +9,7 @@ exports.requireAuth = (req, res, next) => {
 
 // HYPER VULN FUNCTION MOMENT
 exports.requireAdmin = (req, res, next) => {
-  if (!req.session.user || !req.session.user.isAdmin) {
+  if (!req.session.user || !req.session.user.role === 1) {
     const err = new Error('Forbidden');
     err.statusCode = 403;
     return next(err);

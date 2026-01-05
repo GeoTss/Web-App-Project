@@ -33,3 +33,8 @@ export const ENROLLMENT_STATES = {
     COMPLETED: 1,
     DROPPED: 2
 };
+
+export const ROLES = {
+    USER: 0,
+    ADMIN: 1
+};

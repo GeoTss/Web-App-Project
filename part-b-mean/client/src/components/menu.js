@@ -23,6 +23,11 @@ export async function renderMenu() {
     { text: 'Login', href: '/login' }
   ];
 
+  const superLinks = [
+    { text: 'UserManagement', href: '/admin/users' },
+    { text: 'CourseManagement', href: '/admin/courses' }
+  ];
+
   function renderNavLinks(links) {
     linksList.innerHTML = '';
     links.forEach(({ text, href }) => {
@@ -46,7 +51,7 @@ export async function renderMenu() {
       links = links.concat(optionalLinks);
     }
 
-    if (user?.role === 'admin') {
+    if (user?.role === 1) {
       links = links.concat(superLinks);
     }
 
@@ -82,9 +87,11 @@ export async function renderMenu() {
   renderNavLinks(buildLinks(user));
 
   accountBtn.addEventListener('click', () => {
-    const target = user ? '/profile' : '/login';
-    window.history.pushState({}, '', target);
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    getCurrentUser().then(user => {
+      const target = user ? '/profile' : '/login';
+      window.history.pushState({}, '', target);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
   });
   toggleBtn.addEventListener('click', () => {
     linksList.classList.toggle('collapsed');
