@@ -65,7 +65,7 @@ class ArrayFilterStrategy {
     }
 };
 
-function createCheckboxInput(filterManager, itemInfo) {
+function createCheckboxInput(filterManager, itemInfo, checked) {
     let filterDiv = document.createElement("div");
     filterDiv.classList.add("checkbox-wrapper");
 
@@ -78,6 +78,7 @@ function createCheckboxInput(filterManager, itemInfo) {
     inputElem.name = "check";
     inputElem.value = "";
     inputElem.type = "checkbox";
+    inputElem.checked = checked;
 
     inputElem.addEventListener("change", () => {
         console.log(`checked ${itemFieldName}-${itemFieldId}`);
@@ -146,15 +147,22 @@ export class FilterSectionManager {
         this.selfElem = filterSection;
     }
 
-    appendFilterElem(itemInfo) {
-        let filterDiv = createInputElem[this.inputType](this, itemInfo);
+    appendFilterElem(itemInfo, checked) {
+        let filterDiv = createInputElem[this.inputType](this, itemInfo, checked);
 
         this.selfElem.appendChild(filterDiv);
     }
 
-    populateSection(itemList) {
+    populateSection(itemList, initialCheckedValues) {
         itemList.forEach((item) => {
-            this.appendFilterElem(item);
+            let checked = false;
+            if (initialCheckedValues && initialCheckedValues.includes(item.id)) {
+                if (!this.filterStrat.includes(item.id))
+                    this.filterStrat.push(item.id);
+                checked = true;
+            }
+            console.log(`Item: ${item}, checked: ${checked}`);
+            this.appendFilterElem(item, checked);
         });
     }
 
@@ -199,8 +207,8 @@ export class FiltersController {
         return this.managersMap[id];
     }
 
-    populateManager(id, itemList) {
-        this.managersMap[id].populateSection(itemList);
+    populateManager(id, itemList, initialCheckedValues) {
+        this.managersMap[id].populateSection(itemList, initialCheckedValues);
     }
 
     length() {

@@ -7,6 +7,9 @@ import {
 } from "../../modules/filter-section.js";
 import { category_t, difficulty_t } from "../../modules/category-utils.js";
 
+let preferableCategories = [];
+let preferableDifficulties = [];
+
 export function getProfileInfo() {
   fetch('/api/users/me', {
     method: 'GET',
@@ -22,7 +25,12 @@ export function getProfileInfo() {
   }).then((data) => {
     document.getElementById('username').textContent = data.username;
     document.getElementById('email').textContent = data.email;
-  
+
+    preferableCategories = data.preferences.categories;
+    preferableDifficulties = data.preferences.difficulties;
+
+    initializeFilters();
+
   }).catch((error) => {
     console.error('Error fetching profile info:', error);
   });
@@ -31,56 +39,58 @@ export function getProfileInfo() {
 let filterController;
 
 export function initializeFilters() {
-    const filterManagers = [
-        new FilterSectionManager(
-            FilterLookup.DIFFICULTY,
-            "difficulty",
-            FilterInputType.CHECKBOX,
-            (itemInfo, checkmarkElem) => {
-                checkmarkElem.style.setProperty("--box-color", itemInfo.baseColor);
-            }
-        ),
-        new FilterSectionManager(
-            FilterLookup.CATEGORY,
-            "category",
-            FilterInputType.CHECKBOX
-        )
-    ];
+  const filterManagers = [
+    new FilterSectionManager(
+      FilterLookup.DIFFICULTY,
+      "difficulty",
+      FilterInputType.CHECKBOX,
+      (itemInfo, checkmarkElem) => {
+        checkmarkElem.style.setProperty("--box-color", itemInfo.baseColor);
+      }
+    ),
+    new FilterSectionManager(
+      FilterLookup.CATEGORY,
+      "category",
+      FilterInputType.CHECKBOX
+    )
+  ];
 
-    filterController = new FiltersController(filterManagers);
-    createFilterSection(filterManagers);
+  filterController = new FiltersController(filterManagers);
+  createFilterSection(filterManagers);
 
-    filterController.populateManager(
-        FilterLookup.DIFFICULTY,
-        Object.values(difficulty_t)
-    );
+  filterController.populateManager(
+    FilterLookup.DIFFICULTY,
+    Object.values(difficulty_t),
+    preferableDifficulties
+  );
 
-    filterController.populateManager(
-        FilterLookup.CATEGORY,
-        Object.values(category_t)
-    );
-    // console.log('Filters initialized');
+  filterController.populateManager(
+    FilterLookup.CATEGORY,
+    Object.values(category_t),
+    preferableCategories
+  );
+  // console.log('Filters initialized');
 }
 
 // Just get the current filter values
 export function getPreferences() {
-    if (!filterController || !filterController.managersMap) {
-        return {
-            categories: [],
-            difficulties: []
-        };
-    }
-    
-    const categoryManager = filterController.managersMap[FilterLookup.CATEGORY];
-    const difficultyManager = filterController.managersMap[FilterLookup.DIFFICULTY];
-    
-    const categories = categoryManager ? categoryManager.getFiltersList() : [];
-    const difficulties = difficultyManager ? difficultyManager.getFiltersList() : [];
-    
+  if (!filterController || !filterController.managersMap) {
     return {
-        categories,
-        difficulties
+      categories: [],
+      difficulties: []
     };
+  }
+
+  const categoryManager = filterController.managersMap[FilterLookup.CATEGORY];
+  const difficultyManager = filterController.managersMap[FilterLookup.DIFFICULTY];
+
+  const categories = categoryManager ? categoryManager.getFiltersList() : [];
+  const difficulties = difficultyManager ? difficultyManager.getFiltersList() : [];
+
+  return {
+    categories,
+    difficulties
+  };
 }
 
 
@@ -91,7 +101,7 @@ export function setupUpdateProfileButton() {
     const newUsername = document.getElementById('username').textContent;
     const newEmail = document.getElementById('email').textContent;
     console.log('Updating profile with:', newUsername, newEmail, getPreferences());
-    fetch('/api/users/me', {  
+    fetch('/api/users/me', {
       method: 'PUT',
       credentials: 'include',
       headers: {
@@ -112,8 +122,8 @@ export function setupUpdateProfileButton() {
       getProfileInfo();
     }).catch((error) => {
       console.error('Error updating profile:', error);
-    }); 
-  });   
+    });
+  });
 }
 
 export function setupFieldUpdateButtons() {

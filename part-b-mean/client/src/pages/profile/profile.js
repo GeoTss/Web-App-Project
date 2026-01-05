@@ -39,7 +39,6 @@ export function renderProfile() {
   setupLogoutButton();
   setUpDeleteAccountButton();
   renderFooter();
-  initializeFilters();
 }
 
 

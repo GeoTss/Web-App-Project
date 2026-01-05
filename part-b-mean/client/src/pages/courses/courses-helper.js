@@ -158,10 +158,10 @@ function populateCategoryLessonContent() {
     let categoriesList = filterController.managersMap[FilterLookup.CATEGORY].getFiltersList();
     let difficultyList = filterController.managersMap[FilterLookup.DIFFICULTY].getFiltersList();
 
-    console.log(typeof ([0, 1, 2]) === typeof (categoriesList));
+    // console.log(typeof ([0, 1, 2]) === typeof (categoriesList));
 
-    console.log(categoriesList);
-    console.log(difficultyList);
+    console.log(`Categories: ${categoriesList}`);
+    console.log(`Difficulties: ${difficultyList}`);
 
     fetch('/api/courses/search', {
         method: 'POST',
@@ -220,19 +220,43 @@ export function initCourses() {
 
     createFilterSection(filterManagers);
 
-    filterController.populateManager(
-        FilterLookup.DIFFICULTY,
-        Object.values(difficulty_t)
-    );
+    fetch('/api/users/me', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).then((response) => {
+        if (!response.ok)
+            return null;
+        return response.json();
+    }).then((data) => {
+        console.log("Data: ", data);
+        let preferableCategories = [];
+        let preferableDifficulties = [];
 
-    filterController.populateManager(
-        FilterLookup.CATEGORY,
-        Object.values(category_t)
-    );
+        if (data && data.preferences) {
+            preferableCategories = data.preferences.categories;
+            preferableDifficulties = data.preferences.difficulties;
+        }
+        console.log(`Preferable categories: ${preferableCategories}`);
+        console.log(`Preferable diff: ${preferableDifficulties}`);
 
-    addFiltersChangeCallback(populateCategoryLessonContent);
+        filterController.populateManager(
+            FilterLookup.DIFFICULTY,
+            Object.values(difficulty_t),
+            preferableDifficulties
+        );
 
-    applyFiltersFromUrl();
-    populateCategoryLessonContent();
+        filterController.populateManager(
+            FilterLookup.CATEGORY,
+            Object.values(category_t),
+            preferableCategories
+        );
+
+        addFiltersChangeCallback(populateCategoryLessonContent);
+        // applyFiltersFromUrl();
+        populateCategoryLessonContent();
+    })
 }
 
