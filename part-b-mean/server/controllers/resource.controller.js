@@ -29,7 +29,7 @@ exports.getResourcesByTypeAndCategory = async (req, res, next) => {
     if (type) query.type = type;
     if (category) query.category = category;
     const resources = await Resource.find(query);
-    res.status(200).json(resources);
+    res.status(200).json({ resources: resources });
   } catch (error) {
     next(error);
   }
@@ -73,7 +73,7 @@ exports.deleteResource = async (req, res, next) => {
     const deletedResource = await Resource.findByIdAndDelete(resourceId);
 
     if (!deletedResource) {
-      return res.status(404).json({ message: 'Resource not found' }); 
+      return res.status(404).json({ message: 'Resource not found' });
     }
 
     res.status(200).json({ message: 'Resource deleted successfully' });

@@ -30,11 +30,10 @@ export function getProfileInfo() {
 
     preferableCategories = data.preferences.categories;
     preferableDifficulties = data.preferences.difficulties;
-    
-    if (!anchorProfileInfo) {
+
+    let filterContainerElem = document.getElementById("filters-wrapper");
+    if (filterContainerElem.childElementCount === 0)
       initializeFilters();
-      anchorProfileInfo = true;
-    }
 
   }).catch((error) => {
     console.error('Error fetching profile info:', error);

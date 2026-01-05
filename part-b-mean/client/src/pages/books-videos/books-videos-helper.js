@@ -13,11 +13,10 @@ import {
   resourceType_t
 } from "../../modules/category-utils.js";
 
-import { resources } from "./books-videos-content.js";
-
 let filterController;
 
 function createBookCard(bookInfo) {
+  console.log(bookInfo);
   const bookCardElem = document.createElement("div");
   bookCardElem.classList.add("book-card");
 
@@ -25,11 +24,12 @@ function createBookCard(bookInfo) {
   cover.classList.add("book-card-cover");
 
   const img = document.createElement("img");
-  img.src = bookInfo.coverUrl;
   img.classList.add("book-image");
+  img.src = bookInfo.coverImage;
 
   cover.appendChild(img);
   bookCardElem.appendChild(cover);
+  console.log("Cover");
 
   const separator = document.createElement("span");
   separator.classList.add("book-separator");
@@ -52,10 +52,13 @@ function createBookCard(bookInfo) {
   author.classList.add("book-author");
   author.textContent = "by " + bookInfo.author;
 
-  info.append(title, author);
+  info.appendChild(title);
+  info.appendChild(author);
   bookCardElem.appendChild(info);
 
   bookCardElem.appendChild(separator.cloneNode());
+
+  console.log("Create book elem");
 
   return bookCardElem;
 }
@@ -91,24 +94,66 @@ function createVideoElem(videoInfo) {
   return videoElem;
 }
 
+function getCategoryTag(id) {
+  const cat = category_t[id];
+  return {
+    tagName: cat.name,
+    tagColor: cat.color,
+    tagClass: `tag-${cat.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`
+  };
+}
+
 function createResourceElem(resourceInfo) {
-  if (resourceInfo.resourceTypeLookupId === resourceTypeLookup.BOOK) {
+  resourceInfo = {
+    ...resourceInfo,
+    ...getCategoryTag(resourceInfo.category)
+  };
+  console.log(resourceInfo);
+  if (resourceInfo.type === resourceTypeLookup.BOOK) {
+    console.log("Creating book");
     return createBookCard(resourceInfo);
   }
-  if (resourceInfo.resourceTypeLookupId === resourceTypeLookup.VIDEO) {
+  if (resourceInfo.type === resourceTypeLookup.VIDEO) {
     return createVideoElem(resourceInfo);
   }
+  console.log("Exiting");
 }
 
 function populateResources() {
   const content = document.getElementById("content-wrapper");
   content.replaceChildren();
 
-  const visible = filterController.getSatisfyingElements(resources);
-  visible.forEach(r => content.appendChild(createResourceElem(r)));
+  let categoriesList = filterController.managersMap[FilterLookup.CATEGORY].getFiltersList();
+  let typesList = filterController.managersMap[FilterLookup.RESOURCE_TYPE].getFiltersList();
+
+  fetch('/api/resources/search', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      type: typesList,
+      category: categoriesList
+    })
+  }).then((response) => {
+    if (!response.ok)
+      throw new Error('Failed to get resources');
+    return response.json()
+  }).then((data) => {
+    let { resources } = data;
+    console.log(resources);
+
+    resources.forEach(r => content.appendChild(createResourceElem(r)));
+  }).catch((error) => {
+    console.error('Error fetching resources:', error);
+  });
+
 }
 
-export function initBooksVideos() {
+var preferableCategories = [];
+
+function initializeFilters() {
+
   const filterManagers = [
     new FilterSectionManager(
       FilterLookup.RESOURCE_TYPE,
@@ -123,20 +168,49 @@ export function initBooksVideos() {
   ];
 
   filterController = new FiltersController(filterManagers);
-
   createFilterSection(filterManagers);
 
   filterController.populateManager(
     FilterLookup.CATEGORY,
-    Object.values(category_t)
+    Object.values(category_t),
+    preferableCategories
   );
 
   filterController.populateManager(
     FilterLookup.RESOURCE_TYPE,
-    Object.values(resourceType_t)
+    Object.values(resourceType_t),
+    null
   );
+}
 
-  addFiltersChangeCallback(populateResources);
+export function initBooksVideos() {
 
-  populateResources();
+  fetch('/api/users/me', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      return null;
+    }
+    return response.json();
+  }).then((data) => {
+    if (data)
+      preferableCategories = data.preferences.categories;
+
+    let filterContainerElem = document.getElementById("filters-wrapper");
+    if (filterContainerElem.childElementCount === 0)
+      initializeFilters();
+
+    addFiltersChangeCallback(populateResources);
+
+    populateResources();
+
+  }).catch((error) => {
+    console.error('Error fetching profile info:', error);
+  });
+
+
 }
