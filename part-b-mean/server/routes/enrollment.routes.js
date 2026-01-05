@@ -14,7 +14,6 @@ router.get('/:courseId', requireAuth, enrollmentController.getEnrollmentByCourse
 // router.post('/enroll', requireAuth, enrollmentController.enrollInCourse);
 router.post('/enroll', enrollmentController.enrollInCourse);
 
-// Get Enrollment Progress
 router.get('/progress/:courseId', requireAuth, enrollmentController.getEnrollmentProgress);
 
 // Update Enrollment Progress
