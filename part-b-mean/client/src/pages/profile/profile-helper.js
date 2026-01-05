@@ -160,3 +160,30 @@ export function setupLogoutButton() {
     });
   });
 }
+
+export function setUpDeleteAccountButton() {
+  const deleteAccountBtn = document.getElementById('delete-account-btn');
+  deleteAccountBtn.addEventListener('click', () => {
+    const confirmation = prompt('Type DELETE to confirm account deletion:');
+    if (confirmation === 'DELETE') {
+      fetch('/api/users/me', {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to delete account');
+        }
+        window.dispatchEvent(new Event('auth-change'));
+        window.history.pushState({}, '', '/home');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }).catch((error) => {
+        console.error('Error deleting account:', error);
+      });
+    } else {
+      alert('Account deletion cancelled.');
+    }
+  });
+}

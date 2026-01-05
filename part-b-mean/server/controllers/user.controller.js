@@ -57,7 +57,7 @@ exports.login = async (req, res, next) => {
       username: user.username,
       email: user.email,
       preferences: user.preferences,
-      isAdmin: user.isAdmin
+      role: user.role
     };
 
     res.status(200).json({ message: 'Login successful' });

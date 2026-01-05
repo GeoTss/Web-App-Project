@@ -23,7 +23,7 @@ export async function renderMenu() {
     { text: 'Login', href: '/login' }
   ];
 
-  const superLinks = [
+  const adminLinks = [
     { text: 'UserManagement', href: '/admin/users' },
     { text: 'CourseManagement', href: '/admin/courses' }
   ];
@@ -52,7 +52,7 @@ export async function renderMenu() {
     }
 
     if (user?.role === 1) {
-      links = links.concat(superLinks);
+      links = links.concat(adminLinks);
     }
 
     return links;

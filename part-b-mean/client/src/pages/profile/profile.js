@@ -4,7 +4,8 @@ import {
   initializeFilters,
   setupFieldUpdateButtons,
   setupLogoutButton,
-  setupUpdateProfileButton
+  setupUpdateProfileButton,
+  setUpDeleteAccountButton
 } from './profile-helper.js';
 
 export function renderProfile() {
@@ -28,6 +29,7 @@ export function renderProfile() {
       <div id="filters-wrapper"></div>
       <button id="update-profile-btn">Save</button>
       <button id="logout-btn">Logout</button>
+      <button id="delete-account-btn">Delete Account</button>
     </div>
   `;
 
@@ -35,6 +37,7 @@ export function renderProfile() {
   setupUpdateProfileButton();
   setupFieldUpdateButtons();
   setupLogoutButton();
+  setUpDeleteAccountButton();
   renderFooter();
   initializeFilters();
 }
