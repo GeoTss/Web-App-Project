@@ -21,6 +21,10 @@ export function initLoginForm() {
       if (!res.ok) {
         throw new Error('Login failed');
       }
+     
+      window.dispatchEvent(new Event('auth-change'));
+      window.history.pushState({}, '', '/');
+      window.dispatchEvent(new PopStateEvent('popstate'));
 
       await res.json();
 

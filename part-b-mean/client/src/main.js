@@ -56,5 +56,9 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', router);
+window.addEventListener('DOMContentLoaded', () => {
+  renderMenu();
+});
+
 window.addEventListener('popstate', router);
 renderMenu();

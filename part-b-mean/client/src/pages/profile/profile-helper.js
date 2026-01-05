@@ -22,12 +22,12 @@ export function getProfileInfo() {
   }).then((data) => {
     document.getElementById('username').textContent = data.username;
     document.getElementById('email').textContent = data.email;
+  
   }).catch((error) => {
     console.error('Error fetching profile info:', error);
   });
 }
 
-// Create filter sections once during initialization
 let filterController;
 
 export function initializeFilters() {
@@ -59,9 +59,8 @@ export function initializeFilters() {
         FilterLookup.CATEGORY,
         Object.values(category_t)
     );
-    console.log('Filters initialized');
+    // console.log('Filters initialized');
 }
-
 
 // Just get the current filter values
 export function getPreferences() {
@@ -151,6 +150,7 @@ export function setupLogoutButton() {
       if (!response.ok) {
         throw new Error('Failed to logout');
       }
+      window.dispatchEvent(new Event('auth-change'));
       return response.json();
     }).then((data) => {
       window.history.pushState({}, '', '/home');

@@ -139,6 +139,13 @@ export function initRegisterForm() {
 
       alert("Register successful");
       confirmation.classList.remove("visible");
+
+      window.dispatchEvent(new Event('auth-change'));
+      window.history.pushState({}, '', '/');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+
+      window.history.pushState({}, '', '/profile');
+      window.dispatchEvent(new PopStateEvent('popstate'));
     };
   });
 }

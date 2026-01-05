@@ -1,4 +1,3 @@
-import { initCourses } from '../courses/courses-helper.js'; 
 import { renderFooter } from '../../components/footer.js';
 import {
   getProfileInfo,
@@ -37,7 +36,7 @@ export function renderProfile() {
   setupFieldUpdateButtons();
   setupLogoutButton();
   renderFooter();
-  initCourses();
+  initializeFilters();
 }
 
 

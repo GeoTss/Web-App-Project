@@ -1,4 +1,4 @@
-export function renderMenu() {
+export async function renderMenu() {
   const container = document.getElementById('navbar-container');
   if (!container) return;
 
@@ -23,9 +23,35 @@ export function renderMenu() {
     { text: 'Login', href: '/login' }
   ];
 
-  const superLinks = [
-    { text: 'Admin Dashboard', href: '/admin' }
-  ];
+  function renderNavLinks(links) {
+    linksList.innerHTML = '';
+    links.forEach(({ text, href }) => {
+    
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+
+      a.href = href;
+      a.textContent = text;
+      a.setAttribute('data-link', '');
+
+      li.appendChild(a);
+      linksList.appendChild(li);
+    });
+  }
+
+  function buildLinks(user) {
+    let links = [...navLinks];
+
+    if (!user) {
+      links = links.concat(optionalLinks);
+    }
+
+    if (user?.role === 'admin') {
+      links = links.concat(superLinks);
+    }
+
+    return links;
+  }
 
   navbar.id = 'nav';
   bar.classList.add('bar');
@@ -50,7 +76,30 @@ export function renderMenu() {
   navbar.appendChild(linksList);
   container.appendChild(navbar);
 
-  window.addEventListener('popstate', async () => { 
+  const user = await getCurrentUser();
+
+  accountBtn.textContent = user ? user.username : 'Account';
+  renderNavLinks(buildLinks(user));
+
+  accountBtn.addEventListener('click', () => {
+    const target = user ? '/profile' : '/login';
+    window.history.pushState({}, '', target);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  });
+  toggleBtn.addEventListener('click', () => {
+    linksList.classList.toggle('collapsed');
+    const isCollapsed = linksList.classList.contains('collapsed');
+    toggleBtn.innerHTML = isCollapsed ? '&#9660;' : '&#9650;';
+  });
+  window.addEventListener('auth-change', async () => {
+    const user = await getCurrentUser();
+    accountBtn.textContent = user ? user.username : 'Account';
+    renderNavLinks(buildLinks(user));
+  });
+}
+  
+async function getCurrentUser() {
+  try {
     const response = await fetch('/api/users/me', {
       method: 'GET',
       credentials: 'include',
@@ -58,52 +107,13 @@ export function renderMenu() {
         'Content-Type': 'application/json',
       },
     });
-    if (response.ok) {
-      const userData = await response.json();
-      accountBtn.textContent = userData.username;
-      renderNavLinks(navLinks);
-    } else {
-      accountBtn.textContent = 'Account';
-      renderNavLinks(navLinks.concat(optionalLinks));
+    if (!response.ok) {
+      return null;
     }
-  });
-
-  toggleBtn.addEventListener('click', () => {
-    linksList.classList.toggle('collapsed');
-    const isCollapsed = linksList.classList.contains('collapsed');
-    toggleBtn.innerHTML = isCollapsed ? '&#9660;' : '&#9650;';
-  });
-
-  accountBtn.addEventListener('click', () => {
-    // if user authenticated send to profile page
-    if (accountBtn.textContent !== 'Account') {
-      window.history.pushState({}, '', '/profile');
-      window.dispatchEvent(new PopStateEvent('popstate'));
-      return;
-    } else {
-      window.history.pushState({}, '', '/login');
-      window.dispatchEvent(new PopStateEvent('popstate'));
-    }
-  });
-
-
-  function renderNavLinks(links) {
-    linksList.innerHTML = '';
-    links.forEach(({ text, href }) => {
-    
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-
-      a.href = href;
-      a.textContent = text;
-      a.setAttribute('data-link', '');
-
-      li.appendChild(a);
-      linksList.appendChild(li);
-    });
-
+    const userData = await response.json();
+    return userData;
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    return null;
   }
-
-  renderNavLinks(navLinks.concat(optionalLinks));
-
 }

@@ -108,6 +108,11 @@ exports.updateUserProfile = async (req, res, next) => {
 
     req.session.user.email = updatedUser.email;
 
+    req.session.user.username = updatedUser.username;
+    req.session.user.email = updatedUser.email;
+    req.session.user.preferences = updatedUser.preferences;
+
+    
     res.status(200).json({ message: 'Profile updated successfully' });
   } catch (error) {
     next(error);
