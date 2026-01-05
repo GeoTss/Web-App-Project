@@ -10,6 +10,8 @@ import { category_t, difficulty_t } from "../../modules/category-utils.js";
 let preferableCategories = [];
 let preferableDifficulties = [];
 
+let anchorProfileInfo = false;
+
 export function getProfileInfo() {
   fetch('/api/users/me', {
     method: 'GET',
@@ -28,8 +30,11 @@ export function getProfileInfo() {
 
     preferableCategories = data.preferences.categories;
     preferableDifficulties = data.preferences.difficulties;
-
-    initializeFilters();
+    
+    if (!anchorProfileInfo) {
+      initializeFilters();
+      anchorProfileInfo = true;
+    }
 
   }).catch((error) => {
     console.error('Error fetching profile info:', error);
@@ -97,7 +102,6 @@ export function getPreferences() {
 export function setupUpdateProfileButton() {
   const updateBtn = document.getElementById('update-profile-btn');
   updateBtn.addEventListener('click', e => {
-    e.preventDefault();
     const newUsername = document.getElementById('username').textContent;
     const newEmail = document.getElementById('email').textContent;
     console.log('Updating profile with:', newUsername, newEmail, getPreferences());

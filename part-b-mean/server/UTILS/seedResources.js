@@ -1,10 +1,9 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
 const Resource = require('../models/resource.model');
 const { CategoryLookup, resourceTypeLookup, category_t } = require('../../client/src/modules/category-utils.js');
-const uname = process.env.MONGO_USERNAME;
-const pwd = process.env.MONGO_PASSWORD;
-const uri = process.env.MONGO_URI || `mongodb+srv://${uname}:${encodeURIComponent(pwd)}@webappprojectaueb.ms7f1ey.mongodb.net/?appName=WebAppProjectAueb`;  
+
+const connectDB  = require('../config/db.js');
+const path = "imagesBV/";
 
 function getCategoryTag(id) {
     const cat = category_t[id];
@@ -25,7 +24,7 @@ const resources = [
     title: "Computer Systems: A Programmer's Perspective",
     author: "Randal E. Bryant",
     url: "https://example.com/book/csapp",
-    coverImage: "9780134092669-L.jpg",
+    coverImage: `${path}9780134092669-L.jpg`,
     category: CategoryLookup.SYSTEMS_PROGRAMMING
   },
   {
@@ -33,7 +32,7 @@ const resources = [
     title: "Making Embedded Systems",
     author: "Elecia White",
     url: "https://example.com/book/embedded",
-    coverImage: "9781449302146-L.jpg",
+    coverImage: `${path}9781449302146-L.jpg`,
     category: CategoryLookup.EMBEDDED_SYSTEMS
   },
   {
@@ -41,7 +40,7 @@ const resources = [
     title: "Clean Architecture",
     author: "Robert C. Martin",
     url: "https://example.com/book/clean-architecture",
-    coverImage: "9780134494166-L.jpg",
+    coverImage: `${path}9780134494166-L.jpg`,
     category: CategoryLookup.APP_DEVELOPMENT
   },
   {
@@ -49,8 +48,96 @@ const resources = [
     title: "You Don't Know JS Yet: Get Started",
     author: "Kyle Simpson",
     url: "https://example.com/book/ydkjs",
-    coverImage: "9781673053138-L.jpg",
+    coverImage: `${path}9781673053138-L.jpg`,
     category: CategoryLookup.WEB_DEVELOPMENT
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Python for Data Analysis",
+    author: "Wes McKinney",
+    url: "https://example.com/book/python-data-analysis",
+    coverImage: `${path}9781491957660-L.jpg`,
+    category: CategoryLookup.DATA_SCIENCE
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Artificial Intelligence: A Modern Approach",
+    author: "Stuart Russell",
+    url: "https://example.com/book/artificial-intelligence",
+    coverImage: `${path}9780134610993-L.jpg`,
+    category: CategoryLookup.ARTIFICIAL_INTELLIGENCE
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Computer Networking: A Top-Down Approach",
+    author: "James Kurose",
+    url: "https://example.com/book/computer-networking",
+    coverImage: `${path}9780136681557-L.jpg`,
+    category: CategoryLookup.NETWORKS
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "The Web Application Hacker's Handbook",
+    author: "Dafydd Stuttard",
+    url: "https://example.com/book/web-application-hackers-handbook",
+    coverImage: `${path}9781118026472-L.jpg`,
+    category: CategoryLookup.CYBERSECURITY
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Cloud Native Patterns",
+    author: "Cornelia Davis",
+    url: "https://example.com/book/cloud-native-patterns",
+    coverImage: `${path}9781617293623-L.jpg`,
+    category: CategoryLookup.CLOUD_COMPUTING
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "The Phoenix Project",
+    author: "Gene Kim",
+    url: "https://example.com/book/phoenix-project",
+    coverImage: `${path}9781942788294-L.jpg`,
+    category: CategoryLookup.CLOUD_COMPUTING
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Real-Time Rendering",
+    author: "Tomas Akenine-Möller",
+    url: "https://example.com/book/real-time-rendering",
+    coverImage: `${path}9781138627000-L.jpg`,
+    category: CategoryLookup.GRAPHICS_PROGRAMMING
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Game Programming Patterns",
+    author: "Robert Nystrom",
+    url: "https://example.com/book/game-programming-patterns",
+    coverImage: `${path}9780990582905-L.jpg`,
+    category: CategoryLookup.GRAPHICS_PROGRAMMING
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    url: "https://example.com/book/designing-data-intensive-applications",
+    coverImage: `${path}9781449373320-L.jpg`,
+    category: CategoryLookup.DATA_SCIENCE
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Programming Quantum Computers",
+    author: "Eric R. Johnston",
+    url: "https://example.com/book/programming-quantum-computers",
+    coverImage: `${path}9781492039686-L.jpg`,
+    category: CategoryLookup.QUANTUM_COMPUTING
+  },
+  {
+    type: resourceTypeLookup.BOOK,
+    title: "Mastering Bitcoin",
+    author: "Andreas M. Antonopoulos",
+    url: "https://example.com/book/mastering-bitcoin",
+    coverImage: `${path}9781491954386-L.jpg`,
+    category: CategoryLookup.BLOCKCHAIN
   },
 
   // VIDEOS
@@ -59,7 +146,7 @@ const resources = [
     title: "Systems Programming Video",
     author: "Clueless Code Learning",
     url: SAMPLE_VIDEO_URL,
-    coverImage: "maxresdefault0.jpg",
+    coverImage: `${path}maxresdefault0.jpg`,
     category: CategoryLookup.SYSTEMS_PROGRAMMING
   },
   {
@@ -67,26 +154,75 @@ const resources = [
     title: "Embedded Systems Video",
     author: "Clueless Code Learning",
     url: SAMPLE_VIDEO_URL,
-    coverImage: "maxresdefault1.jpg",
+    coverImage: `${path}maxresdefault1.jpg`,
     category: CategoryLookup.EMBEDDED_SYSTEMS
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "Web Development Video",
+    author: "Clueless Code Learning",
+    url: SAMPLE_VIDEO_URL,
+    coverImage: `${path}maxresdefault2.jpg`,
+    category: CategoryLookup.WEB_DEVELOPMENT
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "App Development Video",
+    author: "Clueless Code Learning",
+    url: SAMPLE_VIDEO_URL,
+    coverImage: `${path}maxresdefault3.jpg`,
+    category: CategoryLookup.APP_DEVELOPMENT
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "Artificial Intelligence Video",
+    author: "Clueless Code Learning",
+    url: SAMPLE_VIDEO_URL,
+    coverImage: `${path}maxresdefault4.jpg`,
+    category: CategoryLookup.ARTIFICIAL_INTELLIGENCE
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "Data Science Video",
+    author: "Clueless Code Learning",
+    url: SAMPLE_VIDEO_URL,
+    coverImage: `${path}maxresdefault5.jpg`,
+    category: CategoryLookup.DATA_SCIENCE
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "Cybersecurity Video",
+    author: "Clueless Code Learning",
+    url: SAMPLE_VIDEO_URL,
+    coverImage: `${path}maxresdefault6.jpg`,
+    category: CategoryLookup.CYBERSECURITY
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "Networks Video",
+    author: "Clueless Code Learning",
+    url: SAMPLE_VIDEO_URL,
+    coverImage: `${path}maxresdefault7.jpg`,
+    category: CategoryLookup.NETWORKS
   }
 ];
 
+(async () => {
+    try {
+      await connectDB();
+      await Resource.deleteMany({});
+      console.log('Old resources removed');
 
-async function seedResources() {
-  try {
-    await mongoose.connect(uri);
-    console.log('Connected to MongoDB');
+      await Resource.insertMany(resources);
+      console.log('Resources seeded successfully');
+      await Resource.deleteMany({});
+      console.log('Old resources removed');
+      await Resource.insertMany(resources);
+      console.log('Resources seeded successfully');
 
-    await Resource.deleteMany({});
-    console.log('Old resources removed');
-
-    await Resource.insertMany(resources);
-    console.log('Resources seeded successfully');
-
-    process.exit(0);
-  } catch (err) {
-    console.error('Seeding failed:', err);
-    process.exit(1);
-  }
-}
+      process.exit(0);
+    } catch (err) {
+      console.error('Seeding failed:', err);
+      process.exit(1);
+    }
+})();

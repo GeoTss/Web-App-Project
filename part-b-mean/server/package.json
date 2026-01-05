@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed:users": "node UTILS/seedUsers.js",
     "seed:courses": "node UTILS/seedCourses.js",
-    "seed:course-details": "node UTILS/seedCourseDetails.js",
+    "seed:resources": "node UTILS/seedResources.js",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },

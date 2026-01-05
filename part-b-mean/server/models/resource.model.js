@@ -6,7 +6,7 @@ const { resourceTypeLookup } = require('../../client/src/modules/category-utils'
 const ResourceSchema = Schema(
     {
         type: {
-            type: String,
+            type: Number,
             required: true,
             enum: [resourceTypeLookup.BOOK, resourceTypeLookup.VIDEO],
         },
