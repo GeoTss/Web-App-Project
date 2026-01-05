@@ -1,6 +1,6 @@
 const express = require('express');
 const resourceController = require('../controllers/resource.controller');
-const { requireAuth } = require('../middleware/auth.middleware');
+const { requireAuth, requireAdmin } = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
@@ -11,15 +11,15 @@ router.get('/', resourceController.getAllResources);
 router.get('/:id', resourceController.getResourceById);
 
 // Search resources by type and category
-router.get('/search', resourceController.getResourcesByTypeAndCategory);
+router.post('/search', resourceController.getResourcesByTypeAndCategory);
 
 // Create resources
-router.post('/', requireAuth, resourceController.createResource);
+router.post('/', requireAuth, requireAdmin, resourceController.createResource);
 
 // Update resources
-router.put('/:id', requireAuth, resourceController.updateResource);
+router.put('/:id', requireAuth, requireAdmin, resourceController.updateResource);
 
 // Delete resources
-router.delete('/:id', requireAuth, resourceController.deleteResource);
+router.delete('/:id', requireAuth, requireAdmin, resourceController.deleteResource);
 
 module.exports = router;

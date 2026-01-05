@@ -5,16 +5,6 @@ const { CategoryLookup, resourceTypeLookup, category_t } = require('../../client
 const connectDB  = require('../config/db.js');
 const path = "imagesBV/";
 
-function getCategoryTag(id) {
-    const cat = category_t[id];
-    return {
-        categoryLookupId: id,
-        tagName: cat.name,
-        tagColor: cat.color,
-        tagClass: `tag-${cat.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`
-    };
-}
-
 const SAMPLE_VIDEO_URL = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
 const resources = [
