@@ -1,3 +1,4 @@
+const resource = require('../models/resource.model');
 const Resource = require('../models/resource.model');
 
 exports.getAllResources = async (req, res, next) => {
@@ -47,8 +48,20 @@ exports.getResourcesByTypeAndCategory = async (req, res, next) => {
 
 exports.createResource = async (req, res, next) => {
   try {
-    const { title, content, type } = req.body;
-    const newResource = await Resource.create({ title, content, type });
+    const { type, title, author, url, coverImage, videoId, category } = req.body;
+    if (!type || !title || !category) {
+      return res.status(400).json({ message: 'Type, Title, and Category are required' });
+    }
+    let resourceData = {type, title, category};
+    if (author)
+      resourceData.author = author;
+    if (url)
+      resourceData.url = url;
+    if (coverImage)
+      resourceData.coverImage = coverImage;
+    if (videoId)
+      resourceData.videoId = videoId;
+    const newResource = await Resource.create(resourceData);
     res.status(201).json(newResource);
   } catch (error) {
     next(error);
@@ -58,11 +71,26 @@ exports.createResource = async (req, res, next) => {
 exports.updateResource = async (req, res, next) => {
   try {
     const resourceId = req.params.id;
-    const { title, content, type } = req.body;
+
+    const { type, title, author, url, coverImage, videoId, category } = req.body;
+
+    if (!type || !title || !category) {
+      return res.status(400).json({ message: 'Type, Title, and Category are required' });
+    }
+
+    let resourceData = {type, title, category};
+    if (author)
+      resourceData.author = author;
+    if (url)
+      resourceData.url = url;
+    if (coverImage)
+      resourceData.coverImage = coverImage;
+    if (videoId)
+      resourceData.videoId = videoId;
 
     const updatedResource = await Resource.findByIdAndUpdate(
       resourceId,
-      { title, content, type },
+      resourceData,
       { new: true }
     );
 

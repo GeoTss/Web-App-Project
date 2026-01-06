@@ -29,29 +29,43 @@ export function renderHome() {
         <p>Our team of professional procrastinators has spent countless hours (mostly on social media) creating content that will leave you more confused than when you started. From outdated tutorials to broken code examples, we've got it all. Join thousands of confused students who have chosen mediocrity over excellence.</p>
       </article>
 
-      <section class="contact-section" style="flex:1 1 420px; padding:0; margin:0; max-width:none;">
-        <h2>Contact Us</h2>
-        <p>Have questions? Complaints? Want to tell us how terrible we are? Fill out the form below!</p>
+      <div style="display:flex; gap:1.5rem; align-items:flex-start; flex-wrap:wrap; padding:3rem 12vw 4rem;">
+        <div style="flex:1 1 420px;">
+        <h2 style="font-size:2.25rem; margin:0 0 1rem; color:#0b1330; letter-spacing:-0.02em;">Our Headquarters</h2>
+        <iframe 
+          title="Our Headquarters Map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3133.505327787211!2d21.736331568918526!3d38.24458457833008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x135e4971e576c08b%3A0xbf6534858e95f9d!2sDrink%26Go!5e0!3m2!1sen!2sgr!4v1766071726148!5m2!1sen!2sgr"          style="width:100%; height:450px; border:0; border-radius:16px; box-shadow:0 10px 30px rgba(15,23,42,0.06);"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <section class="contact-section">
         <form class="contact-form">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
-          </div>
-          <div class="form-group">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" required />
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Send Message</button>
-        </form>
-      </section>
+            <h2>Contact Us</h2>
+            <p>Have questions? Complaints? Want to tell us how terrible we are? Fill out the form below!</p>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+              <button type="submit" id="btn-primary">Send Message</button>
+            </div>
+          </form>
+        </section>
+      </div>
     </div>
   `;
 

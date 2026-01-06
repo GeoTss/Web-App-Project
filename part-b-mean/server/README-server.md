@@ -1,12 +1,14 @@
-# How to run WebAppProject Server
+# **WebAppProject Server**
 
-Set .env values:
+## **How 2 Run** 
+
+Create .env & set values:
 - PORT = <PORT> (DEFAULT is 3000)
 - SESSION_SECRET = <SESSION_SECRET> (DEFAULT is secret)
 - MONGO_URL=<MONGO_URL> (DEFAULT none)
 
 ```bash
-# On the part-b-mean/server directory
+# On part-b-mean/server directory
 
 # Install dependencies
 npm install
@@ -16,9 +18,9 @@ npm run dev
 npm run start
 ```
 
-# WebAppProject API Documentation
+## **WebAppProject API Documentation**
 
-## **BASIC STUFF**
+### **BASIC STUFF**
 Base URL: `http://localhost:3000`  
 All authenticated requests **MUST INCLUDE COOKIES**:
 
@@ -30,10 +32,10 @@ fetch('http://localhost:3000/api/users/me', {
 ```
 
 ---
-## **Authentication & Users**
 
+### **Authentication & Users**
 
-### **POST /api/users/register** 
+#### **POST /api/users/register** 
 
 Register a new user and automatically create a session.
 
@@ -42,7 +44,9 @@ Register a new user and automatically create a session.
 {
     "username": "string",
     "email": "string",
-    "password": "string"
+    "password": "string",
+    "category": [...],
+    "difficulty": [...]
 }
 ```
 
@@ -80,7 +84,7 @@ NOTES:
 
 ---
 
-### **POST /api/users/logout**
+### **post /api/users/logout**
 
 Destroy current session.
 
@@ -92,7 +96,7 @@ Destroy current session.
 ```
 
 NOTES:
-- Clears session cookie
+- Clears session cookie.
 
 ---
 
@@ -120,7 +124,9 @@ Update user's characteristics.
 {
   "username": "string",
   "email": "string",
-  "password": "string"
+  "password": "string",
+  "category": [],
+  "difficulty": []
 }
 ```
 
@@ -152,7 +158,7 @@ Deletes user by profile option.
 
 ### **GET /api/courses**
 
-Get all courses
+Get all courses. (UNUSED)
 
 ```json
 // RESPONSE
@@ -171,7 +177,8 @@ Get all courses
 ---
 
 ### **GET /api/courses/:id**
-Get a course by id param
+
+Get a course by id param. (UNUSED)
 
 ```json
 // RESPONSE
@@ -193,8 +200,8 @@ Fetch all courses with specified filters.
 ```json
 // REQUEST
 {
-  "categories": [1, 3, 5],
-  "difficulties": [2, 4]
+  "category": [1, 3, 5],
+  "difficulty": [2, 4]
 }
 ```
 
@@ -213,9 +220,27 @@ Fetch all courses with specified filters.
 
 ---
 
+
+### **GET /api/courses/:id/details**
+
+Get course details by courseId param. 
+
+```json
+// RESPONSE
+{
+    "_id": "string",
+    "course": course,
+    "title": "string",
+    "description": "string",
+    "sections": [topics]
+}
+```
+
+---
+
 ### **POST /api/courses**
 
-Create a new course
+Create a new course. (UNUSED)
 
 **Admin required:** Yes
 
@@ -238,14 +263,13 @@ Create a new course
 
 ### **PUT /api/courses/:id**
 
-Update a course by id
+Update a course by id. (UNUSED)
 
 **Admin required:** Yes
 
 ```json
 // REQUEST
 {
-  "_id": "string",
   "title": "string",
   "description": "string",
   "category": number,
@@ -262,14 +286,14 @@ Update a course by id
 
 ### **DELETE /api/courses**
 
-Delete a course
+Delete a course. (UNUSED)
 
 **Admin required:** Yes
 
 ```json
 // REQUEST
 {
-  "_id": "string",
+  "courseId": "string"
 }
 ```
 
@@ -292,14 +316,34 @@ Get all enrollments of current user.
 // RESPONSE
 [
   {
-    "course": {
-      "_id": "string",
-      "title": "string"
-    },
+    "_id": "string",
+    "user": user,
+    "course": course,
     "progress": number,
-    "status": "ENROLLED"
+    "status": number,
+    "topics": []
   }
 ]
+```
+
+---
+
+### **GET /api/enrollments/:courseId**
+
+Get enrollment by id. (UNUSED)
+
+**Auth required**: Yes
+
+```json
+// RESPONSE
+{
+  "_id": "string",
+  "user": user,
+  "course": course,
+  "progress": number,
+  "status": number,
+  "topics": []
+}
 ```
 
 ---
@@ -311,8 +355,15 @@ Enroll current user to a course.
 **Auth required**: Yes
 
 ```json
+//REQUEST
+{
+  "courseId":"string",
+}
+```
+
+```json
 // RESPONSE
-200 (OK)
+201 (OK)
 ```
 
 Notes:
@@ -327,7 +378,180 @@ Update an enrollment's progress
 **Auth required**: Yes
 
 ```json
+// REQUEST
+{
+  "courseId":"string",
+  "topicId": "string",
+  "check": boolean
+}
+
 ```
+
+```json
+// RESPONSE
+200 (OK)
+```
+
+---
+
+### **DELETE /api/enrollments/enroll**
+
+Delete an enrollment.
+
+**Auth required**: Yes
+
+```json
+// REQUEST
+{
+  "courseId":"string",
+}
+
+```
+
+```json
+// RESPONSE
+200 (OK)
+```
+
+---
+
+### **GET /api/resources/**
+
+Get all resources. (UNUSED)
+
+```json
+// RESPONSE for video
+{
+  "_id": "string",
+  "type": number,
+  "title": "string",
+  "videoId": "string",
+  "category": number
+}
+// RESPONSE for book
+{
+  "_id": "string",
+  "type": number,
+  "title": "string",
+  "author": "string",
+  "url": "string",
+  "coverImage": "string",
+  "category": number,
+}
+```
+
+---
+
+### **GET /api/resources/:id**
+
+Get resource by id. (UNUSED)
+
+```json
+// RESPONSE for video
+{
+  "_id": "string",
+  "type": number,
+  "title": "string",
+  "videoId": "string",
+  "category": number
+}
+// RESPONSE for book
+{
+  "_id": "string",
+  "type": number,
+  "title": "string",
+  "author": "string",
+  "url": "string",
+  "coverImage": "string",
+  "category": number,
+}
+```
+
+---
+
+### **POST /api/resources/search**
+
+Get resources by type and category.
+
+```json
+// REQUEST
+{
+  "type": [],
+  "category": []
+}
+```
+
+```json
+// RESPONSE
+200 (OK)
+```
+
+---
+
+### **POST /api/resources/**
+
+Create a resource. (UNUSED)
+
+**Admin required:** Yes
+
+```json
+// REQUEST
+  {
+    "type": number,
+    "title": "string",
+    "author": "string",
+    "url": "string",
+    "coverImage": "string",
+    "videoId": "string",
+    "category": number    
+  }
+```
+
+```json
+// RESPONSE
+201 (CREATED)
+```
+
+---
+
+### **PUT /api/resources/:id**
+
+Update a resource. (UNUSED)
+
+**Admin required:** Yes
+
+```json
+// REQUEST
+  {
+    "type": number,
+    "title": "string",
+    "author": "string",
+    "url": "string",
+    "coverImage": "string",
+    "videoId": "string",
+    "category": number    
+  }
+```
+
+```json
+// RESPONSE
+200 (OK)
+```
+
+---
+
+### **DELETE /api/resources/:id**
+
+Delete a resource. (UNUSED)
+
+**Admin required:** Yes
+
+```json
+// RESPONSE
+200 (OK)
+```
+
+---
 
 
 ### **Error Codes:**

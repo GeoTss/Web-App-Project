@@ -1,97 +1,136 @@
-.page-home body {
+body.page-home {
     margin: 0;
     font-family: "Inter", system-ui, -apple-system, sans-serif;
     background: radial-gradient(circle at top left, #eef2ff, #f8fafc);
     color: #0f172a;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color-scheme: light;
 }
+
 .page-home .main {
     min-height: 100vh;
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
+
 .page-home .hero {
     display: grid;
     align-content: center;
     gap: 1.5rem;
-    padding: 4rem 12vw 3rem;
+    padding-block: clamp(3rem, 6vw, 4rem) clamp(2rem, 5vw, 3rem);
+    padding-inline: clamp(6vw, 10vw, 12vw);
     text-align: left;
 }
+
 .page-home .hero h1 {
     font-size: clamp(2.75rem, 5vw, 3.75rem);
     margin: 0;
     color: #0b1330;
     letter-spacing: -0.03em;
+    text-wrap: balance;
 }
+
 .page-home .hero p {
-    max-width: 720px;
+    max-width: min(72ch, 720px);
     line-height: 1.7;
     margin: 0;
     color: #1f2937;
     font-size: 1.1rem;
 }
+
 .page-home .hero .cta {
     display: inline-flex;
     gap: 0.75rem;
     margin-top: 1rem;
 }
+
 .page-home .btn {
     border: none;
     border-radius: 12px;
     padding: 0.95rem 1.4rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.2s ease;
     font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.page-home .btn:focus-visible {
+    outline: 3px solid rgba(99, 102, 241, 0.55);
+    outline-offset: 2px;
+}
+
 .page-home .btn-primary {
     background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background-size: 200% 200%;
     color: #fff;
     box-shadow: 0 12px 30px rgba(99, 102, 241, 0.25);
 }
-.page-home .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(99, 102, 241, 0.35);
-}
+
 .page-home .btn-outline {
     background: #fff;
     border: 1px solid #e2e8f0;
     color: #0f172a;
 }
-.page-home .btn-outline:hover {
-    border-color: #cbd5e1;
-    transform: translateY(-2px);
+
+@media (hover: hover) {
+    .page-home .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 40px rgba(99, 102, 241, 0.35);
+        background-position: right center;
+    }
+    .page-home .btn-outline:hover {
+        border-color: #cbd5e1;
+        background-color: #f8fafc;
+        transform: translateY(-2px);
+    }
 }
+
 .page-home .highlights {
-    padding: 3rem 12vw 4rem;
+    padding: 3rem clamp(6vw, 10vw, 12vw) 4rem;
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    align-items: stretch;
 }
+
 .page-home .card {
     background: #fff;
     border-radius: 16px;
     padding: 1.4rem;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
     border: 1px solid #e5e7eb;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    will-change: transform;
 }
-.page-home .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+
+@media (hover: hover) {
+    .page-home .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+        border-color: #e2e8f0;
+    }
 }
+
 .page-home .card h3 {
     margin: 0 0 0.6rem;
     font-size: 1.15rem;
     color: #0b1330;
 }
+
 .page-home .card p {
     margin: 0;
     color: #475569;
     line-height: 1.6;
     font-size: 0.95rem;
 }
+
 .page-home .about-section {
-    padding: 3rem 12vw 4rem;
+    padding: clamp(2rem, 4vw, 3rem) clamp(6vw, 10vw, 12vw) clamp(3rem, 6vw, 4rem);
     max-width: 920px;
     margin: 0 auto;
     background: #fff;
@@ -100,52 +139,81 @@
     border: 1px solid #e5e7eb;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.page-home .about-section:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 50px rgba(99, 102, 241, 0.15);
+
+@media (hover: hover) {
+    .page-home .about-section:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(99, 102, 241, 0.15);
+    }
 }
+
 .page-home .about-section h2 {
-    font-size: 2.25rem;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
     margin: 0 0 1.5rem;
     color: #0b1330;
     letter-spacing: -0.02em;
+    text-wrap: balance;
 }
+
 .page-home .about-section p {
     line-height: 1.7;
     color: #1f2937;
     font-size: 1.05rem;
     margin-bottom: 1.25rem;
 }
+
 .page-home .contact-section {
-    padding: 3rem 12vw 4rem;
+    padding: 3rem 1.5rem 4rem;
     max-width: 720px;
     margin: 0 auto;
+    display: grid;
+    justify-items: center;
 }
+
+.page-home .contact-section h2,
+.page-home .contact-section > p {
+    text-align: center;
+    max-width: 640px;
+}
+
 .page-home .contact-section h2 {
-    font-size: 2.25rem;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
     margin: 0 0 1rem;
     color: #0b1330;
     letter-spacing: -0.02em;
+    text-wrap: balance;
 }
+
 .page-home .contact-section > p {
     line-height: 1.7;
     color: #1f2937;
     font-size: 1.05rem;
     margin-bottom: 2rem;
 }
+
 .page-home .contact-form {
+    width: 100%;
+    max-width: 640px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    padding: 1.5rem;
     display: grid;
     gap: 1.5rem;
 }
+
 .page-home .form-group {
     display: grid;
     gap: 0.5rem;
 }
+
 .page-home .form-group label {
     font-weight: 600;
     color: #0b1330;
     font-size: 0.95rem;
 }
+
 .page-home .form-group input,
 .page-home .form-group textarea {
     padding: 0.85rem 1rem;
@@ -154,13 +222,76 @@
     font-family: inherit;
     font-size: 1rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
+    caret-color: #6366f1;
 }
+
+.page-home .form-group input::placeholder,
+.page-home .form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
 .page-home .form-group input:focus,
 .page-home .form-group textarea:focus {
     outline: none;
     border-color: #6366f1;
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
+
 .page-home .form-group textarea {
     resize: vertical;
+}
+
+.page-home .form-group button {
+    margin-top: 10px;
+    padding: 0.95rem 1.4rem;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 30px rgba(99, 102, 241, 0.25);
+}
+
+.page-home .form-group button:focus-visible {
+    outline: 3px solid rgba(99, 102, 241, 0.55);
+    outline-offset: 2px;
+}
+
+@media (hover: hover) {
+    .page-home .form-group button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 40px rgba(99, 102, 241, 0.35);
+        background-color: #5b5eea;
+    }
+}
+
+.page-home .form-group button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-home .btn,
+    .page-home .btn-primary,
+    .page-home .btn-outline,
+    .page-home .card,
+    .page-home .about-section,
+    .page-home .form-group button {
+        transition: none;
+    }
+    .page-home .btn-primary:hover,
+    .page-home .btn-outline:hover,
+    .page-home .card:hover,
+    .page-home .about-section:hover,
+    .page-home .form-group button:hover {
+        transform: none;
+    }
 }
