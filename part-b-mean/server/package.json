@@ -6,9 +6,9 @@
   "scripts": {
     "serve": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed:users": "node UTILS/seedUsers.js",
-    "seed:courses": "node UTILS/seedCourses.js",
-    "seed:resources": "node UTILS/seedResources.js",
+    "seed:users": "node seeds/seedUsers.js",
+    "seed:courses": "node seeds/seedCourses.js",
+    "seed:resources": "node seeds/seedResources.js",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
