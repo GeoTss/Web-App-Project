@@ -16,13 +16,17 @@ const ResourceSchema = Schema(
         },
         author: {
             type: String,
-            required: true,
+            required: false,
         },
         url: {
             type: String,
-            required: true,
+            required: false,
         },
         coverImage: {
+            type: String,
+            required: false,
+        },
+        videoId: {
             type: String,
             required: false,
         },

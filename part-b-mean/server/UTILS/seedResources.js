@@ -133,66 +133,50 @@ const resources = [
   // VIDEOS
   {
     type: resourceTypeLookup.VIDEO,
-    title: "Systems Programming Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault0.jpg`,
+    title: "Programming with Schizophrenia: The Tragic Story of Terry A. Davis",
+    videoId: "YMUhbIAA9-8",
     category: CategoryLookup.SYSTEMS_PROGRAMMING
   },
   {
     type: resourceTypeLookup.VIDEO,
     title: "Embedded Systems Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault1.jpg`,
+    videoId: "dQw4w9WgXcQ",
     category: CategoryLookup.EMBEDDED_SYSTEMS
   },
   {
     type: resourceTypeLookup.VIDEO,
     title: "Web Development Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault2.jpg`,
+    videoId: "ArkLSz-It0s",
     category: CategoryLookup.WEB_DEVELOPMENT
   },
   {
     type: resourceTypeLookup.VIDEO,
     title: "App Development Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault3.jpg`,
+    videoId: "CgdKYBqe6QA",
     category: CategoryLookup.APP_DEVELOPMENT
   },
   {
     type: resourceTypeLookup.VIDEO,
-    title: "Artificial Intelligence Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault4.jpg`,
+    title: "Go back to cave",
+    videoId: "g5yatQ80GVI",
     category: CategoryLookup.ARTIFICIAL_INTELLIGENCE
   },
   {
     type: resourceTypeLookup.VIDEO,
     title: "Data Science Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault5.jpg`,
+    videoId: "ua-CiDNNj30",
     category: CategoryLookup.DATA_SCIENCE
   },
   {
     type: resourceTypeLookup.VIDEO,
     title: "Cybersecurity Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault6.jpg`,
+    videoId: "9Wg6tiaar9M",
     category: CategoryLookup.CYBERSECURITY
   },
   {
     type: resourceTypeLookup.VIDEO,
     title: "Networks Video",
-    author: "Clueless Code Learning",
-    url: SAMPLE_VIDEO_URL,
-    coverImage: `${path}maxresdefault7.jpg`,
+    videoId: "_Z5RbmFcjjc",
     category: CategoryLookup.NETWORKS
   }
 ];
