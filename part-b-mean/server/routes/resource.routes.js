@@ -17,7 +17,6 @@ router.get('/:id', resourceController.getResourceById);
 // Search resources by type and category
 router.post('/search', validate(getResourcesByTypeAndCategory), resourceController.getResourcesByTypeAndCategory);
 
-
 // ADMIN ROUTES
 
 // Create resources

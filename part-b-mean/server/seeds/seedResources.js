@@ -1,5 +1,5 @@
 require('dotenv').config();
-const Resource = require('../models/resource.model');
+const Resource = require('../models/resource.model.js');
 const { CategoryLookup, resourceTypeLookup, category_t } = require('../../client/src/modules/category-utils.js');
 
 const connectDB  = require('../config/db.js');

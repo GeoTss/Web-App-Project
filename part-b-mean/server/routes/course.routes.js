@@ -1,6 +1,6 @@
 const express = require('express');
 const courseController = require('../controllers/course.controller');
-const requireEnrollment = require('../middleware/require.enrollment.middleware');
+// const requireEnrollment = require('../middleware/require.enrollment.middleware');
 const validate = require('../middleware/request.validator.middleware');
 const { requireAdmin, requireAuth } = require('../middleware/auth.middleware');
 const { getCoursesByDifficultyAndCategory } = require('../validators/course.validator');

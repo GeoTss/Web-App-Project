@@ -2,28 +2,25 @@ const { body } = require('express-validator');
 const { ROLES } = require('../models/constants');
 
 exports.registerUser = [
-  body('username').isString().notEmpty(),
-  body('email').isEmail(),
-  body('password').isString().isLength({ min: 8 }),
+  body('username').isString().notEmpty().withMessage('Username is required'),
+  body('email').isEmail().withMessage('Invalid email address'),
+  body('password').isString().isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
 
-  body('preferences').optional().isObject(),
-  body('preferences.categories').optional().isArray(),
-  body('preferences.difficulties').optional().isArray(),
+  body('category').optional().isArray().withMessage('Category must be an array'),
+  body('difficulty').optional().isArray().withMessage('Difficulty must be an array'),
 
-  body('role').optional().isInt().isIn([ROLES.USER, ROLES.ADMIN])
 ];
 
 exports.loginUser = [
-    body('username').isString().notEmpty(),
-    body('password').isString().notEmpty()
+    body('username').isString().notEmpty().withMessage('Username is required'),
+    body('password').isString().notEmpty().withMessage('Password is required')
 ];
 
 exports.updateUser = [
-  body('username').optional().isString().notEmpty(),
-  body('email').optional().isEmail(),
-  body('password').optional().isString().isLength({ min: 8 }),
+  body('username').optional().isString().notEmpty().withMessage('Username cannot be empty'),
+  body('email').optional().isEmail().withMessage('Invalid email address'),
+  body('password').optional().isString().isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
 
-  body('preferences').optional().isObject(),
-  body('preferences.categories').optional().isArray(),
-  body('preferences.difficulties').optional().isArray(),
+  body('category').optional().isArray().withMessage('Category must be an array'),
+  body('difficulty').optional().isArray().withMessage('Difficulty must be an array'),
 ];
