@@ -4,6 +4,7 @@ const express = require('express');
 const session = require('express-session');
 const { MongoStore } = require('connect-mongo');
 const connectDB = require('./config/db.js');
+const { body, validationResult } = require('express-validator');
 const errorHandler = require('./middleware/error.handler.middleware.js');
 
 const port = process.env.PORT || 3000;

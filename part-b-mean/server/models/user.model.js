@@ -12,6 +12,7 @@ const UserSchema = Schema(
 
         email: {
             type: String,
+            pattern: "/^[^\s@]+@[^\s@]+\.[^\s@]+$/",
             required: true,
             unique: true,
         },
