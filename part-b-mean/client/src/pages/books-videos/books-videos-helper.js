@@ -67,18 +67,30 @@ function createVideoElem(videoInfo) {
   const wrapper = document.createElement("div");
   wrapper.classList.add("video-wrapper");
 
-  const video = document.createElement("video");
-  video.classList.add("thumbnail-video");
-  video.controls = true;
-  video.poster = videoInfo.coverImage;
-  video.playsInline = true;
+  wrapper.innerHTML = `<iframe class="thumbnail-video" 
+    src="https://www.youtube.com/embed/${videoInfo.videoId}" 
+    title="" 
+    frameborder="0" 
+    allow="accelerometer; 
+    autoplay; clipboard-write; 
+    encrypted-media; gyroscope; 
+    picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+  </iframe>`
 
-  const source = document.createElement("source");
-  source.src = videoInfo.url;
-  source.type = "video/mp4";
+  // const video = document.createElement("video");
+  // video.classList.add("thumbnail-video");
+  // video.controls = true;
+  // video.poster = videoInfo.coverImage;
+  // video.playsInline = true;
 
-  video.appendChild(source);
-  wrapper.appendChild(video);
+  // const source = document.createElement("source");
+  // source.src = videoInfo.url;
+  // source.type = "video/mp4";
+
+  // video.appendChild(source);
+  // wrapper.appendChild(video);
   videoElem.appendChild(wrapper);
 
   const tag = document.createElement("div");
