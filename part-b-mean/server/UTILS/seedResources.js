@@ -140,8 +140,8 @@ const resources = [
   {
     type: resourceTypeLookup.VIDEO,
     title: "Embedded Systems Video",
-    videoId: "dQw4w9WgXcQ",
-    category: CategoryLookup.EMBEDDED_SYSTEMS
+    videoId: "3r1z5NDXU3s",
+    category: CategoryLookup.SYSTEMS_PROGRAMMING
   },
   {
     type: resourceTypeLookup.VIDEO,
@@ -178,6 +178,30 @@ const resources = [
     title: "Networks Video",
     videoId: "_Z5RbmFcjjc",
     category: CategoryLookup.NETWORKS
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "RAGEBAIT",
+    videoId: "tD5NrevFtbU",
+    category: CategoryLookup.GRAPHICS_PROGRAMMING  
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "I HACK NUCLEAR REACTORS",
+    videoId: "rhfniSrNXRs",
+    category: CategoryLookup.SYSTEMS_PROGRAMMING
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "Quantum Computing Video",
+    videoId: "3hVXt9NYiJA",
+    category: CategoryLookup.QUANTUM_COMPUTING
+  },
+  {
+    type: resourceTypeLookup.VIDEO,
+    title: "Blockchain Video",
+    videoId: "-nMxwlqdl7I",
+    category: CategoryLookup.BLOCKCHAIN
   }
 ];
 
