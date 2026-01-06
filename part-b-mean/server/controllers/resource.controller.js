@@ -24,10 +24,19 @@ exports.getResourceById = async (req, res, next) => {
 
 exports.getResourcesByTypeAndCategory = async (req, res, next) => {
   try {
-    const { type, category } = req.query;
+    const { type, category } = req.body;
     const query = {};
-    if (type) query.type = type;
-    if (category) query.category = category;
+    if (category.length > 0) {
+      query.category = {
+        $in: category,
+      };
+    }
+
+    if (type.length > 0) {
+      query.type = {
+        $in: type,
+      };
+    }
     const resources = await Resource.find(query);
     res.status(200).json({ resources: resources });
   } catch (error) {

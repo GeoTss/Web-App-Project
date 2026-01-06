@@ -16,7 +16,7 @@ import {
 let filterController;
 
 function createBookCard(bookInfo) {
-  console.log(bookInfo);
+
   const bookCardElem = document.createElement("div");
   bookCardElem.classList.add("book-card");
 
@@ -29,7 +29,6 @@ function createBookCard(bookInfo) {
 
   cover.appendChild(img);
   bookCardElem.appendChild(cover);
-  console.log("Cover");
 
   const separator = document.createElement("span");
   separator.classList.add("book-separator");
@@ -58,8 +57,6 @@ function createBookCard(bookInfo) {
 
   bookCardElem.appendChild(separator.cloneNode());
 
-  console.log("Create book elem");
-
   return bookCardElem;
 }
 
@@ -73,11 +70,11 @@ function createVideoElem(videoInfo) {
   const video = document.createElement("video");
   video.classList.add("thumbnail-video");
   video.controls = true;
-  video.poster = videoInfo.coverUrl;
+  video.poster = videoInfo.coverImage;
   video.playsInline = true;
 
   const source = document.createElement("source");
-  source.src = videoInfo.videoSrc;
+  source.src = videoInfo.url;
   source.type = "video/mp4";
 
   video.appendChild(source);
@@ -108,15 +105,13 @@ function createResourceElem(resourceInfo) {
     ...resourceInfo,
     ...getCategoryTag(resourceInfo.category)
   };
-  console.log(resourceInfo);
+
   if (resourceInfo.type === resourceTypeLookup.BOOK) {
-    console.log("Creating book");
     return createBookCard(resourceInfo);
   }
   if (resourceInfo.type === resourceTypeLookup.VIDEO) {
     return createVideoElem(resourceInfo);
   }
-  console.log("Exiting");
 }
 
 function populateResources() {
