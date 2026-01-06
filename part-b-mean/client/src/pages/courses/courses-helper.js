@@ -26,7 +26,9 @@ const filterManagers = [
     )
 ];
 
-function createCardElem(cardInfo) {
+async function createCardElem(cardInfo) {
+    console.log(cardInfo);
+
     const cardElem = document.createElement("div");
     cardElem.classList.add("course-card");
 
@@ -56,7 +58,9 @@ function createCardElem(cardInfo) {
 
     cardContent.append(courseTitle, courseDesc);
 
-    fetch(`/api/enrollments/progress/${cardInfo._id}`, {
+    let dropEnrollElem = null;
+
+    await fetch(`/api/enrollments/progress/${cardInfo._id}`, {
         method: "GET",
         headers: { 'Content-Type': 'application/json' },
     }).then((response) => {
@@ -85,7 +89,32 @@ function createCardElem(cardInfo) {
         progressContainer.appendChild(progressFill);
 
         cardContent.append(progressLabel, progressContainer);
-    })
+
+        dropEnrollElem = document.createElement("button");
+        dropEnrollElem.classList.add("card-btn");
+        dropEnrollElem.textContent = "Drop Enroll";
+        dropEnrollElem.style.backgroundColor = "red";
+
+        dropEnrollElem.addEventListener("click", async () => {
+
+            fetch("/api/enrollments/enroll", {
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    courseId: cardInfo._id
+                })
+            }).then((response) => {
+                if (!response.ok) {
+                    throw new Error("Error during deleting enrollment");
+                }
+                window.history.pushState({}, '', '/courses');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+            }).catch((error) => {
+                console.error(error);
+            });
+        });
+    });
 
     const cardFooter = document.createElement("div");
     cardFooter.classList.add("card-footer");
@@ -128,8 +157,11 @@ function createCardElem(cardInfo) {
     });
 
     cardFooter.appendChild(cardBtn);
+    if (dropEnrollElem)
+        cardFooter.appendChild(dropEnrollElem);
 
     cardElem.append(cardContent, cardFooter);
+
     return cardElem;
 }
 
@@ -157,8 +189,6 @@ function populateCategoryLessonContent() {
 
     let categoriesList = filterController.managersMap[FilterLookup.CATEGORY].getFiltersList();
     let difficultyList = filterController.managersMap[FilterLookup.DIFFICULTY].getFiltersList();
-
-    // console.log(typeof ([0, 1, 2]) === typeof (categoriesList));
 
     console.log(`Categories: ${categoriesList}`);
     console.log(`Difficulties: ${difficultyList}`);
@@ -193,7 +223,7 @@ function populateCategoryLessonContent() {
         cardsList.forEach(async card => {
             document
                 .getElementById(`categoryId-${card.category}`)
-                .appendChild(createCardElem(card));
+                .appendChild(await createCardElem(card));
         });
     })
 }
