@@ -7,6 +7,8 @@ Create .env & set values:
 - SESSION_SECRET = <SESSION_SECRET> (DEFAULT is secret)
 - MONGO_URL=<MONGO_URL> (DEFAULT none)
 
+There are seeding scripts that initialize data built by us to use on the database
+
 ```bash
 # On part-b-mean/server directory
 
@@ -16,6 +18,11 @@ npm install
 npm run dev
 # ACTUAL
 npm run start
+
+# Seed data into database
+
+# <input> = users, courses, resources
+npm run seed:<input>
 ```
 
 ## **WebAppProject API Documentation**

@@ -78,7 +78,7 @@ const resources = [
     title: "Cloud Native Patterns",
     author: "Cornelia Davis",
     url: "https://example.com/book/cloud-native-patterns",
-    coverImage: `${path}9781617293623-L.jpg`,
+    coverImage: `${path}9781617294297-L.jpg`,
     category: CategoryLookup.CLOUD_COMPUTING
   },
   {
@@ -86,7 +86,7 @@ const resources = [
     title: "The Phoenix Project",
     author: "Gene Kim",
     url: "https://example.com/book/phoenix-project",
-    coverImage: `${path}9781942788294-L.jpg`,
+    coverImage: `${path}9780988262591-L.jpg`,
     category: CategoryLookup.CLOUD_COMPUTING
   },
   {
@@ -102,7 +102,7 @@ const resources = [
     title: "Game Programming Patterns",
     author: "Robert Nystrom",
     url: "https://example.com/book/game-programming-patterns",
-    coverImage: `${path}9780990582905-L.jpg`,
+    coverImage: `${path}9780990582908-L.jpg`,
     category: CategoryLookup.GRAPHICS_PROGRAMMING
   },
   {

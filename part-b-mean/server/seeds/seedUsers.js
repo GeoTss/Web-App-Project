@@ -10,9 +10,9 @@ const connectDB = require('../config/db.js');
     console.log('Old users removed');
     const users = [
       { 
-        username: 'BigTso',
-        email: 'roids@auebhustler.com',
-        password: await bcrypt.hash('nosecurity', 10),
+        username: 'luke',
+        email: 'youarenotmydad@xwing.com',
+        password: await bcrypt.hash('r2d2', 10),
         preferences: {
           categories: [0, 1, 2, 3],
           difficulties: [0, 1]
@@ -20,9 +20,9 @@ const connectDB = require('../config/db.js');
         role: 0
       },
       { 
-        username: 'Toto',
-        email: 'toto@auebhustler.com',
-        password: await bcrypt.hash('nosecurity', 10),
+        username: 'anakin',
+        email: 'yesiam@deathstar.com',
+        password: await bcrypt.hash('useforce', 10),
         preferences: {
           categories: [0, 1, 2],
           difficulties: [0, 1, 3, 4]
@@ -31,7 +31,7 @@ const connectDB = require('../config/db.js');
       },
       {
         username: 'admin',
-        email: 'admin@auebhustler.com',
+        email: 'admin@admin.com',
         password: await bcrypt.hash('admin', 10),
         preferences: {
           categories: [0, 1, 2, 3],
