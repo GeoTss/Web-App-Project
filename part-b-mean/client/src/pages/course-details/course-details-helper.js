@@ -1,4 +1,4 @@
-// import { courseMap } from "../data/courses-details.js";
+import { generateErrorNotification } from "../../modules/notification.js";
 
 var courseName = null;
 var courseContent = null;
@@ -40,10 +40,15 @@ function createTopic(section, topic, topicChecklist) {
     inputElem.addEventListener("change", () => {
 
         console.log(`checked ${topic.name}-${topic._id}`);
-        if (inputElem.checked)
+        let prevState = false;
+        if (inputElem.checked) {
+            prevState = false;
             console.log("checked")
-        else
+        }
+        else {
+            prevState = true;
             console.log("unchecked")
+        }
 
         fetch("/api/enrollments/progress", {
             method: "PUT",
@@ -54,6 +59,13 @@ function createTopic(section, topic, topicChecklist) {
                 topicId: topic._id,
                 check: inputElem.checked
             })
+        }).then((response) => {
+            if (!response.ok)
+                throw new Error("Couldn't check this topic.");
+        }).catch((err) => {
+            inputElem.checked = prevState;
+            console.error("Error: " + err);
+            generateErrorNotification(err);
         });
     });
 
@@ -104,9 +116,8 @@ function populateCourseContent() {
         method: "GET",
         headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
-        if (!response.ok) {
-            return null;
-        }
+        if (!response.ok)
+            throw new Error("Couldn't fetch the enrollment information for this course.");
         return response.json();
     }).then((data) => {
 
@@ -128,6 +139,9 @@ function populateCourseContent() {
         currentSelectedElem.classList.toggle("selected");
 
         writeLessonContent(courseContent.sections[0], courseContent.sections[0].topics[0]);
+    }).catch((err) => {
+        console.error("Error: " + err);
+        generateErrorNotification(err);
     });
 
 }

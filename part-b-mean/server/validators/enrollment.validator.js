@@ -8,7 +8,7 @@ exports.enrollInCourse = [
 exports.updateEnrollmentProgress = [
   body('courseId').isString().withMessage('Course ID must be a string'),
   body('topicId').isString().withMessage('Topic ID must be a string'),
-  body('checked').isBoolean().withMessage('Checked must be a boolean')
+  body('check').isBoolean().withMessage('Checked must be a boolean')
 ];
 
 exports.unenrollFromCourse = [

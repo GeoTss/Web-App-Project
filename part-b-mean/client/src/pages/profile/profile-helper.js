@@ -6,6 +6,7 @@ import {
   createFilterSection
 } from "../../modules/filter-section.js";
 import { category_t, difficulty_t } from "../../modules/category-utils.js";
+import { generateErrorNotification } from "../../modules/notification.js";
 
 let preferableCategories = [];
 let preferableDifficulties = [];
@@ -37,6 +38,7 @@ export function getProfileInfo() {
 
   }).catch((error) => {
     console.error('Error fetching profile info:', error);
+    generateErrorNotification(error);
   });
 }
 
@@ -76,7 +78,6 @@ export function initializeFilters() {
   // console.log('Filters initialized');
 }
 
-// Just get the current filter values
 export function getPreferences() {
   if (!filterController || !filterController.managersMap) {
     return {
@@ -125,6 +126,7 @@ export function setupUpdateProfileButton() {
       getProfileInfo();
     }).catch((error) => {
       console.error('Error updating profile:', error);
+      generateErrorNotification(error);
     });
   });
 }
@@ -170,6 +172,7 @@ export function setupLogoutButton() {
       window.dispatchEvent(new PopStateEvent('popstate'));
     }).catch((error) => {
       console.error('Error during logout:', error);
+      generateErrorNotification(error);
     });
   });
 }
@@ -194,6 +197,7 @@ export function setUpDeleteAccountButton() {
         window.dispatchEvent(new PopStateEvent('popstate'));
       }).catch((error) => {
         console.error('Error deleting account:', error);
+        generateErrorNotification(error);
       });
     } else {
       alert('Account deletion cancelled.');
