@@ -8,6 +8,8 @@ import {
     FiltersController
 } from "../../modules/filter-section.js";
 
+import { generateErrorNotification } from "../../modules/notification.js";
+
 let filterController;
 
 const filterManagers = [
@@ -112,6 +114,7 @@ async function createCardElem(cardInfo) {
                 window.dispatchEvent(new PopStateEvent('popstate'));
             }).catch((error) => {
                 console.error(error);
+                generateErrorNotification(error);
             });
         });
     });
@@ -135,24 +138,26 @@ async function createCardElem(cardInfo) {
 
         if (response.status === 404) {
             console.log("Course details not found");
-            return;
+            throw new Error("Couldn't fetch course details.");
         }
 
-        response = await fetch('/api/enrollments/enroll', {
+        fetch('/api/enrollments/enroll', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({
                 courseId: cardInfo._id
             })
+        }).then((response) => {
+            if (!response.ok)
+                throw new Error("Couldn't enroll to this course.");
+        }).then(() => {
+            window.history.pushState(data, "", `/course-details`);
+            window.dispatchEvent(new Event("popstate"));
+        }).catch((err) => {
+            console.error("Error: " + err);
+            generateErrorNotification(err);
         });
-
-        if (response.status !== 201) {
-            console.log("Problem during enrolling!");
-            return;
-        }
-        window.history.pushState(data, "", `/course-details`);
-        window.dispatchEvent(new Event("popstate"));
 
     });
 
@@ -203,7 +208,7 @@ function populateCategoryLessonContent() {
         })
     }).then((response) => {
         if (!response.ok)
-            return null;
+            throw new Error("Couldn't fetch the courses.");
         return response.json();
     }).then((data) => {
         console.log(data)
@@ -225,24 +230,10 @@ function populateCategoryLessonContent() {
                 .getElementById(`categoryId-${card.category}`)
                 .appendChild(await createCardElem(card));
         });
+    }).catch((err) => {
+        console.error("Error: " + err);
+        generateErrorNotification(err);
     })
-}
-
-function applyFiltersFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const encoded = params.get("filters");
-    if (!encoded) return;
-
-    const filtersData = JSON.parse(encoded);
-
-    Object.keys(filtersData.managersMap).forEach(key => {
-        if (filterController.managersMap[key]) {
-            filterController.managersMap[key].filterStrat.filters =
-                filtersData.managersMap[key].filterStrat.filters;
-        }
-    });
-
-    filterController.updateFiltersInputElems();
 }
 
 export function initCourses() {

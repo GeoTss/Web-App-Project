@@ -79,6 +79,35 @@
     gap: 2.5rem;
 }
 
+.error-notification {
+    /* "fixed" keeps it in the corner even on scroll */
+    position: fixed;
+    display: block;
+
+    /* Ensure it sits on top of navbar/content */
+    z-index: 9999;
+
+    width: 15vw;
+    height: 5vw;
+    /* Note: This creates a square box. Remove height to auto-fit text. */
+    top: 4vw;
+    right: 0vw;
+
+    /* Centering the text inside the red box */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+
+    color: aliceblue;
+    background-color: red;
+    border-radius: 8px;
+    /* Optional: Looks cleaner */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    /* Optional: Adds depth */
+}
+
 @media(min-width: 700px) {
 
     #filters-wrapper {

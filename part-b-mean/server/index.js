@@ -4,12 +4,10 @@ const express = require('express');
 const session = require('express-session');
 const { MongoStore } = require('connect-mongo');
 const connectDB = require('./config/db.js');
-// const { body, validationResult } = require('express-validator');
 const errorHandler = require('./middleware/error.handler.middleware.js');
 
 const port = process.env.PORT || 3000;
 
-// Connect to huMONGOus database
 connectDB();
 
 // Our app :D 
@@ -39,7 +37,7 @@ app.use(session({
 app.use(errorHandler)
 
 // Api routing
-app.use('/api/users', require('./routes/user.routes')); // make complete postman tests for user routes
+app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/courses', require('./routes/course.routes'));
 app.use('/api/enrollments', require('./routes/enrollment.routes'));
 app.use('/api/resources', require('./routes/resource.routes'));

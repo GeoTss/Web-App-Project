@@ -12,6 +12,7 @@ import {
   resourceTypeLookup,
   resourceType_t
 } from "../../modules/category-utils.js";
+import { generateErrorNotification } from "../../modules/notification.js";
 
 let filterController;
 
@@ -153,6 +154,7 @@ function populateResources() {
     resources.forEach(r => content.appendChild(createResourceElem(r)));
   }).catch((error) => {
     console.error('Error fetching resources:', error);
+    generateErrorNotification(error);
   });
 
 }
@@ -199,9 +201,8 @@ export function initBooksVideos() {
       'Content-Type': 'application/json',
     },
   }).then((response) => {
-    if (!response.ok) {
+    if (!response.ok)
       return null;
-    }
     return response.json();
   }).then((data) => {
     if (data)
@@ -215,9 +216,6 @@ export function initBooksVideos() {
 
     populateResources();
 
-  }).catch((error) => {
-    console.error('Error fetching profile info:', error);
   });
-
 
 }
